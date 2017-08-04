@@ -21,6 +21,11 @@ export default new Router({
       component: require('@/components/Miners')
     },
     {
+      path: '/profit-calculator',
+      name: 'profits',
+      component: require('@/components/Profits')
+    },
+    {
       path: '*',
       redirect: '/'
     }
