@@ -17,9 +17,6 @@
             Downloading... {{ downloadProgressPercent }}%
       .row.
         {{ downloadPath }}
-  //- .card
-    .card-title Card Title
-    .card-content Card Content
 </template>
 <script>
 import path from 'path'
@@ -60,7 +57,7 @@ function downloadFile (configuration) {
 export default {
   data () {
     return {
-      downloadPath: path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner/'),
+      downloadPath: path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners'),
       downloadProgressPercent: -1
     }
   },
@@ -94,8 +91,8 @@ export default {
 </script>
 <style lang="stylus">
 .miners
-  padding: 1.5rem 2rem
+  padding 1.5rem 2rem
 .download-icon
-  font-size: 2.5rem
-  margin-top: -0.5rem
+  font-size 2.5rem
+  margin-top -0.5rem
 </style>
