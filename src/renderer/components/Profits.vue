@@ -47,7 +47,7 @@
         block_reward: 3,
         difficulty: 500,
         hash_rate_mhs: 100.0,
-        market_value: 0.415676,
+        market_value: 0.40,
         reward_money: 0,
         reward_shares: 0,
         select: 'DNR',
@@ -78,6 +78,11 @@
           let data = result.data
           this.block_reward = data.block_reward
           this.difficulty = data.difficulty24.toFixed(3)
+        })
+      this.$http.get('https://api.coinmarketcap.com/v1/ticker/denarius-dnr')
+        .then((result) => {
+          let data = result.data[0]
+          this.market_value = data.price_usd
         })
     }
   }
