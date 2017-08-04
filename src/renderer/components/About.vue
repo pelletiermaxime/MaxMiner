@@ -1,38 +1,24 @@
-<template>
-
-  <div>
-    <p class="caption">Information</p>
-    <div class="list striped">
-      <div class="item">
-        <div class="item-content">
-          Vue.js: {{ vue }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-content">
-          Electron: {{ electron }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-content">
-          Node: {{ node }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-content">
-          Platform: {{ platform }}
-        </div>
-      </div>
-      <div class="item">
-        <div class="item-content">
-          Graphics:
-          <span v-for="(graphic, index) in graphics" v-bind:key="index">
-            {{ graphic.vendor }} {{ graphic.model }}<br>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+div
+  p.caption Information
+  .list.striped
+    .item
+      .item-content.
+        Vue.js: {{ vue }}
+    .item
+      .item-content.
+        Electron: {{ electron }}
+    .item
+      .item-content.
+        Node: {{ node }}
+    .item
+      .item-content.
+        Platform: {{ platform }}
+    .item
+      .item-content
+        | Graphics:
+        span(v-for="(graphic, index) in graphics", v-bind:key="index").
+          {{ graphic.vendor }} {{ graphic.model }}<br>
 </template>
 
 <script>
