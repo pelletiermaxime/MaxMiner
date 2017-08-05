@@ -8,8 +8,8 @@
           type="radio"
           v-model="selectedCurrency"
           :options="selectOptions"
+          @input="setCoinValues"
         )
-        button.secondary(@click="setCoinValues") Refresh values
   .card
       .card-content.bg-white
         .row
@@ -27,7 +27,8 @@
             input(required="true", v-model="market_value")
             label Value in $
   .row
-    button.primary(@click="calculate") Calculate
+    .width-2of5
+      button.primary.push(@click="setCoinValues") Refresh values
   table
     thead
       tr
@@ -45,26 +46,22 @@
   export default {
     data () {
       return {
+        block_reward: 0,
+        difficulty: 0,
         coins: {
           'DNR': {
-            block_reward: 3,
             coinMarketCapName: 'denarius-dnr',
-            difficulty: 500,
-            hash_rate_mhs: 100.0,
-            market_value: 0.47,
+            default_hash_rate_mhs: 100.0,
             whattomineID: 187
           },
           'SIGT': {
-            block_reward: 2500,
             coinMarketCapName: 'signatum',
-            difficulty: 10000,
-            hash_rate_mhs: 50.0,
-            market_value: 0.038,
+            default_hash_rate_mhs: 50.0,
             whattomineID: 191
           }
         },
-        reward_money: 0,
-        reward_shares: 0,
+        hash_rate_mhs: 0,
+        market_value: 0,
         selectedCurrency: 'DNR',
         selectOptions: [
           {
@@ -83,50 +80,42 @@
       current_coin () {
         return this.coins[this.selectedCurrency]
       },
-      block_reward () {
-        return this.current_coin.block_reward
-      },
-      difficulty () {
-        return this.current_coin.difficulty
-      },
-      hash_rate_mhs () {
-        return this.current_coin.hash_rate_mhs
-      },
-      market_value () {
-        return this.current_coin.market_value
-      }
-    },
-
-    methods: {
-      calculate () {
+      reward_shares () {
         let hashRate = this.hash_rate_mhs * 1000000
         let timeForShare = (this.difficulty * (Math.pow(2, 32))) / hashRate
         let dailyShare = 86400 / timeForShare
         let rewardShares = dailyShare * this.block_reward
-        this.reward_shares = rewardShares.toFixed(6)
-        let rewardMoney = rewardShares * this.market_value
-        this.reward_money = rewardMoney.toFixed(2)
+
+        return rewardShares
       },
+      reward_money () {
+        let rewardMoney = this.reward_shares * this.market_value
+
+        return rewardMoney
+      }
+    },
+
+    methods: {
       setCoinValues () {
         let whattomineURL = `https://whattomine.com/coins/${this.current_coin.whattomineID}.json`
         this.$http.get(whattomineURL)
           .then((result) => {
             let data = result.data
-            this.current_coin.block_reward = data.block_reward
-            this.current_coin.difficulty = data.difficulty24.toFixed(3)
+            this.block_reward = data.block_reward
+            this.difficulty = data.difficulty24.toFixed(3)
           })
         let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${this.current_coin.coinMarketCapName}`
         this.$http.get(coinMarketCapURL)
           .then((result) => {
             let data = result.data[0]
-            this.current_coin.market_value = data.price_usd
+            this.market_value = data.price_usd
           })
+        this.hash_rate_mhs = this.current_coin.default_hash_rate_mhs
       }
     },
 
     mounted () {
       this.setCoinValues()
-      this.calculate()
     }
   }
 </script>
