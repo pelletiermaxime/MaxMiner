@@ -52,6 +52,8 @@
 
 <script>
   import currencies from '@/store/currencies'
+  import Store from 'electron-store'
+  const store = new Store()
 
   export default {
     data () {
@@ -104,12 +106,18 @@
             let data = result.data[0]
             this.market_value = data.price_usd
           })
-        this.hash_rate_mhs = this.current_coin.default_hash_rate_mhs
+        this.hash_rate_mhs = store.get(`hashRate.${this.selectedCurrency}`, this.current_coin.default_hash_rate_mhs)
       }
     },
 
     mounted () {
       this.setCoinValues()
+    },
+
+    watch: {
+      hash_rate_mhs (newHashRate) {
+        store.set(`hashRate.${this.selectedCurrency}`, newHashRate)
+      }
     }
   }
 </script>
