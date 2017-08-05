@@ -1,14 +1,15 @@
 <template lang="pug">
 .profits
-  p(class="caption") Information
+  p(class="caption") Profit calculator
   .list.striped
     .item
-      .item-content Algo:
+      .item-content
         q-select(
           type="radio"
-          v-model="select"
+          v-model="selectedCurrency"
           :options="selectOptions"
         )
+        button.secondary(@click="setCoinValues") Refresh values
   .card
       .card-content.bg-white
         .row
@@ -44,19 +45,55 @@
   export default {
     data () {
       return {
-        block_reward: 3,
-        difficulty: 500,
-        hash_rate_mhs: 100.0,
-        market_value: 0.40,
+        coins: {
+          'DNR': {
+            block_reward: 3,
+            coinMarketCapName: 'denarius-dnr',
+            difficulty: 500,
+            hash_rate_mhs: 100.0,
+            market_value: 0.47,
+            whattomineID: 187
+          },
+          'SIGT': {
+            block_reward: 2500,
+            coinMarketCapName: 'signatum',
+            difficulty: 10000,
+            hash_rate_mhs: 50.0,
+            market_value: 0.038,
+            whattomineID: 191
+          }
+        },
         reward_money: 0,
         reward_shares: 0,
-        select: 'DNR',
+        selectedCurrency: 'DNR',
         selectOptions: [
           {
             label: 'Denarius',
             value: 'DNR'
+          },
+          {
+            label: 'Signatum',
+            value: 'SIGT'
           }
         ]
+      }
+    },
+
+    computed: {
+      current_coin () {
+        return this.coins[this.selectedCurrency]
+      },
+      block_reward () {
+        return this.current_coin.block_reward
+      },
+      difficulty () {
+        return this.current_coin.difficulty
+      },
+      hash_rate_mhs () {
+        return this.current_coin.hash_rate_mhs
+      },
+      market_value () {
+        return this.current_coin.market_value
       }
     },
 
@@ -69,21 +106,27 @@
         this.reward_shares = rewardShares.toFixed(6)
         let rewardMoney = rewardShares * this.market_value
         this.reward_money = rewardMoney.toFixed(2)
+      },
+      setCoinValues () {
+        let whattomineURL = `https://whattomine.com/coins/${this.current_coin.whattomineID}.json`
+        this.$http.get(whattomineURL)
+          .then((result) => {
+            let data = result.data
+            this.current_coin.block_reward = data.block_reward
+            this.current_coin.difficulty = data.difficulty24.toFixed(3)
+          })
+        let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${this.current_coin.coinMarketCapName}`
+        this.$http.get(coinMarketCapURL)
+          .then((result) => {
+            let data = result.data[0]
+            this.current_coin.market_value = data.price_usd
+          })
       }
     },
 
     mounted () {
-      this.$http.get('https://whattomine.com/coins/187.json')
-        .then((result) => {
-          let data = result.data
-          this.block_reward = data.block_reward
-          this.difficulty = data.difficulty24.toFixed(3)
-        })
-      this.$http.get('https://api.coinmarketcap.com/v1/ticker/denarius-dnr')
-        .then((result) => {
-          let data = result.data[0]
-          this.market_value = data.price_usd
-        })
+      this.setCoinValues()
+      this.calculate()
     }
   }
 </script>
