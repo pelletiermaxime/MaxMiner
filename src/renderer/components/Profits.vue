@@ -10,21 +10,29 @@
           :options="selectOptions"
           @input="setCoinValues"
         )
+        .pull-right
+          | Mode:
+          label
+            q-radio(v-model="mode", val="auto")
+            | Automatic
+          label
+            q-radio(v-model="mode", val="manual")
+            | Manual
   .card
       .card-content.bg-white
         .row
           .floating-label
             input(required="true", v-model="hash_rate_mhs")
             label Hash Rate (Mh/s)
-          .floating-label
-            input(required="true", v-model="difficulty")
+          .stacked-label
+            input(required="true", v-model="difficulty", :disabled="auto_mode")
             label Difficulty
         .row
-          .floating-label
-            input(required="true", v-model="block_reward")
+          .stacked-label
+            input(required="true", v-model="block_reward", :disabled="auto_mode")
             label Block reward
-          .floating-label
-            input(required="true", v-model="market_value")
+          .stacked-label
+            input(required="true", v-model="market_value", :disabled="auto_mode")
             label Value in $
   .row
     .width-2of5
@@ -62,6 +70,7 @@
         },
         hash_rate_mhs: 0,
         market_value: 0,
+        mode: 'auto',
         selectedCurrency: 'DNR',
         selectOptions: [
           {
@@ -77,6 +86,9 @@
     },
 
     computed: {
+      auto_mode () {
+        return this.mode === 'auto'
+      },
       current_coin () {
         return this.coins[this.selectedCurrency]
       },
