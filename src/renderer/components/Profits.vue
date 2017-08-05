@@ -51,37 +51,19 @@
 </template>
 
 <script>
+  import currencies from '@/store/currencies'
+
   export default {
     data () {
       return {
         block_reward: 0,
         difficulty: 0,
-        coins: {
-          'DNR': {
-            coinMarketCapName: 'denarius-dnr',
-            default_hash_rate_mhs: 100.0,
-            whattomineID: 187
-          },
-          'SIGT': {
-            coinMarketCapName: 'signatum',
-            default_hash_rate_mhs: 50.0,
-            whattomineID: 191
-          }
-        },
+        coins: currencies.coins,
         hash_rate_mhs: 0,
         market_value: 0,
         mode: 'auto',
         selectedCurrency: 'DNR',
-        selectOptions: [
-          {
-            label: 'Denarius',
-            value: 'DNR'
-          },
-          {
-            label: 'Signatum',
-            value: 'SIGT'
-          }
-        ]
+        selectOptions: currencies.names
       }
     },
 
