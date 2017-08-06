@@ -1,6 +1,6 @@
 {
   "name": "maxminer",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Maxime Pelletier <pelletiermaxime@gmail.com>",
   "description": "Miner GUI",
   "homepage": "http://google.com",
@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "electron-store": "^1.2.0",
     "fastclick": "^1.0.6",
     "material-design-icons": "^3.0.1",
     "moment": "^2.18.1",

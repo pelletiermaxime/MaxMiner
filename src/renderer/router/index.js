@@ -21,6 +21,11 @@ export default new Router({
       component: require('@/components/Miners')
     },
     {
+      path: '/pools',
+      name: 'pools',
+      component: require('@/components/Pools')
+    },
+    {
       path: '/profit-calculator',
       name: 'profits',
       component: require('@/components/Profits')

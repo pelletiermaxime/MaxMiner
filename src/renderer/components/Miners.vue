@@ -6,15 +6,16 @@
       .row.
         Main ccminer version by Tanguy Pruvot, fork of the original version by Christian Buchner.
       .row
-        .width-1of5
-          a(href="http://ccminer.org") Homepage
-        .width-1of5
-          a(href="https://github.com/tpruvot/ccminer") Source code
         .width-2of5
-          a(@click="downloadMiner")
-            i.download-icon file_download
-          span(v-if="downloadProgressPercent != -1").
-            Downloading... {{ downloadProgressPercent }}%
+          a(href="http://ccminer.org") Homepage
+        .width-2of5
+          a(href="https://github.com/tpruvot/ccminer") Source code
+        .width-1of5
+          q-progress-button(
+            class="primary"
+            :percentage="downloadProgressPercent"
+            @click.native="downloadMiner").
+            Download
       .row.
         {{ downloadPath }}
 </template>
@@ -58,7 +59,7 @@ export default {
   data () {
     return {
       downloadPath: path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners'),
-      downloadProgressPercent: -1
+      downloadProgressPercent: 0
     }
   },
 
@@ -75,12 +76,11 @@ export default {
         localFile: path.join(this.downloadPath, fileName),
         onProgress: function (received, total) {
           let percentage = (received * 100) / total
-          that.downloadProgressPercent = percentage.toFixed(2)
+          that.downloadProgressPercent = Math.round(percentage)
           console.log(`${percentage} % | ${received} bytes out of ${total} bytes`)
         }
       }).then(function () {
-        that.downloadProgressPercent = -1
-        alert('File successfully downloaded')
+        that.downloadProgressPercent = 100
       })
     }
   },
