@@ -156,6 +156,8 @@
     watch: {
       hash_rate_mhs (newHashRate) {
         store.set(`hashRate.${this.selectedCurrency}`, newHashRate)
+        let algo = this.current_coin.algo
+        store.set(`hashRateAlgo.${algo}`, newHashRate)
       }
     }
   }
