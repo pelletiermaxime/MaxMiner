@@ -47,13 +47,25 @@
         td $ USD reward
     tbody
       tr
-        td Hourly
+        td Hour
         td {{ reward_shares_daily | dailyToHourly | roundShares }}
         td {{ reward_money_daily | dailyToHourly | roundMoney }}
       tr
         td Day
         td {{ reward_shares_daily | roundShares }}
         td {{ reward_money_daily | roundMoney }}
+      tr
+        td Week
+        td {{ reward_shares_daily | dailyToWeekly | roundShares }}
+        td {{ reward_money_daily | dailyToWeekly | roundMoney }}
+      tr
+        td Month
+        td {{ reward_shares_daily | dailyToMonthly | roundShares }}
+        td {{ reward_money_daily | dailyToMonthly | roundMoney }}
+      tr
+        td Year
+        td {{ reward_shares_daily | dailyToYearly | roundShares }}
+        td {{ reward_money_daily | dailyToYearly | roundMoney }}
 </template>
 
 <script>
@@ -100,6 +112,15 @@
     filters: {
       dailyToHourly (value) {
         return value / 24
+      },
+      dailyToWeekly (value) {
+        return value * 7
+      },
+      dailyToMonthly (value) {
+        return value * 365 / 12
+      },
+      dailyToYearly (value) {
+        return value * 265
       },
       roundMoney (money) {
         return money.toFixed(2)
