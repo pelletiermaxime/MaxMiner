@@ -10,7 +10,7 @@
           :options="selectOptions"
           @input="setCoinValues"
         )
-        .pull-right
+        .pull-right.mode
           | Mode:
           label
             q-radio(v-model="mode", val="auto")
@@ -26,7 +26,7 @@
             label Hash Rate (Mh/s)
           .stacked-label
             input(required="true", v-model="difficulty", :disabled="auto_mode")
-            label Difficulty
+            label Difficulty (24h)
         .row
           .stacked-label
             input(required="true", v-model="block_reward", :disabled="auto_mode")
@@ -37,7 +37,9 @@
   .row
     .width-2of5
       button.primary.push(@click="setCoinValues") Refresh values
-  table
+  .row
+      br
+  table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose
     thead
       tr
         td Period
@@ -45,9 +47,13 @@
         td $ USD reward
     tbody
       tr
+        td Hourly
+        td {{ reward_shares_daily | dailyToHourly | roundShares }}
+        td {{ reward_money_daily | dailyToHourly | roundMoney }}
+      tr
         td Day
-        td(v-html="reward_shares")
-        td(v-html="reward_money")
+        td {{ reward_shares_daily | roundShares }}
+        td {{ reward_money_daily | roundMoney }}
 </template>
 
 <script>
@@ -76,7 +82,7 @@
       current_coin () {
         return this.coins[this.selectedCurrency]
       },
-      reward_shares () {
+      reward_shares_daily () {
         let hashRate = this.hash_rate_mhs * 1000000
         let timeForShare = (this.difficulty * (Math.pow(2, 32))) / hashRate
         let dailyShare = 86400 / timeForShare
@@ -84,10 +90,22 @@
 
         return rewardShares
       },
-      reward_money () {
-        let rewardMoney = this.reward_shares * this.market_value
+      reward_money_daily () {
+        let rewardMoney = this.reward_shares_daily * this.market_value
 
         return rewardMoney
+      }
+    },
+
+    filters: {
+      dailyToHourly (value) {
+        return value / 24
+      },
+      roundMoney (money) {
+        return money.toFixed(2)
+      },
+      roundShares (shares) {
+        return shares.toFixed(6)
       }
     },
 
@@ -125,4 +143,6 @@
 <style lang="stylus" scoped>
 .profits
   padding 1.5rem 2rem
+.mode>*
+  padding-left 1rem
 </style>
