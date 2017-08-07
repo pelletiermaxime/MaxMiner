@@ -5,18 +5,18 @@
     q-collapsible(img="https://www.cryptocompare.com/media/351195/zpool.png" label="Zpool")
       .card
           .card-content.bg-white
-            //- .row
+            .row
               .width-1of5
                 label
-                  q-checkbox(v-model="filter")
+                  q-checkbox(v-model="gpu")
                   | GPU
               .width-1of5
                 label
-                  q-checkbox(v-model="filter")
+                  q-checkbox(v-model="cpu")
                   | CPU
               .width-1of5
                 label
-                  q-checkbox(v-model="filter")
+                  q-checkbox(v-model="asic")
                   | ASIC
             .row
               br
@@ -27,19 +27,20 @@
                   td Fees
                   td Est. Current (mBTC/MH/day)
                   td Actual Last 24h
-                  td Est Daily $
+                  td Est Daily $ (per MH)
                   td Est Daily $ for you
-              tbody
-                tr(v-for="algo in algos")
+              tbody(v-if="Object.keys(filteredAlgos).length && filteredAlgos[Object.keys(filteredAlgos)[0]].name")
+                tr(v-for="algo in filteredAlgos")
                   td {{ algo.name }}
                   td {{ algo.fees }}
-                  td {{ (algo.estimate_current * 1000).toFixed(6) }}
+                  td {{ (algo.estimate_current * 1000).toFixed(5) }}
                   td {{ algo.actual_last24h }}
                   td {{ (mbtcToUSD(algo.estimate_current * 1000)).toFixed(4) }}
                   td {{ USDForUser(algo.estimate_current * 1000, algo.name) }}
 </template>
 
 <script>
+  import currencies from '@/store/currencies'
   import Store from 'electron-store'
   const store = new Store()
 
@@ -48,13 +49,27 @@
       return {
         algos: {},
         bitcoinValue: 0,
-        filter: true
+        asic: true,
+        cpu: true,
+        gpu: true
       }
     },
 
     computed: {
-      auto_mode () {
-        return this.mode === 'auto'
+      filteredAlgos () {
+        let allAlgos = currencies.algos
+        let filteredAlgos = {}
+        Object.keys(allAlgos).map((key, index) => {
+          if (
+            (this.asic && allAlgos[key].miners['asic']) ||
+            (this.cpu && allAlgos[key].miners['cpu']) ||
+            (this.gpu && allAlgos[key].miners['gpu'])
+          ) {
+            filteredAlgos[key] = this.algos[key]
+          }
+        })
+
+        return filteredAlgos
       }
     },
 
