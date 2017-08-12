@@ -76,13 +76,15 @@
   export default {
     data () {
       return {
+        allCoinsInfo: {},
+        allCoinsValue: {},
         block_reward: 0,
         difficulty: 0,
         coins: currencies.coins,
         hash_rate_mhs: 0,
         market_value: 0,
         mode: 'auto',
-        selectedCurrency: 'DNR',
+        selectedCurrency: 'BTX',
         selectOptions: currencies.names
       }
     },
@@ -131,33 +133,91 @@
     },
 
     methods: {
-      setCoinValues () {
-        let whattomineURL = `https://whattomine.com/coins/${this.current_coin.whattomineID}.json`
+      getWhatToMineCoins () {
+        let whattomineURL = 'https://whattomine.com/coins.json'
         this.$http.get(whattomineURL)
           .then((result) => {
-            let data = result.data
-            this.block_reward = data.block_reward
-            this.difficulty = data.difficulty24.toFixed(3)
+            let coins = result.data.coins
+            Object.keys(coins).map((coinName, index) => {
+              let coin = coins[coinName]
+              this.allCoinsInfo[coin.tag] = coin
+            }, this)
           })
-        let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${this.current_coin.coinMarketCapName}`
-        this.$http.get(coinMarketCapURL)
+      },
+      getCoinMarketCoins () {
+        let coinMarketURL = 'https://api.coinmarketcap.com/v1/ticker/'
+        this.$http.get(coinMarketURL)
           .then((result) => {
-            let data = result.data[0]
-            this.market_value = data.price_usd
+            let coins = result.data
+            Object.keys(coins).map((coinName, index) => {
+              let coin = coins[coinName]
+              this.allCoinsValue[coin.symbol] = coin
+            }, this)
           })
-        this.hash_rate_mhs = store.get(`hashRate.${this.selectedCurrency}`, this.current_coin.default_hash_rate_mhs)
+      },
+      setCoinValues () {
+        this.market_value = 0
+        this.block_reward = 0
+        this.difficulty = 0
+        if (this.current_coin) {
+          if (this.current_coin.whattomineID) {
+            let whattomineURL = `https://whattomine.com/coins/${this.current_coin.whattomineID}.json`
+            this.$http.get(whattomineURL)
+              .then((result) => {
+                let data = result.data
+                this.block_reward = data.block_reward
+                this.difficulty = data.difficulty24.toFixed(3)
+              })
+          }
+          if (this.current_coin.cryptoid) {
+            let cryptoidURL = `https://chainz.cryptoid.info/explorer/index.data.dws?coin=${this.current_coin.cryptoid}&n=10`
+            this.$http.get(cryptoidURL)
+              .then((result) => {
+                let block = result.data.blocks[0]
+                this.block_reward = block.value
+                this.difficulty = block.diff.toFixed(3)
+              })
+          }
+          if (this.current_coin.coinMarketCapName) {
+            let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${this.current_coin.coinMarketCapName}`
+            this.$http.get(coinMarketCapURL)
+              .then((result) => {
+                let data = result.data[0]
+                this.market_value = data.price_usd
+              })
+            this.hash_rate_mhs = store.get(`hashRate.${this.selectedCurrency}`, this.current_coin.default_hash_rate_mhs)
+          }
+        } else {
+          if (this.allCoinsValue[this.selectedCurrency]) {
+            this.market_value = this.allCoinsValue[this.selectedCurrency].price_usd
+          }
+          if (this.allCoinsInfo[this.selectedCurrency]) {
+            this.block_reward = this.allCoinsInfo[this.selectedCurrency].block_reward
+            this.difficulty = this.allCoinsInfo[this.selectedCurrency].difficulty24.toFixed(3)
+          }
+        }
       }
     },
 
     mounted () {
+      this.getWhatToMineCoins()
+      this.getCoinMarketCoins()
       this.setCoinValues()
     },
 
     watch: {
       hash_rate_mhs (newHashRate) {
+        let algo = ''
         store.set(`hashRate.${this.selectedCurrency}`, newHashRate)
-        let algo = this.current_coin.algo
-        store.set(`hashRateAlgo.${algo}`, newHashRate)
+        if (this.current_coin) {
+          algo = this.current_coin.algo
+        }
+        if (this.allCoinsInfo[this.selectedCurrency]) {
+          algo = this.allCoinsInfo[this.selectedCurrency].algorithm
+        }
+        if (algo) {
+          store.set(`hashRateAlgo.${algo}`, newHashRate)
+        }
       }
     }
   }

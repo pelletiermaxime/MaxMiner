@@ -172,13 +172,19 @@ export default {
     }
   },
   coins: {
-    'DNR': {
+    BTX: {
+      algo: 'bitcore',
+      coinMarketCapName: 'bitcore',
+      default_hash_rate_mhs: 30,
+      cryptoid: 'btx'
+    },
+    DNR: {
       algo: 'tribus',
       coinMarketCapName: 'denarius-dnr',
       default_hash_rate_mhs: 100.0,
       whattomineID: 187
     },
-    'SIGT': {
+    SIGT: {
       algo: 'skunk',
       coinMarketCapName: 'signatum',
       default_hash_rate_mhs: 50.0,
@@ -186,6 +192,10 @@ export default {
     }
   },
   names: [
+    {
+      label: 'Bitcore',
+      value: 'BTX'
+    },
     {
       label: 'Denarius',
       value: 'DNR'
