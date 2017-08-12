@@ -182,7 +182,8 @@ export default {
       algo: 'tribus',
       coinMarketCapName: 'denarius-dnr',
       default_hash_rate_mhs: 100.0,
-      whattomineID: 187
+      whattomineID: 187,
+      cryptoid: 'dnr'
     },
     SIGT: {
       algo: 'skunk',

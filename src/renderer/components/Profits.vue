@@ -25,8 +25,11 @@
             input(required="true", v-model="hash_rate_mhs")
             label Hash Rate (Mh/s)
           .stacked-label
-            input(required="true", v-model="difficulty", :disabled="auto_mode")
+            input(required="true", v-model="difficulty24h", :disabled="auto_mode")
             label Difficulty (24h)
+          .stacked-label
+            input(required="true", v-model="difficulty100b", :disabled="auto_mode")
+            label Difficulty (last ~100 blocks)
         .row
           .stacked-label
             input(required="true", v-model="block_reward", :disabled="auto_mode")
@@ -43,29 +46,41 @@
     thead
       tr
         td Period
-        td Currency reward
-        td $ USD reward
+        td(v-if="difficulty24h != 0") Currency reward (24h)
+        td(v-if="difficulty24h != 0") $ USD reward (24h)
+        td(v-if="difficulty100b != 0") Currency reward (100b)
+        td(v-if="difficulty100b != 0") $ USD reward (100b)
     tbody
       tr
         td Hour
-        td {{ reward_shares_daily | dailyToHourly | roundShares }}
-        td {{ reward_money_daily | dailyToHourly | roundMoney }}
+        td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToHourly | roundShares }}
+        td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToHourly | roundMoney }}
+        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToHourly | roundShares }}
+        td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToHourly | roundMoney }}
       tr
         td Day
-        td {{ reward_shares_daily | roundShares }}
-        td {{ reward_money_daily | roundMoney }}
+        td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | roundShares }}
+        td(v-if="difficulty24h != 0") {{ reward_money_daily24h | roundMoney }}
+        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | roundShares }}
+        td(v-if="difficulty100b != 0") {{ reward_money_daily100b | roundMoney }}
       tr
         td Week
-        td {{ reward_shares_daily | dailyToWeekly | roundShares }}
-        td {{ reward_money_daily | dailyToWeekly | roundMoney }}
+        td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToWeekly | roundShares }}
+        td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToWeekly | roundMoney }}
+        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToWeekly | roundShares }}
+        td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToWeekly | roundMoney }}
       tr
         td Month
-        td {{ reward_shares_daily | dailyToMonthly | roundShares }}
-        td {{ reward_money_daily | dailyToMonthly | roundMoney }}
+        td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToMonthly | roundShares }}
+        td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToMonthly | roundMoney }}
+        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToMonthly | roundShares }}
+        td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToMonthly | roundMoney }}
       tr
         td Year
-        td {{ reward_shares_daily | dailyToYearly | roundShares }}
-        td {{ reward_money_daily | dailyToYearly | roundMoney }}
+        td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToYearly | roundShares }}
+        td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToYearly | roundMoney }}
+        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToYearly | roundShares }}
+        td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToYearly | roundMoney }}
 </template>
 
 <script>
@@ -79,7 +94,8 @@
         allCoinsInfo: {},
         allCoinsValue: {},
         block_reward: 0,
-        difficulty: 0,
+        difficulty24h: 0,
+        difficulty100b: 0,
         coins: currencies.coins,
         hash_rate_mhs: 0,
         market_value: 0,
@@ -96,16 +112,29 @@
       current_coin () {
         return this.coins[this.selectedCurrency]
       },
-      reward_shares_daily () {
+      reward_shares_daily24h () {
         let hashRate = this.hash_rate_mhs * 1000000
-        let timeForShare = (this.difficulty * (Math.pow(2, 32))) / hashRate
+        let timeForShare = (this.difficulty24h * (Math.pow(2, 32))) / hashRate
         let dailyShare = 86400 / timeForShare
         let rewardShares = dailyShare * this.block_reward
 
         return rewardShares
       },
-      reward_money_daily () {
-        let rewardMoney = this.reward_shares_daily * this.market_value
+      reward_money_daily24h () {
+        let rewardMoney = this.reward_shares_daily24h * this.market_value
+
+        return rewardMoney
+      },
+      reward_shares_daily100b () {
+        let hashRate = this.hash_rate_mhs * 1000000
+        let timeForShare = (this.difficulty100b * (Math.pow(2, 32))) / hashRate
+        let dailyShare = 86400 / timeForShare
+        let rewardShares = dailyShare * this.block_reward
+
+        return rewardShares
+      },
+      reward_money_daily100b () {
+        let rewardMoney = this.reward_shares_daily100b * this.market_value
 
         return rewardMoney
       }
@@ -158,7 +187,8 @@
       setCoinValues () {
         this.market_value = 0
         this.block_reward = 0
-        this.difficulty = 0
+        this.difficulty24h = 0
+        this.difficulty100b = 0
         if (this.current_coin) {
           if (this.current_coin.whattomineID) {
             let whattomineURL = `https://whattomine.com/coins/${this.current_coin.whattomineID}.json`
@@ -166,16 +196,26 @@
               .then((result) => {
                 let data = result.data
                 this.block_reward = data.block_reward
-                this.difficulty = data.difficulty24.toFixed(3)
+                this.difficulty24h = data.difficulty24.toFixed(3)
               })
           }
           if (this.current_coin.cryptoid) {
-            let cryptoidURL = `https://chainz.cryptoid.info/explorer/index.data.dws?coin=${this.current_coin.cryptoid}&n=10`
+            let cryptoidURL = `https://chainz.cryptoid.info/explorer/index.data.dws?coin=${this.current_coin.cryptoid}&n=100`
             this.$http.get(cryptoidURL)
               .then((result) => {
-                let block = result.data.blocks[0]
-                this.block_reward = block.value
-                this.difficulty = block.diff.toFixed(3)
+                let blocks = result.data.blocks
+                blocks = blocks.filter((block) => {
+                  return block.tx === 1
+                })
+                let lastBlock = blocks[0]
+                this.block_reward = lastBlock.value
+                let totalBlocsDiff = 0
+                let nbBlocs = 0
+                blocks.forEach((bloc) => {
+                  totalBlocsDiff += bloc.diff
+                  nbBlocs++
+                })
+                this.difficulty100b = (totalBlocsDiff / nbBlocs).toFixed(3)
               })
           }
           if (this.current_coin.coinMarketCapName) {
@@ -193,7 +233,7 @@
           }
           if (this.allCoinsInfo[this.selectedCurrency]) {
             this.block_reward = this.allCoinsInfo[this.selectedCurrency].block_reward
-            this.difficulty = this.allCoinsInfo[this.selectedCurrency].difficulty24.toFixed(3)
+            this.difficulty24h = this.allCoinsInfo[this.selectedCurrency].difficulty24.toFixed(3)
           }
         }
       }
