@@ -33,8 +33,9 @@
                   td Fees
                   td Est. Current (mBTC/MH/day)
                   td Actual Last 24h
-                  td Est Daily $ (per MH)
-                  td Est Daily $ for you
+                  td Cur. Est Daily $ (per MH)
+                  td Cur. Est Daily $
+                  td 24h Est Daily $
               tbody
                 tr(v-for="algo in filteredAlgos")
                   td {{ algo.name }}
@@ -43,6 +44,7 @@
                   td {{ algo.actual_last24h }}
                   td {{ (mbtcToUSD(algo.estimate_current * 1000)).toFixed(4) }}
                   td {{ USDForUser(algo.estimate_current * 1000, algo.name) }}
+                  td {{ USDForUser(algo.actual_last24h, algo.name) }}
 </template>
 
 <script>
