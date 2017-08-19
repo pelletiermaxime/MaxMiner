@@ -51,9 +51,15 @@
   import currencies from '@/store/currencies'
   import pools from '@/store/pools'
   import Store from 'electron-store'
+  import { QCheckbox, QCollapsible } from 'quasar'
   const store = new Store()
 
   export default {
+    components: {
+      QCheckbox,
+      QCollapsible
+    },
+
     data () {
       return {
         activePool: '',

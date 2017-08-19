@@ -86,9 +86,15 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
+  import { QSelect, QRadio } from 'quasar'
+
   const store = new Store()
 
   export default {
+    components: {
+      QSelect,
+      QRadio
+    },
     data () {
       return {
         allCoinsInfo: {},

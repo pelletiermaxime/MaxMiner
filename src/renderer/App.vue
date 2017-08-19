@@ -1,28 +1,31 @@
-<template>
-  <div id="app">
-    <q-layout>
-      <div slot="header" class="toolbar">
-        <q-toolbar-title :padding="0">
-          MaxMiner {{ version }}
-        </q-toolbar-title>
-      </div>
+<template lang="pug">
+  #app
+    q-layout(ref="layout")
+      q-toolbar(slot="header")
+        q-toolbar-title(:padding="0") MaxMiner {{ version }}
 
-      <q-tabs slot="navigation">
-        <q-tab icon="view_quilt" route="/" replace>Home</q-tab>
-        <q-tab icon="view_day" route="/mine" replace>Mine</q-tab>
-        <q-tab icon="view_quilt" route="/miners" replace>Miners</q-tab>
-        <q-tab icon="view_day" route="/currencies" replace>Currencies</q-tab>
-        <q-tab icon="view_day" route="/pools" replace>Pools</q-tab>
-        <q-tab icon="view_day" route="/profit-calculator" replace>Profit calculator</q-tab>
-        <q-tab icon="input" route="/about" replace>About</q-tab>
-      </q-tabs>
-      <router-view class="layout-view"></router-view>
-    </q-layout>
-  </div>
+      q-tabs(slot="navigation")
+        q-route-tab(slot="title" icon="view_quilt" to="/" replace label="Home")
+        q-route-tab(slot="title" icon="view_day" to="/mine" replace label="Mine")
+        q-route-tab(slot="title" icon="view_quilt" to="/miners" replace label="Miners")
+        q-route-tab(slot="title" icon="view_day" to="/currencies" replace label="Currencies")
+        q-route-tab(slot="title" icon="view_day" to="/pools" replace label="Pools")
+        q-route-tab(slot="title" icon="view_day" to="/profit-calculator" replace label="Profit calculator")
+        q-route-tab(slot="title" icon="input" to="/about" replace label="About")
+
+      router-view.layout-view
 </template>
 
 <script>
+  import { QLayout, QTabs, QRouteTab, QToolbar, QToolbarTitle } from 'quasar'
   export default {
+    components: {
+      QLayout,
+      QTabs,
+      QRouteTab,
+      QToolbar,
+      QToolbarTitle
+    },
     data () {
       return {
         version: require('../../package.json').version

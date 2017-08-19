@@ -131,7 +131,9 @@ let rendererConfig = {
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      quasar: path.resolve(__dirname, '../node_modules/quasar-framework/'),
+      variables: path.resolve(__dirname, '../src/themes/quasar.variables.styl')
     },
     extensions: ['.js', '.vue', '.json', '.css', '.node', '.styl']
   },

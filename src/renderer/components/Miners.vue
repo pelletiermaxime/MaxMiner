@@ -11,11 +11,11 @@
         .width-2of5
           a(href="https://github.com/tpruvot/ccminer") Source code
         .width-1of5
-          q-progress-button(
-            class="primary"
+          q-btn(
+            color="primary"
             :percentage="downloadProgressPercent"
-            @click.native="downloadMiner").
-            Download
+            @click="downloadMiner") Download
+            span(slot="loading") Downloading...
       .row.
         {{ downloadPath }}
 </template>
@@ -24,6 +24,7 @@ import path from 'path'
 import request from 'request'
 import fs from 'fs'
 import url from 'url'
+import { QBtn } from 'quasar'
 
 function downloadFile (configuration) {
   return new Promise(function (resolve, reject) {
@@ -56,6 +57,10 @@ function downloadFile (configuration) {
 }
 
 export default {
+  components: {
+    QBtn
+  },
+
   data () {
     return {
       downloadPath: path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners'),
@@ -77,7 +82,8 @@ export default {
         onProgress: function (received, total) {
           let percentage = (received * 100) / total
           that.downloadProgressPercent = Math.round(percentage)
-          console.log(`${percentage} % | ${received} bytes out of ${total} bytes`)
+          // console.log(this.downloadProgressPercent)
+          // console.log(`${percentage} % | ${received} bytes out of ${total} bytes`)
         }
       }).then(function () {
         that.downloadProgressPercent = 100
@@ -92,7 +98,4 @@ export default {
 <style lang="stylus">
 .miners
   padding 1.5rem 2rem
-.download-icon
-  font-size 2.5rem
-  margin-top -0.5rem
 </style>

@@ -1,11 +1,14 @@
+
 import Vue from 'vue'
 import axios from 'axios'
 
-import App from './App'
 import router from './router'
 import store from './store'
 
-import Quasar from 'quasar-framework'
+import Quasar from 'quasar'
+import 'quasar-extras/material-icons'
+import 'quasar-extras/roboto-font'
+
 Vue.use(Quasar)
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
@@ -15,9 +18,9 @@ Vue.config.productionTip = false
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({
-    components: { App },
+    el: '#app',
     router,
     store,
-    template: '<App/>'
-  }).$mount('#app')
+    render: h => h(require('./App'))
+  })
 })
