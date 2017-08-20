@@ -1,8 +1,8 @@
 <template lang="pug">
 .pools
   h1.text-center Pools
-  .card
-    .card-content.bg-white
+  q-card
+    q-card-main.bg-white
       .row
         .width-1of5
           label
@@ -16,14 +16,17 @@
           label
             q-checkbox(v-model="asic")
             | ASIC
-  .list.item-delimiter(v-for="pool in pools", @click="bob(pool.name)")
+  q-list.bg-white(separator)
     q-collapsible(
-      :img="pool.logo"
+      :image="pool.logo"
       :label="pool.name"
       group="pools"
+      v-for="(pool, index) in pools"
+      v-bind:key="index"
+      @open="setPoolInfos(pool.name)"
     )
-      .card
-          .card-content.bg-white
+      q-card
+          q-card-main.bg-white
             .row
               br
             table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose.full-width
@@ -51,13 +54,16 @@
   import currencies from '@/store/currencies'
   import pools from '@/store/pools'
   import Store from 'electron-store'
-  import { QCheckbox, QCollapsible } from 'quasar'
+  import { QCard, QCardMain, QCheckbox, QCollapsible, QList } from 'quasar'
   const store = new Store()
 
   export default {
     components: {
+      QCard,
+      QCardMain,
       QCheckbox,
-      QCollapsible
+      QCollapsible,
+      QList
     },
 
     data () {
@@ -97,7 +103,7 @@
     },
 
     methods: {
-      bob (poolName) {
+      setPoolInfos (poolName) {
         if (this.activePool !== poolName) {
           let pool = this.pools[poolName]
           let poolURL = `${pool.url}/api/status`
@@ -157,4 +163,8 @@
 <style lang="stylus" scoped>
 .pools
   padding 1.5rem 2rem
+.q-item-image
+  min-width 40px
+  max-width 40px
+  max-height 40px
 </style>

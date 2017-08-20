@@ -1,8 +1,8 @@
 <template lang="pug">
 .miners
-  .card
-    .card-title Ccminer tpruvot version
-    .card-content
+  q-card
+    q-card-title Ccminer tpruvot version
+    q-card-main
       .row.
         Main ccminer version by Tanguy Pruvot, fork of the original version by Christian Buchner.
       .row
@@ -24,7 +24,7 @@ import path from 'path'
 import request from 'request'
 import fs from 'fs'
 import url from 'url'
-import { QBtn } from 'quasar'
+import { QBtn, QCard, QCardMain, QCardTitle } from 'quasar'
 
 function downloadFile (configuration) {
   return new Promise(function (resolve, reject) {
@@ -58,7 +58,10 @@ function downloadFile (configuration) {
 
 export default {
   components: {
-    QBtn
+    QBtn,
+    QCard,
+    QCardMain,
+    QCardTitle
   },
 
   data () {

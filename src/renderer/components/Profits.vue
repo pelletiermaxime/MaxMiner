@@ -1,8 +1,8 @@
 <template lang="pug">
 .profits
   p(class="caption") Profit calculator
-  .list.striped
-    .item
+  q-list(striped)
+    q-item
       .item-content
         q-select(
           type="radio"
@@ -18,8 +18,8 @@
           label
             q-radio(v-model="mode", val="manual")
             | Manual
-  .card
-      .card-content.bg-white
+  q-card
+      q-card-main.bg-white
         .row
           .floating-label
             input(required="true", v-model="hash_rate_mhs")
@@ -39,7 +39,7 @@
             label Value in $
   .row
     .width-2of5
-      button.primary.push(@click="setCoinValues") Refresh values
+      q-btn.primary.push(@click="setCoinValues") Refresh values
   .row
       br
   table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose
@@ -86,12 +86,18 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { QSelect, QRadio } from 'quasar'
+  import { QBtn, QCard, QCardMain, QCardTitle, QItem, QList, QSelect, QRadio } from 'quasar'
 
   const store = new Store()
 
   export default {
     components: {
+      QBtn,
+      QCard,
+      QCardMain,
+      QCardTitle,
+      QItem,
+      QList,
       QSelect,
       QRadio
     },
