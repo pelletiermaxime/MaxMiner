@@ -190,6 +190,12 @@ export default {
       coinMarketCapName: 'signatum',
       default_hash_rate_mhs: 50.0,
       whattomineID: 191
+    },
+    XLR: {
+      algo: 'nist5',
+      coinMarketCapName: 'solaris',
+      default_hash_rate_mhs: 100.0,
+      whattomineID: 179
     }
   },
   names: [
@@ -204,6 +210,10 @@ export default {
     {
       label: 'Signatum',
       value: 'SIGT'
+    },
+    {
+      label: 'Solaris',
+      value: 'XLR'
     }
   ]
 }
