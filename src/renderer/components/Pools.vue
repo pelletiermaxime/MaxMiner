@@ -140,7 +140,15 @@
         this.$http.get(poolURL)
           .then((result) => {
             let data = result.data
-            this.algos[pool.name] = data
+            Object.keys(data).map((key, index) => {
+              let algo = data[key]
+              if (algo.name === 'equihash') {
+                algo.estimate_current /= 1000
+                algo.actual_last24h /= 1000
+                algo.estimate_last24h /= 1000
+              }
+              this.algos[pool.name][algo.name] = algo
+            })
             this.activePool = pool.name
           })
       },
