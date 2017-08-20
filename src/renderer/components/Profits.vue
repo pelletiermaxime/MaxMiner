@@ -1,16 +1,17 @@
 <template lang="pug">
 .profits
   p(class="caption") Profit calculator
-  q-list(striped)
-    q-item
-      .item-content
-        q-select(
-          type="radio"
-          v-model="selectedCurrency"
-          :options="selectOptions"
-          @input="setCoinValues"
-        )
-        .pull-right.mode
+  q-card
+    q-card-main.bg-white
+      .row
+        .col-6
+          q-select(
+            type="radio"
+            v-model="selectedCurrency"
+            :options="selectOptions"
+            @input="setCoinValues"
+          )
+        .col-6.mode.text-right
           | Mode:
           label
             q-radio(v-model="mode", val="auto")
@@ -19,27 +20,40 @@
             q-radio(v-model="mode", val="manual")
             | Manual
   q-card
-      q-card-main.bg-white
-        .row
-          .floating-label
-            input(required="true", v-model="hash_rate_mhs")
-            label Hash Rate (Mh/s)
-          .stacked-label
-            input(required="true", v-model="difficulty24h", :disabled="auto_mode")
-            label Difficulty (24h)
-          .stacked-label
-            input(required="true", v-model="difficulty100b", :disabled="auto_mode")
-            label Difficulty (last ~100 blocks)
-        .row
-          .stacked-label
-            input(required="true", v-model="block_reward", :disabled="auto_mode")
-            label Block reward
-          .stacked-label
-            input(required="true", v-model="market_value", :disabled="auto_mode")
-            label Value in $
+    q-card-main.bg-white
+      .row
+        q-input(
+          required="true"
+          v-model="hash_rate_mhs"
+          float-label="Hash Rate (Mh/s)"
+        )
+        q-input(
+          required="true"
+          v-model="difficulty24h"
+          :disable="auto_mode"
+          stack-label="Difficulty (24h)"
+        )
+        q-input(
+          required="true"
+          v-model="difficulty100b"
+          :disable="auto_mode"
+          stack-label="Difficulty (last ~100 blocks)"
+        )
+      .row
+        q-input(
+          required="true"
+          v-model="block_reward"
+          :disable="auto_mode"
+          stack-label="Block reward"
+        )
+        q-input(
+          required="true"
+          v-model="market_value"
+          :disable="auto_mode"
+          stack-label="Value in $"
+        )
   .row
-    .width-2of5
-      q-btn.primary.push(@click="setCoinValues") Refresh values
+    q-btn.push(@click="setCoinValues", color="primary") Refresh values
   .row
       br
   table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose
@@ -86,7 +100,7 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { QBtn, QCard, QCardMain, QCardTitle, QItem, QList, QSelect, QRadio } from 'quasar'
+  import { QBtn, QCard, QCardMain, QCardTitle, QInput, QItem, QItemMain, QList, QSelect, QRadio } from 'quasar'
 
   const store = new Store()
 
@@ -96,7 +110,9 @@
       QCard,
       QCardMain,
       QCardTitle,
+      QInput,
       QItem,
+      QItemMain,
       QList,
       QSelect,
       QRadio
@@ -280,4 +296,6 @@
   padding 1.5rem 2rem
 .mode>*
   padding-left 1rem
+.q-card
+  margin-left 0px
 </style>
