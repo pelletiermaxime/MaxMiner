@@ -1,4 +1,10 @@
 export default {
+  nicehash: {
+    logo: 'https://www.nicehash.com/imgs/NiceHash_logo_Smiley.png',
+    name: 'nicehash',
+    type: 'nicehash',
+    url: 'https://api.nicehash.com/api?method=simplemultialgo.info'
+  },
   zpool: {
     logo: 'https://www.cryptocompare.com/media/351195/zpool.png',
     name: 'zpool',

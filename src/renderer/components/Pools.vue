@@ -4,15 +4,15 @@
   q-card
     q-card-main.bg-white
       .row
-        .width-1of5
+        .col-4
           label
             q-checkbox(v-model="gpu")
             | GPU
-        .width-1of5
+        .col-4
           label
             q-checkbox(v-model="cpu")
             | CPU
-        .width-1of5
+        .col-4
           label
             q-checkbox(v-model="asic")
             | ASIC
@@ -106,14 +106,39 @@
       setPoolInfos (poolName) {
         if (this.activePool !== poolName) {
           let pool = this.pools[poolName]
-          let poolURL = `${pool.url}/api/status`
-          this.$http.get(poolURL)
-            .then((result) => {
-              let data = result.data
-              this.algos[pool.name] = data
-              this.activePool = poolName
-            })
+          let poolType = pool.type
+          if (poolType === 'yiimp') {
+            this.setPoolInfosYiimp(pool)
+          } else if (poolType === 'nicehash') {
+            this.setPoolInfosNicehash(pool)
+          }
         }
+      },
+      setPoolInfosNicehash (pool) {
+        let apiURL = pool.url
+        this.algos[pool.name] = {}
+        this.$http.get(apiURL)
+          .then((result) => {
+            let data = result.data.result.simplemultialgo
+            Object.keys(data).map((key, index) => {
+              let algo = data[key]
+              this.algos[pool.name][algo.name] = {
+                estimate_current: algo.paying / 1000,
+                name: algo.name
+              }
+            })
+            this.activePool = pool.name
+          })
+      },
+      setPoolInfosYiimp (pool) {
+        let poolURL = `${pool.url}/api/status`
+        this.algos[pool.name] = {}
+        this.$http.get(poolURL)
+          .then((result) => {
+            let data = result.data
+            this.algos[pool.name] = data
+            this.activePool = pool.name
+          })
       },
       algoNotEmpty (algo) {
         return algo !== undefined && Object.keys(algo).length &&
@@ -137,7 +162,7 @@
         let USDForMH = this.mbtcToUSD(mbtc)
         let MHForAlgo = store.get(`hashRateAlgo.${algo}`, 0)
 
-        if (MHForAlgo === 0) {
+        if (MHForAlgo === 0 || !mbtc) {
           return ''
         }
 
@@ -151,7 +176,6 @@
 
     watch: {
       algos (newAlgos) {
-        console.log('ALGOS CHANGED')
         pools.forEach((pool) => {
           this.filterAlgos(pool.name)
         })
