@@ -19,7 +19,7 @@
           label
             q-radio(v-model="mode", val="manual")
             | Manual
-  q-card
+  q-card(v-if="selectedCurrency")
     q-card-main.bg-white
       .row
         q-input(
@@ -52,11 +52,13 @@
           :disable="auto_mode"
           stack-label="Value in $"
         )
-  .row
+  .row(v-if="selectedCurrency")
     q-btn.push(@click="setCoinValues", color="primary") Refresh values
   .row
       br
-  table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose
+  table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose(
+    v-if="selectedCurrency"
+  )
     thead
       tr
         td Period
@@ -128,7 +130,7 @@
         hash_rate_mhs: 0,
         market_value: 0,
         mode: 'auto',
-        selectedCurrency: 'BTX',
+        selectedCurrency: '',
         selectOptions: currencies.names
       }
     },
@@ -141,12 +143,7 @@
         return this.coins[this.selectedCurrency]
       },
       reward_shares_daily24h () {
-        let hashRate = this.hash_rate_mhs * 1000000
-        let timeForShare = (this.difficulty24h * (Math.pow(2, 32))) / hashRate
-        let dailyShare = 86400 / timeForShare
-        let rewardShares = dailyShare * this.block_reward
-
-        return rewardShares
+        return this.calculateRewardShares(this.current_coin.algo, this.difficulty24h)
       },
       reward_money_daily24h () {
         let rewardMoney = this.reward_shares_daily24h * this.market_value
@@ -154,12 +151,7 @@
         return rewardMoney
       },
       reward_shares_daily100b () {
-        let hashRate = this.hash_rate_mhs * 1000000
-        let timeForShare = (this.difficulty100b * (Math.pow(2, 32))) / hashRate
-        let dailyShare = 86400 / timeForShare
-        let rewardShares = dailyShare * this.block_reward
-
-        return rewardShares
+        return this.calculateRewardShares(this.current_coin.algo, this.difficulty100b)
       },
       reward_money_daily100b () {
         let rewardMoney = this.reward_shares_daily100b * this.market_value
@@ -190,6 +182,19 @@
     },
 
     methods: {
+      calculateRewardShares (algoName, difficulty) {
+        let blockMod = Math.pow(2, 32)
+        let hashRate = this.hash_rate_mhs * 1000000
+        if (algoName === 'equihash') {
+          blockMod = Math.pow(2, 13)
+          hashRate /= 1000000
+        }
+        let diffForBlock = difficulty * (blockMod)
+        let secondShares = (hashRate * this.block_reward) / diffForBlock
+        let rewardShares = secondShares * 86400
+
+        return rewardShares
+      },
       getWhatToMineCoins () {
         let whattomineURL = 'https://whattomine.com/coins.json'
         this.$http.get(whattomineURL)
@@ -280,9 +285,9 @@
         if (this.current_coin) {
           algo = this.current_coin.algo
         }
-        if (this.allCoinsInfo[this.selectedCurrency]) {
-          algo = this.allCoinsInfo[this.selectedCurrency].algorithm
-        }
+        // if (this.allCoinsInfo[this.selectedCurrency]) {
+        //   algo = this.allCoinsInfo[this.selectedCurrency].algorithm
+        // }
         if (algo) {
           store.set(`hashRateAlgo.${algo}`, newHashRate)
         }

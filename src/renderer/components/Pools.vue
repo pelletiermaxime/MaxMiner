@@ -122,8 +122,12 @@
             let data = result.data.result.simplemultialgo
             Object.keys(data).map((key, index) => {
               let algo = data[key]
+              algo.paying /= 1000
+              if (algo.name === 'equihash') {
+                algo.paying /= 1000000
+              }
               this.algos[pool.name][algo.name] = {
-                estimate_current: algo.paying / 1000,
+                estimate_current: algo.paying,
                 name: algo.name
               }
             })

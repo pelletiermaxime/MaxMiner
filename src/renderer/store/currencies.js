@@ -196,6 +196,12 @@ export default {
       coinMarketCapName: 'solaris',
       default_hash_rate_mhs: 100.0,
       whattomineID: 179
+    },
+    ZEC: {
+      algo: 'equihash',
+      coinMarketCapName: 'zcash',
+      default_hash_rate_mhs: 1000.0,
+      whattomineID: 166
     }
   },
   names: [
@@ -214,6 +220,10 @@ export default {
     {
       label: 'Solaris',
       value: 'XLR'
+    },
+    {
+      label: 'Zcash',
+      value: 'ZEC'
     }
   ]
 }
