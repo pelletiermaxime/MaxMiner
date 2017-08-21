@@ -188,6 +188,8 @@
         if (algoName === 'equihash') {
           blockMod = Math.pow(2, 13)
           hashRate /= 1000000
+        } else if (algoName === 'daggerhashimoto') {
+          blockMod = 1
         }
         let diffForBlock = difficulty * (blockMod)
         let secondShares = (hashRate * this.block_reward) / diffForBlock

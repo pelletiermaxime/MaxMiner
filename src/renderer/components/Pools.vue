@@ -184,14 +184,6 @@
 
     mounted () {
       this.getBTCPrice()
-    },
-
-    watch: {
-      algos (newAlgos) {
-        pools.forEach((pool) => {
-          this.filterAlgos(pool.name)
-        })
-      }
     }
   }
 </script>

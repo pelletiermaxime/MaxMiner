@@ -20,6 +20,11 @@ export default {
         gpu: ['ccminer']
       }
     },
+    daggerhashimoto: {
+      miners: {
+        gpu: ['excavator']
+      }
+    },
     decred: {
       miners: {
         gpu: ['ccminer']
@@ -80,6 +85,11 @@ export default {
         gpu: ['ccminer']
       }
     },
+    pascal: {
+      miners: {
+        gpu: ['ccminer']
+      }
+    },
     quark: {
       miners: {
         gpu: ['ccminer']
@@ -98,6 +108,11 @@ export default {
     sha256: {
       miners: {
         asic: []
+      }
+    },
+    sia: {
+      miners: {
+        gpu: ['ccminer']
       }
     },
     sib: {
@@ -185,6 +200,12 @@ export default {
       whattomineID: 187,
       cryptoid: 'dnr'
     },
+    ETH: {
+      algo: 'daggerhashimoto',
+      coinMarketCapName: 'ethereum',
+      default_hash_rate_mhs: 30.0,
+      whattomineID: 151
+    },
     LBC: {
       algo: 'lbry',
       coinMarketCapName: 'library-credit',
@@ -218,6 +239,10 @@ export default {
     {
       label: 'Denarius',
       value: 'DNR'
+    },
+    {
+      label: 'Ethereum',
+      value: 'ETH'
     },
     {
       label: 'LBRY Credits',
