@@ -126,6 +126,9 @@
               if (algo.name === 'equihash') {
                 algo.paying /= 1000000
               }
+              if (algo.name === 'lyra2rev2') {
+                algo.name = 'lyra2v2'
+              }
               this.algos[pool.name][algo.name] = {
                 estimate_current: algo.paying,
                 name: algo.name

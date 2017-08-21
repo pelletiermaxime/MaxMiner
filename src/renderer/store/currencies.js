@@ -218,6 +218,12 @@ export default {
       default_hash_rate_mhs: 50.0,
       whattomineID: 191
     },
+    VTC: {
+      algo: 'lyra2v2',
+      coinMarketCapName: 'vertcoin',
+      default_hash_rate_mhs: 50.0,
+      whattomineID: 5
+    },
     XLR: {
       algo: 'nist5',
       coinMarketCapName: 'solaris',
@@ -255,6 +261,10 @@ export default {
     {
       label: 'Solaris',
       value: 'XLR'
+    },
+    {
+      label: 'Vertcoin',
+      value: 'VTC'
     },
     {
       label: 'Zcash',
