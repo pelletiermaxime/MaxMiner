@@ -185,6 +185,12 @@ export default {
       whattomineID: 187,
       cryptoid: 'dnr'
     },
+    LBC: {
+      algo: 'lbry',
+      coinMarketCapName: 'library-credit',
+      default_hash_rate_mhs: 500.0,
+      whattomineID: 164
+    },
     SIGT: {
       algo: 'skunk',
       coinMarketCapName: 'signatum',
@@ -212,6 +218,10 @@ export default {
     {
       label: 'Denarius',
       value: 'DNR'
+    },
+    {
+      label: 'LBRY Credits',
+      value: 'LBC'
     },
     {
       label: 'Signatum',
