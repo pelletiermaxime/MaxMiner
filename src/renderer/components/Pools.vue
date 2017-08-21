@@ -51,7 +51,7 @@
 </template>
 
 <script>
-  import currencies from '@/store/currencies'
+  import algos from '@/store/algos'
   import pools from '@/store/pools'
   import Store from 'electron-store'
   import { QCard, QCardMain, QCheckbox, QCollapsible, QList } from 'quasar'
@@ -80,7 +80,7 @@
 
     computed: {
       filteredAlgos () {
-        let allAlgos = currencies.algos
+        let allAlgos = algos
         let filteredAlgos = {}
         let poolName = this.activePool
         Object.keys(allAlgos).map((key, index) => {
