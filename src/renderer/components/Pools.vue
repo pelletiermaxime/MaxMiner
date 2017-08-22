@@ -160,6 +160,11 @@
                   algo.estimate_last24h /= 1000
                 }
               }
+              if (algo.name === 'x11') {
+                algo.estimate_current /= 1000
+                algo.actual_last24h /= 1000
+                algo.estimate_last24h /= 1000
+              }
               this.algos[pool.name][algo.name] = algo
             })
             this.activePool = pool.name

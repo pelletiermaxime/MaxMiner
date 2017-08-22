@@ -37,7 +37,7 @@
           required="true"
           v-model="difficulty100b"
           :disable="auto_mode"
-          stack-label="Difficulty (last ~100 blocks)"
+          stack-label="Difficulty (last ~50-100 blocks)"
         )
       .row
         q-input(
@@ -242,6 +242,7 @@
                 blocks = blocks.filter((block) => {
                   return block.tx === 1
                 })
+                console.log(blocks)
                 let lastBlock = blocks[0]
                 this.block_reward = lastBlock.value
                 let totalBlocsDiff = 0

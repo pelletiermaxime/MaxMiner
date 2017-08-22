@@ -1,5 +1,17 @@
 export default {
   coins: {
+    BCC: {
+      algo: 'scrypt',
+      coinMarketCapName: 'bitconnect',
+      default_hash_rate_mhs: 100,
+      cryptoid: 'bcc'
+    },
+    BCH: {
+      algo: 'sha256',
+      coinMarketCapName: 'bitcoin-cash',
+      default_hash_rate_mhs: 14000000,
+      whattomineID: 193
+    },
     BTC: {
       algo: 'sha256',
       coinMarketCapName: 'bitcoin',
@@ -19,6 +31,12 @@ export default {
       whattomineID: 187,
       cryptoid: 'dnr'
     },
+    DASH: {
+      algo: 'x11',
+      coinMarketCapName: 'dash',
+      default_hash_rate_mhs: 15000,
+      whattomineID: 34
+    },
     ETH: {
       algo: 'daggerhashimoto',
       coinMarketCapName: 'ethereum',
@@ -30,6 +48,12 @@ export default {
       coinMarketCapName: 'library-credit',
       default_hash_rate_mhs: 500.0,
       whattomineID: 164
+    },
+    LTC: {
+      algo: 'scrypt',
+      coinMarketCapName: 'litecoin',
+      default_hash_rate_mhs: 100.0,
+      whattomineID: 4
     },
     SIGT: {
       algo: 'skunk',
@@ -58,8 +82,16 @@ export default {
   },
   names: [
     {
+      label: 'BitConnect',
+      value: 'BCC'
+    },
+    {
       label: 'Bitcoin',
       value: 'BTC'
+    },
+    {
+      label: 'Bitcoin Cash',
+      value: 'BCH'
     },
     {
       label: 'Bitcore',
@@ -70,12 +102,20 @@ export default {
       value: 'DNR'
     },
     {
+      label: 'Dash',
+      value: 'DASH'
+    },
+    {
       label: 'Ethereum',
       value: 'ETH'
     },
     {
       label: 'LBRY Credits',
       value: 'LBC'
+    },
+    {
+      label: 'Litecoin',
+      value: 'LTC'
     },
     {
       label: 'Signatum',
