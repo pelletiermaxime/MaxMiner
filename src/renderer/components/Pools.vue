@@ -150,6 +150,16 @@
                 algo.actual_last24h /= 1000
                 algo.estimate_last24h /= 1000
               }
+              if (algo.name === 'sha256') {
+                algo.estimate_current /= 1000
+                algo.actual_last24h /= 1000
+                algo.estimate_last24h /= 1000
+                if (pool.name === 'zpool') {
+                  algo.estimate_current /= 1000
+                  algo.actual_last24h /= 1000
+                  algo.estimate_last24h /= 1000
+                }
+              }
               this.algos[pool.name][algo.name] = algo
             })
             this.activePool = pool.name

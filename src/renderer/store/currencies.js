@@ -1,5 +1,11 @@
 export default {
   coins: {
+    BTC: {
+      algo: 'sha256',
+      coinMarketCapName: 'bitcoin',
+      default_hash_rate_mhs: 14000000,
+      whattomineID: 1
+    },
     BTX: {
       algo: 'bitcore',
       coinMarketCapName: 'bitcore',
@@ -51,6 +57,10 @@ export default {
     }
   },
   names: [
+    {
+      label: 'Bitcoin',
+      value: 'BTC'
+    },
     {
       label: 'Bitcore',
       value: 'BTX'

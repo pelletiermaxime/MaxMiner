@@ -6,9 +6,9 @@
 
       q-tabs(slot="navigation")
         q-route-tab(slot="title" icon="view_quilt" to="/" replace label="Home")
-        q-route-tab(slot="title" icon="view_day" to="/mine" replace label="Mine")
+        //- q-route-tab(slot="title" icon="view_day" to="/mine" replace label="Mine")
         q-route-tab(slot="title" icon="view_quilt" to="/miners" replace label="Miners")
-        q-route-tab(slot="title" icon="view_day" to="/currencies" replace label="Currencies")
+        q-route-tab(slot="title" icon="view_day" to="/algorithms" replace label="Algorithms")
         q-route-tab(slot="title" icon="view_day" to="/pools" replace label="Pools")
         q-route-tab(slot="title" icon="view_day" to="/profit-calculator" replace label="Profit calculator")
         q-route-tab(slot="title" icon="input" to="/about" replace label="About")
