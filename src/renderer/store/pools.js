@@ -5,6 +5,12 @@ export default {
     type: 'nicehash',
     url: 'https://api.nicehash.com/api?method=simplemultialgo.info'
   },
+  prohashing: {
+    logo: 'https://prohashing.com/static/ZtpNrNA5UyZ17FJhk9x7Ai75GTRTSjSKk8Xvhwghsa4.png',
+    name: 'prohashing',
+    type: 'prohashing',
+    url: 'https://prohashing.com/exchange/expectedPayouts?algorithm='
+  },
   zpool: {
     logo: 'https://www.cryptocompare.com/media/351195/zpool.png',
     name: 'zpool',

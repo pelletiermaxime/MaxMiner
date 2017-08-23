@@ -111,6 +111,8 @@
             this.setPoolInfosYiimp(pool)
           } else if (poolType === 'nicehash') {
             this.setPoolInfosNicehash(pool)
+          } else if (poolType === 'prohashing') {
+            this.setPoolInfosProhashing(pool)
           }
         }
       },
@@ -135,6 +137,32 @@
               }
             })
             this.activePool = pool.name
+          })
+      },
+      setPoolInfosProhashing (pool) {
+        let d = new Date()
+        let startTime = d.setDate(d.getDate() - 1)
+        let poolURLScrypt = `${pool.url}Scrypt&startTime=${startTime}`
+        let poolURLX11 = `${pool.url}X11&startTime=${startTime}`
+        this.algos[pool.name] = {}
+        this.$http.get(poolURLScrypt)
+          .then((result) => {
+            let data = result.data[0]
+            this.algos[pool.name]['scrypt'] = {
+              estimate_current: 0,
+              actual_last24h: data.expectedPayoutBtc * 1000,
+              name: 'scrypt'
+            }
+            this.$http.get(poolURLX11)
+              .then((result) => {
+                let data = result.data[0]
+                this.algos[pool.name]['x11'] = {
+                  estimate_current: 0,
+                  actual_last24h: data.expectedPayoutBtc * 1000,
+                  name: 'x11'
+                }
+                this.activePool = pool.name
+              })
           })
       },
       setPoolInfosYiimp (pool) {
