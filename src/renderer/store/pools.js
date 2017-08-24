@@ -1,4 +1,10 @@
 export default {
+  miningpoolhub: {
+    logo: 'https://miningpoolhub.com/favicon.ico',
+    name: 'miningpoolhub',
+    type: 'miningpoolhub',
+    url: 'http://miningpoolhub.com/index.php?page=api&action=getminingandprofitsstatistics'
+  },
   nicehash: {
     logo: 'https://www.nicehash.com/imgs/NiceHash_logo_Smiley.png',
     name: 'nicehash',

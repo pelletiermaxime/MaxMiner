@@ -113,8 +113,36 @@
             this.setPoolInfosNicehash(pool)
           } else if (poolType === 'prohashing') {
             this.setPoolInfosProhashing(pool)
+          } else if (poolType === 'miningpoolhub') {
+            this.setPoolInfosMiningpoolhub(pool)
           }
         }
+      },
+      setPoolInfosMiningpoolhub (pool) {
+        let apiURL = pool.url
+        this.algos[pool.name] = {}
+        this.$http.get(apiURL)
+          .then((result) => {
+            let data = result.data.return
+            Object.keys(data).map((key, index) => {
+              let algo = data[key]
+              algo.algo = algo.algo.toLowerCase()
+              algo.profit /= 1000
+              if (algo.algo === 'equihash') {
+                algo.profit /= 1000000
+              }
+              if (algo.algo === 'ethash') {
+                algo.algo = 'daggerhashimoto'
+              }
+              if (!this.algos[pool.name][algo.algo]) {
+                this.algos[pool.name][algo.algo] = {
+                  estimate_current: algo.profit,
+                  name: algo.algo
+                }
+              }
+            })
+            this.activePool = pool.name
+          })
       },
       setPoolInfosNicehash (pool) {
         let apiURL = pool.url
