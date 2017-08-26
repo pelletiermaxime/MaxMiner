@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/About')
     },
     {
+      path: '/algos',
+      name: 'algos',
+      component: require('@/components/Algos')
+    },
+    {
       path: '/miners',
       name: 'miners',
       component: require('@/components/Miners')
