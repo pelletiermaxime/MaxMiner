@@ -22,36 +22,48 @@
   q-card(v-if="selectedCurrency")
     q-card-main.bg-white
       .row
-        q-input(
-          required="true"
-          v-model="hash_rate_mhs"
-          float-label="Hash Rate (Mh/s)"
-        )
-        q-input(
-          required="true"
-          v-model="difficulty24h"
-          :disable="auto_mode"
-          stack-label="Difficulty (24h)"
-        )
-        q-input(
-          required="true"
-          v-model="difficulty100b"
-          :disable="auto_mode"
-          stack-label="Difficulty (last ~50-100 blocks)"
-        )
+        .col-4
+          q-input(
+            required="true"
+            v-model="hash_rate_mhs"
+            float-label="Hash Rate (Mh/s)"
+          )
+        .col-4
+          q-input(
+            required="true"
+            v-model="market_value"
+            :disable="auto_mode"
+            stack-label="Value in $"
+          )
+        .col-4
+          q-input(
+            required="true"
+            v-model="block_reward"
+            :disable="auto_mode"
+            stack-label="Block reward"
+          )
       .row
-        q-input(
-          required="true"
-          v-model="block_reward"
-          :disable="auto_mode"
-          stack-label="Block reward"
-        )
-        q-input(
-          required="true"
-          v-model="market_value"
-          :disable="auto_mode"
-          stack-label="Value in $"
-        )
+        .col-4
+          q-input(
+            required="true"
+            v-model="difficulty24h"
+            :disable="auto_mode"
+            stack-label="Difficulty (24h)"
+          )
+        .col-4
+          q-input(
+            required="true"
+            v-model="difficulty100b"
+            :disable="auto_mode"
+            stack-label="Difficulty (last ~50-100 blocks)"
+          )
+        .col-4
+          q-input(
+            required="true"
+            v-model="difficulty_current"
+            :disable="auto_mode"
+            stack-label="Difficulty (current)"
+          )
   .row(v-if="selectedCurrency")
     q-btn.push(@click="setCoinValues", color="primary") Refresh values
   .row
@@ -64,39 +76,39 @@
         td Period
         td(v-if="difficulty24h != 0") Currency reward (24h)
         td(v-if="difficulty24h != 0") $ USD reward (24h)
-        td(v-if="difficulty100b != 0") Currency reward (100b)
         td(v-if="difficulty100b != 0") $ USD reward (100b)
+        td(v-if="difficulty_current != 0") $ USD reward (current)
     tbody
       tr
         td Hour
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToHourly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToHourly | roundMoney }}
-        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToHourly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToHourly | roundMoney }}
+        td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToHourly | roundMoney }}
       tr
         td Day
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | roundMoney }}
-        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | roundMoney }}
+        td(v-if="difficulty_current != 0") {{ reward_money_daily_current | roundMoney }}
       tr
         td Week
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToWeekly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToWeekly | roundMoney }}
-        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToWeekly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToWeekly | roundMoney }}
+        td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToWeekly | roundMoney }}
       tr
         td Month
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToMonthly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToMonthly | roundMoney }}
-        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToMonthly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToMonthly | roundMoney }}
+        td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToMonthly | roundMoney }}
       tr
         td Year
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToYearly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToYearly | roundMoney }}
-        td(v-if="difficulty100b != 0") {{ reward_shares_daily100b | dailyToYearly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToYearly | roundMoney }}
+        td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToYearly | roundMoney }}
 </template>
 
 <script>
@@ -126,6 +138,7 @@
         block_reward: 0,
         difficulty24h: 0,
         difficulty100b: 0,
+        difficulty_current: 0,
         coins: currencies.coins,
         hash_rate_mhs: 0,
         market_value: 0,
@@ -155,6 +168,14 @@
       },
       reward_money_daily100b () {
         let rewardMoney = this.reward_shares_daily100b * this.market_value
+
+        return rewardMoney
+      },
+      reward_shares_daily_current () {
+        return this.calculateRewardShares(this.current_coin.algo, this.difficulty_current)
+      },
+      reward_money_daily_current () {
+        let rewardMoney = this.reward_shares_daily_current * this.market_value
 
         return rewardMoney
       }
@@ -232,6 +253,7 @@
                 let data = result.data
                 this.block_reward = data.block_reward
                 this.difficulty24h = data.difficulty24.toFixed(3)
+                this.difficulty_current = data.difficulty.toFixed(3)
               })
           }
           if (this.current_coin.cryptoid) {
@@ -251,6 +273,7 @@
                   totalBlocsDiff += bloc.diff
                   nbBlocs++
                 })
+                this.difficulty_current = lastBlock.diff
                 this.difficulty100b = (totalBlocsDiff / nbBlocs).toFixed(3)
               })
           }
