@@ -25,29 +25,25 @@
       v-bind:key="index"
       @open="setPoolInfos(pool.name)"
     )
-      q-card
-          q-card-main.bg-white
-            .row
-              br
-            table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose.full-width
-              thead
-                tr
-                  td Algos
-                  td Fees
-                  td Est. Current (mBTC/MH/day)
-                  td Actual Last 24h
-                  td Cur. Est Daily $ (per MH)
-                  td Cur. Est Daily $
-                  td 24h Est Daily $
-              tbody
-                tr(v-for="algo in filteredAlgos")
-                  td {{ algo.name }}
-                  td {{ algo.fees }}
-                  td {{ (algo.estimate_current * 1000).toFixed(5) }}
-                  td {{ algo.actual_last24h }}
-                  td {{ (mbtcToUSD(algo.estimate_current * 1000)).toFixed(4) }}
-                  td {{ USDForUser(algo.estimate_current * 1000, algo.name) }}
-                  td {{ USDForUser(algo.actual_last24h, algo.name) }}
+      table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose.full-width
+        thead
+          tr
+            td Algos
+            td Fees
+            td Est. Current (mBTC/MH/day)
+            td Actual Last 24h
+            td Cur. Est Daily $ (per MH)
+            td Cur. Est Daily $
+            td 24h Est Daily $
+        tbody
+          tr(v-for="algo in filteredAlgos")
+            td {{ algo.name }}
+            td {{ algo.fees }}
+            td {{ (algo.estimate_current * 1000).toFixed(5) }}
+            td {{ algo.actual_last24h }}
+            td {{ (mbtcToUSD(algo.estimate_current * 1000)).toFixed(4) }}
+            td {{ USDForUser(algo.estimate_current * 1000, algo.name) }}
+            td {{ USDForUser(algo.actual_last24h, algo.name) }}
 </template>
 
 <script>
@@ -201,24 +197,15 @@
             let data = result.data
             Object.keys(data).map((key, index) => {
               let algo = data[key]
-              if (algo.name === 'equihash') {
+              let algoInGH = ['blake2s', 'blakecoin', 'equihash', 'sha256', 'x11']
+              if (algoInGH.indexOf(algo.name) !== -1) {
                 algo.estimate_current /= 1000
                 algo.actual_last24h /= 1000
                 algo.estimate_last24h /= 1000
               }
-              if (algo.name === 'sha256') {
-                algo.estimate_current /= 1000
+              if (algo.name === 'sha256' && pool.name === 'zpool') { // TH
                 algo.actual_last24h /= 1000
-                algo.estimate_last24h /= 1000
-                if (pool.name === 'zpool') {
-                  algo.estimate_current /= 1000
-                  algo.actual_last24h /= 1000
-                  algo.estimate_last24h /= 1000
-                }
-              }
-              if (algo.name === 'x11') {
                 algo.estimate_current /= 1000
-                algo.actual_last24h /= 1000
                 algo.estimate_last24h /= 1000
               }
               this.algos[pool.name][algo.name] = algo
@@ -269,4 +256,7 @@
   min-width 40px
   max-width 40px
   max-height 40px
+.q-card
+  margin-left 0px
+  margin-right 0px
 </style>
