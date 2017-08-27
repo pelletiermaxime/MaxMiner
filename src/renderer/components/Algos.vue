@@ -22,13 +22,14 @@
       group="algos"
       v-for="(algo, algoName) in filteredAlgos"
       v-bind:key="algoName"
+      @open="setAlgoInfo(algoName)"
     )
       q-card
           q-card-main.bg-white
             .row
               br
             .row
-              q-input(v-model="algoSpeeds[algoName]")
+              q-input(v-model="algoSpeed")
 
 </template>
 
@@ -50,8 +51,10 @@
 
     data () {
       return {
+        algoSpeed: '',
         algoSpeeds: {},
         algos,
+        currentAlgo: '',
         asic: true,
         cpu: true,
         gpu: true,
@@ -80,18 +83,33 @@
     },
 
     methods: {
-      USDForUser () {
+      setAlgoInfo (algoName) {
+        let algoSpeed = ''
+        if (this.algoSpeeds[algoName]) {
+          algoSpeed = this.algoSpeeds[algoName]
+        }
+
+        this.currentAlgo = algoName
+        this.algoSpeed = algoSpeed
+      }
+    },
+
+    watch: {
+      algoSpeed (newValue) {
+        store.set(`hashRateAlgo.${this.currentAlgo}`, newValue)
       }
     },
 
     mounted () {
-      Object.keys(algos).map((key, index) => {
-        let speed = store.get(`hashRateAlgo.${key}`, 0)
-        this.algoSpeeds[key] = speed
-      })
+      this.algoSpeeds = store.get('hashRateAlgo')
     }
   }
 </script>
 
 <style lang="stylus" scoped>
+.algos
+  padding 1.5rem 2rem
+.q-card
+  margin-left 0px
+  margin-right 0px
 </style>

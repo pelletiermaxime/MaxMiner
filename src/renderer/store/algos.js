@@ -66,7 +66,7 @@ export default {
   },
   m7m: {
     miners: {
-      gpu: ['ccminer']
+      cpu: ['cpuminer']
     }
   },
   'myr-gr': {
@@ -141,7 +141,7 @@ export default {
   },
   veltor: {
     miners: {
-      gpu: ['ccminer']
+      cpu: ['cpuminer']
     }
   },
   x11: {
