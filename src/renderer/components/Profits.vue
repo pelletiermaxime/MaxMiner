@@ -55,7 +55,7 @@
             required="true"
             v-model="difficulty100b"
             :disable="auto_mode"
-            stack-label="Difficulty (last ~50-100 blocks)"
+            stack-label="Difficulty (last <=50 blocks)"
           )
         .col-4
           q-input(
@@ -76,37 +76,43 @@
         td Period
         td(v-if="difficulty24h != 0") Currency reward (24h)
         td(v-if="difficulty24h != 0") $ USD reward (24h)
-        td(v-if="difficulty100b != 0") $ USD reward (100b)
+        td(v-if="difficulty100b != 0 && difficulty24h == 0") Currency reward (<= 50b)
+        td(v-if="difficulty100b != 0") $ USD reward (<= 50b)
         td(v-if="difficulty_current != 0") $ USD reward (current)
     tbody
       tr
         td Hour
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToHourly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToHourly | roundMoney }}
+        td(v-if="difficulty100b != 0 && difficulty24h == 0") {{ reward_shares_daily100b | dailyToHourly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToHourly | roundMoney }}
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToHourly | roundMoney }}
       tr
         td Day
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | roundMoney }}
+        td(v-if="difficulty100b != 0 && difficulty24h == 0") {{ reward_shares_daily100b | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | roundMoney }}
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | roundMoney }}
       tr
         td Week
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToWeekly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToWeekly | roundMoney }}
+        td(v-if="difficulty100b != 0 && difficulty24h == 0") {{ reward_shares_daily100b | dailyToWeekly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToWeekly | roundMoney }}
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToWeekly | roundMoney }}
       tr
         td Month
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToMonthly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToMonthly | roundMoney }}
+        td(v-if="difficulty100b != 0 && difficulty24h == 0") {{ reward_shares_daily100b | dailyToMonthly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToMonthly | roundMoney }}
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToMonthly | roundMoney }}
       tr
         td Year
         td(v-if="difficulty24h != 0") {{ reward_shares_daily24h | dailyToYearly | roundShares }}
         td(v-if="difficulty24h != 0") {{ reward_money_daily24h | dailyToYearly | roundMoney }}
+        td(v-if="difficulty100b != 0 && difficulty24h == 0") {{ reward_shares_daily100b | dailyToYearly | roundShares }}
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToYearly | roundMoney }}
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToYearly | roundMoney }}
 </template>
@@ -264,6 +270,7 @@
                 blocks = blocks.filter((block) => {
                   return block.tx === 1
                 })
+                blocks.splice(50)
                 console.log(blocks)
                 let lastBlock = blocks[0]
                 this.block_reward = lastBlock.value
