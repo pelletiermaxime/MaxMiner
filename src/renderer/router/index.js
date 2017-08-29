@@ -6,38 +6,50 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
       name: 'home',
+      path: '/',
       component: require('@/components/Home')
     },
     {
-      path: '/about',
       name: 'about',
+      path: '/about',
       component: require('@/components/About')
     },
     {
-      path: '/algos',
       name: 'algos',
+      path: '/algos',
       component: require('@/components/Algos')
     },
     {
-      path: '/mine',
       name: 'mine',
-      component: require('@/components/Mine')
+      path: '/mine',
+      component: require('@/components/Mine'),
+      children: [
+        {
+          name: 'mine-benchmark',
+          path: 'benchmark',
+          component: require('@/components/Mine/Benchmark')
+        },
+        {
+          name: 'mine-index',
+          path: 'index',
+          component: require('@/components/Mine/Index')
+        }
+      ]
     },
     {
-      path: '/miners',
       name: 'miners',
+      path: '/miners',
       component: require('@/components/Miners')
     },
     {
-      path: '/pools',
       name: 'pools',
+      path: '/pools',
       component: require('@/components/Pools')
     },
     {
-      path: '/profit-calculator',
       name: 'profits',
+      path: '/profit-calculator',
       component: require('@/components/Profits')
     },
     {

@@ -1,14 +1,11 @@
 <template lang="pug">
-q-layout(ref="layout")
-  q-toolbar(slot="header")
-    q-btn(flat, @click="$refs.layout.toggleLeft()")
-      q-icon(name="menu")
-  div(slot="left")
-    q-side-link(item, to="/mine/index")
-      q-item-main(label="Index", sublabel="Mine")
-    q-side-link(item, to="/mine/benchmark")
-      q-item-main(label="Benchmark", sublabel="Benchmark miners")
-  router-view.layout-view
+.mine-benchmark
+  h1.text-center Mine
+  q-card
+    q-card-main.bg-white
+      .row
+        .col-6.
+          BENCHMARK
 </template>
 <script>
   // import currencies from '@/store/currencies'
@@ -39,7 +36,5 @@ q-layout(ref="layout")
     }
   }
 </script>
-<style lang="stylus">
-.layout-aside-left
-  width 200px
+<style lang="stylus" scoped>
 </style>
