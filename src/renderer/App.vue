@@ -6,7 +6,7 @@
 
       q-tabs(slot="navigation")
         q-route-tab(slot="title" to="/" replace label="Home")
-        //- q-route-tab(slot="title" to="/mine" replace label="Mine")
+        q-route-tab(slot="title" to="/mine" replace label="Mine")
         q-route-tab(slot="title" to="/miners" replace label="Miners")
         q-route-tab(slot="title" to="/algos" replace label="Algorithms")
         q-route-tab(slot="title" to="/pools" replace label="Pools")

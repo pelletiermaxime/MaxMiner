@@ -141,7 +141,7 @@ export default {
   },
   veltor: {
     miners: {
-      cpu: ['cpuminer']
+      gpu: ['ccminer']
     }
   },
   x11: {
