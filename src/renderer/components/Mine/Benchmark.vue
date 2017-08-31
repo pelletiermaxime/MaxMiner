@@ -8,8 +8,7 @@
           BENCHMARK
       .row
         button(@click="spawnMiner") SPAWN MINER
-        button(@click="spawnMiner2") SPAWN MINER2
-        button(@click="spawnMiner3") SPAWN MINER3
+        button(@click="killMiner") KILL MINER
 </template>
 <script>
   // import currencies from '@/store/currencies'
@@ -21,7 +20,6 @@
 
   import path from 'path'
 
-  // const { spawn } = require('child_process')
   const { exec } = require('child_process')
 
   // const store = new Store()
@@ -48,34 +46,21 @@
     methods: {
       spawnMiner () {
         let minerPath = path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners')
-        exec(`${minerPath}/ccminer`, (err, stdout, stderr) => {
-          if (err) {
-            // node couldn't execute the command
-            return
-          }
+        let command = 'start /wait ccminer -a sia -i 10 --benchmark'
 
-          // the *entire* stdout and stderr (buffered)
-          console.log(`stdout: ${stdout}`)
-          console.log(`stderr: ${stderr}`)
-        })
-      },
-      spawnMiner2 () {
-        let minerPath = path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners')
-        exec(`cmd /c ${minerPath}/ccminer`, function callback (error, stdout, stderr) {
+        this.process = exec(command, {
+          cwd: minerPath
+        }, function callback (error, stdout, stderr) {
           console.log(error)
           console.log(stdout)
           console.log(stderr)
           console.log('started console app')
         })
+        console.log(this.process)
       },
-      spawnMiner3 () {
-        let minerPath = path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners')
-        exec(`start ${minerPath}/ccminer`, function callback (error, stdout, stderr) {
-          console.log(error)
-          console.log(stdout)
-          console.log(stderr)
-          console.log('started console app')
-        })
+      killMiner () {
+        // console.log(this.process.pid)
+        exec(`taskkill /pid ${this.process.pid} /F /T`)
       }
     }
   }
