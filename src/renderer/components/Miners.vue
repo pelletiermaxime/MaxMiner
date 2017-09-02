@@ -76,7 +76,7 @@ export default {
       if (!fs.existsSync(this.downloadPath)) {
         fs.mkdirSync(this.downloadPath)
       }
-      let fileUrl = 'http://ccminer.org/preview/ccminer-2.2-skunk.7z'
+      let fileUrl = 'https://github.com/tpruvot/ccminer/releases/download/v2.2-tpruvot/ccminer-x64-2.2.7z'
       let fileName = path.basename(url.parse(fileUrl).pathname)
       let that = this
       downloadFile({
@@ -85,7 +85,7 @@ export default {
         onProgress: function (received, total) {
           let percentage = (received * 100) / total
           that.downloadProgressPercent = Math.round(percentage)
-          // console.log(this.downloadProgressPercent)
+          console.log(this.downloadProgressPercent)
           // console.log(`${percentage} % | ${received} bytes out of ${total} bytes`)
         }
       }).then(function () {
