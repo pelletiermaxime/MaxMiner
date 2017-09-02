@@ -7,12 +7,18 @@
         .col-6.
           BENCHMARK
       .row
-        button(@click="spawnMiner") SPAWN MINER
+        button(@click="startBenchmark") START BENCHMARK
         button(@click="killMiner") KILL MINER
+    q-card-main.bg-white
+      table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose.full-width
+          tr(v-for="algo, algoName in algos")
+            td {{ algoName }}
+            td Ccminer {{ algosSpeed[algoName] }} MH / S
 </template>
 <script>
-  // import currencies from '@/store/currencies'
   // import Store from 'electron-store'
+  import algos from '@/store/algos'
+  import { pickBy } from 'lodash'
   import {
     QBtn, QCard, QCardMain, QIcon, QItemMain, QItemSide,
     QLayout, QSideLink, QToolbar
@@ -23,6 +29,10 @@
   const { exec } = require('child_process')
 
   // const store = new Store()
+
+  // function sleep (time) {
+  //   return new Promise((resolve) => setTimeout(resolve, time))
+  // }
 
   export default {
     components: {
@@ -39,29 +49,69 @@
 
     data () {
       return {
-        allCoinsInfo: {}
+        algos: {},
+        algosSpeed: {},
+        dataObject: {}
       }
     },
 
     methods: {
+      startBenchmark () {
+        let algos = Object.keys(this.algos)
+        console.log(algos)
+        let interval = setInterval(this.getMiningSpeed, 5000)
+        this.currentAlgoName = algos.shift()
+        this.spawnMiner()
+        setTimeout(this.killMiner, 25000)
+        let interval2 = setInterval(() => {
+          this.currentAlgoName = algos.shift()
+          this.spawnMiner()
+          if (algos.length === 0) {
+            clearInterval(interval2)
+            setTimeout(() => { clearInterval(interval) }, 25000)
+          }
+          setTimeout(this.killMiner, 25000)
+        }, 30000)
+      },
       spawnMiner () {
         let minerPath = path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners')
-        let command = 'start /wait ccminer -a sia -i 10 --benchmark'
-
+        let command = `start /wait ccminer -a ${this.currentAlgoName} -i 10 --benchmark`
+        console.log(command)
         this.process = exec(command, {
           cwd: minerPath
-        }, function callback (error, stdout, stderr) {
-          console.log(error)
-          console.log(stdout)
-          console.log(stderr)
-          console.log('started console app')
         })
-        console.log(this.process)
+        // console.log(this.process)
+      },
+      getMiningSpeed () {
+        console.log(this.currentAlgoName)
+        let ip = 'localhost'
+        let port = 4068
+        let ws = new WebSocket('ws://' + ip + ':' + port + '/summary', 'text')
+        ws.onmessage = (evt) => {
+          let dataArray = evt.data.split(';')
+          let dataObject = {}
+          let key, value
+          dataArray.forEach((element) => {
+            [key, value] = element.split('=')
+            dataObject[key] = value
+          })
+          console.log(dataObject.ALGO)
+          console.log(dataObject.KHS)
+          this.$set(this.algosSpeed, dataObject.ALGO, (dataObject.KHS / 1000).toFixed(2))
+          // ws.close()
+        }
       },
       killMiner () {
         // console.log(this.process.pid)
         exec(`taskkill /pid ${this.process.pid} /F /T`)
       }
+    },
+
+    mounted () {
+      this.algos = pickBy(algos, (algo, algoName) => {
+        return algoName === 'bitcore' || algoName === 'skunk'
+        // return algo.miners.gpu
+      })
     }
   }
 </script>
