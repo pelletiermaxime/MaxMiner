@@ -8,6 +8,7 @@
           BENCHMARK
       .row
         button(@click="startBenchmark") START BENCHMARK
+        button(@click="stopBenchmark") STOP BENCHMARK
         button(@click="killMiner") KILL MINER
     q-card-main.bg-white
       table.q-table.bordered.highlight.horizontal-delimiter.striped-odd.loose.full-width
@@ -59,23 +60,28 @@
       startBenchmark () {
         let algos = Object.keys(this.algos)
         console.log(algos)
-        let interval = setInterval(this.getMiningSpeed, 5000)
+        this.intervalMiningSpeed = setInterval(this.getMiningSpeed, 5000)
         this.currentAlgoName = algos.shift()
         this.spawnMiner()
         setTimeout(this.killMiner, 25000)
-        let interval2 = setInterval(() => {
+        this.intervalSpawnMiners = setInterval(() => {
           this.currentAlgoName = algos.shift()
           this.spawnMiner()
           if (algos.length === 0) {
-            clearInterval(interval2)
-            setTimeout(() => { clearInterval(interval) }, 25000)
+            clearInterval(this.intervalSpawnMiners)
+            setTimeout(() => { clearInterval(this.intervalMiningSpeed) }, 25000)
           }
           setTimeout(this.killMiner, 25000)
         }, 30000)
       },
+      stopBenchmark () {
+        clearInterval(this.intervalMiningSpeed)
+        clearInterval(this.intervalSpawnMiners)
+        this.killMiner()
+      },
       spawnMiner () {
         let minerPath = path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners')
-        let command = `start /wait ccminer -a ${this.currentAlgoName} -i 10 --benchmark`
+        let command = `start /wait ccminer -a ${this.currentAlgoName} --benchmark`
         console.log(command)
         this.process = exec(command, {
           cwd: minerPath
@@ -109,8 +115,7 @@
 
     mounted () {
       this.algos = pickBy(algos, (algo, algoName) => {
-        return algoName === 'bitcore' || algoName === 'skunk'
-        // return algo.miners.gpu
+        return algo.miners.gpu
       })
     }
   }
