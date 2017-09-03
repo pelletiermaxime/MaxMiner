@@ -25,6 +25,8 @@ import request from 'request'
 import fs from 'fs'
 import url from 'url'
 import { QBtn, QCard, QCardMain, QCardTitle } from 'quasar'
+// import decompress from 'decompress'
+import { unzip } from 'cross-unzip'
 
 function downloadFile (configuration) {
   return new Promise(function (resolve, reject) {
@@ -66,17 +68,17 @@ export default {
 
   data () {
     return {
-      downloadPath: path.join(this.$electron.remote.app.getPath('appData'), '/MaxMiner', '/Miners'),
+      downloadPath: path.join(this.$electron.remote.app.getPath('appData'), 'MaxMiner', 'Miners'),
       downloadProgressPercent: 0
     }
   },
 
   methods: {
-    downloadMiner () {
+    downloadMiner (e, done) {
       if (!fs.existsSync(this.downloadPath)) {
         fs.mkdirSync(this.downloadPath)
       }
-      let fileUrl = 'https://github.com/tpruvot/ccminer/releases/download/v2.2-tpruvot/ccminer-x64-2.2.7z'
+      let fileUrl = 'https://github.com/tpruvot/ccminer/releases/download/2.2.1-tpruvot/ccminer-x64-2.2.1-cuda9rc.7z'
       let fileName = path.basename(url.parse(fileUrl).pathname)
       let that = this
       downloadFile({
@@ -84,12 +86,24 @@ export default {
         localFile: path.join(this.downloadPath, fileName),
         onProgress: function (received, total) {
           let percentage = (received * 100) / total
-          that.downloadProgressPercent = Math.round(percentage)
-          console.log(this.downloadProgressPercent)
-          // console.log(`${percentage} % | ${received} bytes out of ${total} bytes`)
+          percentage = parseInt(percentage)
+          console.log('Percentage: ' + percentage)
+          that.downloadProgressPercent = percentage
         }
-      }).then(function () {
+      }).then(() => {
         that.downloadProgressPercent = 100
+        done()
+        let minerPath = path.join(this.downloadPath, 'ccminer')
+        if (!fs.existsSync(minerPath)) {
+          fs.mkdirSync(minerPath)
+        }
+        console.log(path.join(this.downloadPath, fileName))
+        // decompress(path.join(this.downloadPath, fileName), minerPath).then(files => {
+        //   console.log(files)
+        // })
+        unzip(path.join(this.downloadPath, fileName), minerPath, (err) => {
+          console.log(err)
+        })
       })
     }
   },

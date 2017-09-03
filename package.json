@@ -60,6 +60,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "decompress": "^4.2.0",
     "electron-store": "^1.2.0",
     "material-design-icons": "^3.0.1",
     "pug": "^2.0.0-rc.2",
