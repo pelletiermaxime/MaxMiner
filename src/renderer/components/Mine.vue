@@ -6,6 +6,8 @@ q-layout(ref="layout")
   div(slot="left")
     q-side-link(item, to="/mine/index")
       q-item-main(label="Index", sublabel="Mine")
+    q-side-link(item, to="/mine/addresses")
+      q-item-main(label="Addresses", sublabel="Setup coin addresses")
     q-side-link(item, to="/mine/benchmark")
       q-item-main(label="Benchmark", sublabel="Benchmark miners")
   router-view.layout-view

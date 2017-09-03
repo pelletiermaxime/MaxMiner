@@ -26,6 +26,11 @@ export default new Router({
       component: require('@/components/Mine'),
       children: [
         {
+          name: 'mine-addresses',
+          path: 'addresses',
+          component: require('@/components/Mine/Addresses')
+        },
+        {
           name: 'mine-benchmark',
           path: 'benchmark',
           component: require('@/components/Mine/Benchmark')
