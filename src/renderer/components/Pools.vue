@@ -48,9 +48,10 @@
 
 <script>
   import algos from '@/store/algos'
-  import pools from '@/store/pools'
+  import poolsList from '@/store/poollist'
   import Store from 'electron-store'
   import { QCard, QCardMain, QCheckbox, QCollapsible, QList } from 'quasar'
+  import * as pools from '@/store/pools'
   const store = new Store()
 
   export default {
@@ -70,7 +71,7 @@
         asic: true,
         cpu: true,
         gpu: true,
-        pools: pools
+        pools: poolsList
       }
     },
 
@@ -106,7 +107,11 @@
           if (poolType === 'yiimp') {
             this.setPoolInfosYiimp(pool)
           } else if (poolType === 'nicehash') {
-            this.setPoolInfosNicehash(pool)
+            this.algos[pool.name] = {}
+            pools[poolType](pool, this.$http).then(poolAlgos => {
+              this.algos[pool.name] = poolAlgos
+              this.activePool = pool.name
+            })
           } else if (poolType === 'prohashing') {
             this.setPoolInfosProhashing(pool)
           } else if (poolType === 'miningpoolhub') {
@@ -135,29 +140,6 @@
                   estimate_current: algo.profit,
                   name: algo.algo
                 }
-              }
-            })
-            this.activePool = pool.name
-          })
-      },
-      setPoolInfosNicehash (pool) {
-        let apiURL = pool.url
-        this.algos[pool.name] = {}
-        this.$http.get(apiURL)
-          .then((result) => {
-            let data = result.data.result.simplemultialgo
-            Object.keys(data).map((key, index) => {
-              let algo = data[key]
-              algo.paying /= 1000
-              if (algo.name === 'equihash') {
-                algo.paying /= 1000000
-              }
-              if (algo.name === 'lyra2rev2') {
-                algo.name = 'lyra2v2'
-              }
-              this.algos[pool.name][algo.name] = {
-                estimate_current: algo.paying,
-                name: algo.name
               }
             })
             this.activePool = pool.name
@@ -242,7 +224,6 @@
         return (MHForAlgo * USDForMH).toFixed(2) + '$'
       }
     },
-
     mounted () {
       this.getBTCPrice()
     }
