@@ -103,97 +103,12 @@
       setPoolInfos (poolName) {
         if (this.activePool !== poolName) {
           let pool = this.pools[poolName]
-          let poolType = pool.type
-          if (poolType === 'yiimp') {
-            this.setPoolInfosYiimp(pool)
-          } else if (poolType === 'nicehash') {
-            this.algos[pool.name] = {}
-            pools[poolType](pool, this.$http).then(poolAlgos => {
-              this.algos[pool.name] = poolAlgos
-              this.activePool = pool.name
-            })
-          } else if (poolType === 'prohashing') {
-            this.setPoolInfosProhashing(pool)
-          } else if (poolType === 'miningpoolhub') {
-            this.setPoolInfosMiningpoolhub(pool)
-          }
+          this.algos[pool.name] = {}
+          pools[pool.type](pool, this.$http).then(poolAlgos => {
+            this.algos[pool.name] = poolAlgos
+            this.activePool = pool.name
+          })
         }
-      },
-      setPoolInfosMiningpoolhub (pool) {
-        let apiURL = pool.url
-        this.algos[pool.name] = {}
-        this.$http.get(apiURL)
-          .then((result) => {
-            let data = result.data.return
-            Object.keys(data).map((key, index) => {
-              let algo = data[key]
-              algo.algo = algo.algo.toLowerCase()
-              algo.profit /= 1000
-              if (algo.algo === 'equihash') {
-                algo.profit /= 1000000
-              }
-              if (algo.algo === 'ethash') {
-                algo.algo = 'daggerhashimoto'
-              }
-              if (!this.algos[pool.name][algo.algo]) {
-                this.algos[pool.name][algo.algo] = {
-                  estimate_current: algo.profit,
-                  name: algo.algo
-                }
-              }
-            })
-            this.activePool = pool.name
-          })
-      },
-      setPoolInfosProhashing (pool) {
-        let d = new Date()
-        let startTime = d.setDate(d.getDate() - 1)
-        let poolURLScrypt = `${pool.url}Scrypt&startTime=${startTime}`
-        let poolURLX11 = `${pool.url}X11&startTime=${startTime}`
-        this.algos[pool.name] = {}
-        this.$http.get(poolURLScrypt)
-          .then((result) => {
-            let data = result.data[0]
-            this.algos[pool.name]['scrypt'] = {
-              estimate_current: 0,
-              actual_last24h: data.expectedPayoutBtc * 1000,
-              name: 'scrypt'
-            }
-            this.$http.get(poolURLX11)
-              .then((result) => {
-                let data = result.data[0]
-                this.algos[pool.name]['x11'] = {
-                  estimate_current: 0,
-                  actual_last24h: data.expectedPayoutBtc * 1000,
-                  name: 'x11'
-                }
-                this.activePool = pool.name
-              })
-          })
-      },
-      setPoolInfosYiimp (pool) {
-        let poolURL = `${pool.url}/api/status`
-        this.algos[pool.name] = {}
-        this.$http.get(poolURL)
-          .then((result) => {
-            let data = result.data
-            Object.keys(data).map((key, index) => {
-              let algo = data[key]
-              let algoInGH = ['blake2s', 'blakecoin', 'equihash', 'sha256', 'x11']
-              if (algoInGH.indexOf(algo.name) !== -1) {
-                algo.estimate_current /= 1000
-                algo.actual_last24h /= 1000
-                algo.estimate_last24h /= 1000
-              }
-              if (algo.name === 'sha256' && pool.name === 'zpool') { // TH
-                algo.actual_last24h /= 1000
-                algo.estimate_current /= 1000
-                algo.estimate_last24h /= 1000
-              }
-              this.algos[pool.name][algo.name] = algo
-            })
-            this.activePool = pool.name
-          })
       },
       algoNotEmpty (algo) {
         return algo !== undefined && Object.keys(algo).length &&
