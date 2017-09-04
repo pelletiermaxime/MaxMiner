@@ -60,6 +60,10 @@
     },
     computed: {
       miner_command () {
+        if (this.address === '' || this.coin === '' || this.miner === '' || this.pool === '') {
+          return ''
+        }
+
         let minerPath = 'ccminer-x64'
         let stratum = 'stratum+ tcp://yiimp.ccminer.org:3556'
         let command = `${minerPath} -a ${this.coin} -o ${stratum} -u ${this.address}`
