@@ -42,6 +42,9 @@
     QBtn, QCard, QCardMain, QIcon, QItemMain, QItemSide,
     QLayout, QSelect, QSideLink, QToolbar
   } from 'quasar'
+  import Store from 'electron-store'
+
+  const store = new Store()
 
   export default {
     components: {
@@ -58,6 +61,8 @@
     },
     data () {
       return {
+        addresses: [],
+        allAddresses: [],
         address: '',
         algo: '',
         algos: [],
@@ -70,12 +75,6 @@
       }
     },
     computed: {
-      addresses () {
-        return [{
-          label: '1A7pPY33hykqkAZmSS3REpb8xV8gLPN9ev (main)',
-          value: '1A7pPY33hykqkAZmSS3REpb8xV8gLPN9ev'
-        }]
-      },
       miner_command () {
         if (this.address === '' || this.algo === '' || this.miner === '' || this.pool === '') {
           return ''
@@ -89,6 +88,19 @@
       }
     },
     methods: {
+      setAddresses () {
+        each(this.allAddresses, (addresses) => {
+          let address = addresses.addresses[0]
+          let label = address.address
+          if (address.label) {
+            label += ` (${address.label})`
+          }
+          this.addresses.push({
+            label: label,
+            value: address.address
+          })
+        })
+      },
       setMiners () {
         this.miners.push({
           label: 'Ccminer',
@@ -105,10 +117,23 @@
       }
     },
     mounted () {
+      this.allAddresses = store.get('addresses', [])
+      this.setAddresses()
       this.setPools()
       this.setMiners()
     },
     watch: {
+      algo () {
+        // let addresses = this.allAddresses.filter((address) => {
+        //   return address.name === 'Bitcore'
+        // })
+        // each(addresses, (address) => {
+        //   this.addresses.push({
+        //     label: address.addresses[0].address,
+        //     value: address.addresses[0].address
+        //   })
+        // })
+      },
       pool () {
         if (!this.pool) {
           return []
