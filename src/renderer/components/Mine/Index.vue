@@ -124,15 +124,6 @@
     },
     watch: {
       algo () {
-        // let addresses = this.allAddresses.filter((address) => {
-        //   return address.name === 'Bitcore'
-        // })
-        // each(addresses, (address) => {
-        //   this.addresses.push({
-        //     label: address.addresses[0].address,
-        //     value: address.addresses[0].address
-        //   })
-        // })
       },
       pool () {
         if (!this.pool) {
