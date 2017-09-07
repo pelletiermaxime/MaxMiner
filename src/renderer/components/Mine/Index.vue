@@ -12,9 +12,9 @@
           )
         .col-6
           q-select(
-            v-model="coin"
-            :options="coins"
-            float-label="Coin"
+            v-model="algo"
+            :options="algos"
+            float-label="Algo"
           )
       .row.sm-gutter
         .col-6
@@ -35,15 +35,13 @@
         {{ miner_command }}
 </template>
 <script>
-  import pools from '@/store/pools'
-  import { each } from 'lodash'
-  // import Store from 'electron-store'
+  import poolList from '@/store/poollist'
+  import { each, map } from 'lodash'
+  import * as pools from '@/store/pools'
   import {
     QBtn, QCard, QCardMain, QIcon, QItemMain, QItemSide,
     QLayout, QSelect, QSideLink, QToolbar
   } from 'quasar'
-
-  // const store = new Store()
 
   export default {
     components: {
@@ -58,23 +56,11 @@
       QSideLink,
       QToolbar
     },
-    computed: {
-      miner_command () {
-        if (this.address === '' || this.coin === '' || this.miner === '' || this.pool === '') {
-          return ''
-        }
-
-        let minerPath = 'ccminer-x64'
-        let stratum = 'stratum+ tcp://yiimp.ccminer.org:3556'
-        let command = `${minerPath} -a ${this.coin} -o ${stratum} -u ${this.address}`
-
-        return command
-      }
-    },
     data () {
       return {
         address: '',
-        addresses: [],
+        algo: '',
+        algos: [],
         coin: '',
         coins: [],
         miner: '',
@@ -83,25 +69,62 @@
         pools: []
       }
     },
-    mounted () {
-      each(pools, (pool) => {
-        this.pools.push({
-          label: pool.name,
-          value: pool.name
+    computed: {
+      addresses () {
+        return [{
+          label: '1A7pPY33hykqkAZmSS3REpb8xV8gLPN9ev (main)',
+          value: '1A7pPY33hykqkAZmSS3REpb8xV8gLPN9ev'
+        }]
+      },
+      miner_command () {
+        if (this.address === '' || this.algo === '' || this.miner === '' || this.pool === '') {
+          return ''
+        }
+
+        let minerPath = 'ccminer-x64'
+        let stratum = 'stratum+ tcp://yiimp.ccminer.org:3556'
+        let command = `${minerPath} -a ${this.algo} -o ${stratum} -u ${this.address} -p c=BTX`
+
+        return command
+      }
+    },
+    methods: {
+      setMiners () {
+        this.miners.push({
+          label: 'Ccminer',
+          value: 'ccminer'
         })
-      })
-      this.coins.push({
-        label: 'Bitcore',
-        value: 'bitcore'
-      })
-      this.addresses.push({
-        label: '1A7pPY33hykqkAZmSS3REpb8xV8gLPN9ev (main)',
-        value: '1A7pPY33hykqkAZmSS3REpb8xV8gLPN9ev'
-      })
-      this.miners.push({
-        label: 'Ccminer',
-        value: 'ccminer'
-      })
+      },
+      setPools () {
+        each(poolList, (pool) => {
+          this.pools.push({
+            label: pool.name,
+            value: pool.name
+          })
+        })
+      }
+    },
+    mounted () {
+      this.setPools()
+      this.setMiners()
+    },
+    watch: {
+      pool () {
+        if (!this.pool) {
+          return []
+        }
+        let pool = poolList[this.pool]
+        let algoList = []
+        pools[pool.type](pool, this.$http).then(poolAlgos => {
+          algoList = map(poolAlgos, (poolAlgo) => {
+            return {
+              label: poolAlgo.name,
+              value: poolAlgo.name
+            }
+          })
+          this.algos = algoList
+        })
+      }
     }
   }
 </script>
