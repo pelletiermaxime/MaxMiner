@@ -53,6 +53,11 @@ export default new Router({
       component: require('@/components/Pools')
     },
     {
+      name: 'portfolio',
+      path: '/portfolio',
+      component: require('@/components/Portfolio')
+    },
+    {
       name: 'profits',
       path: '/profit-calculator',
       component: require('@/components/Profits')
