@@ -8,10 +8,10 @@
           img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
         q-item-tile.coin-name {{ coin.name }}
       q-item-main
-        q-item-tile $203.28
-        q-item-tile 45.49
+        q-item-tile {{ coin.total_price | money }}
+        q-item-tile {{ coin.number.toFixed(2) }}
       q-item-main
-        q-item-tile $4.47
+        q-item-tile {{ coin.price | money }}
     //- q-collapsible(
       :label="coin.name"
       group="portfolio"
@@ -59,28 +59,40 @@
     },
 
     filters: {
+      money (value) {
+        value = parseInt(value)
+
+        return value.toLocaleString(undefined, {style: 'currency', currency: 'USD'})
+      }
     },
 
     methods: {
       setPortfolio () {
         this.addresses = store.get('addresses', [])
         let explorers = {
-          Bitcore: 'http://51.15.78.208:3001/ext/getbalance/$addr',
-          Bitcoin: 'https://blockexplorer.com/api/addr/$addr/balance'
+          bitcore: 'http://51.15.78.208:3001/ext/getbalance/$addr',
+          bitcoin: 'https://blockexplorer.com/api/addr/$addr/balance'
         }
-        each(this.addresses, (addresses) => {
+        each(this.addresses, async (addresses) => {
           let address = addresses.addresses[0].address
+          let coinName = addresses.name.toLowerCase()
 
-          console.log(addresses)
-          let explorerUrl = explorers[addresses.name].replace('$addr', address)
-          console.log(explorerUrl)
+          let explorerUrl = explorers[coinName].replace('$addr', address)
+          let result = await this.$http.get(explorerUrl)
+          let coinNumber = result.data
+
+          let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinName}`
+          result = await this.$http.get(coinMarketCapURL)
+          let coinPrice = result.data[0].price_usd
 
           this.portfolio.push({
-            name: addresses.name,
-            address: address
+            name: coinName,
+            address: address,
+            number: coinNumber,
+            price: coinPrice,
+            total_price: coinNumber * coinPrice
           })
         })
-        console.log(this.portfolio)
       }
     },
 
