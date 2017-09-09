@@ -9,7 +9,7 @@ export default async (pool, http) => {
   let data = result.data[0]
   algos['scrypt'] = {
     estimate_current: 0,
-    actual_last24h: (data.expectedPayoutBtc * 1000).toFixed(6),
+    actual_last24h: data.expectedPayoutBtc * 1000,
     name: 'scrypt'
   }
 
@@ -18,7 +18,7 @@ export default async (pool, http) => {
   data = result.data[0]
   algos['x11'] = {
     estimate_current: 0,
-    actual_last24h: (data.expectedPayoutBtc * 1000).toFixed(6),
+    actual_last24h: data.expectedPayoutBtc * 1000,
     name: 'x11'
   }
 
