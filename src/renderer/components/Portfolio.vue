@@ -3,15 +3,14 @@
   h1.text-center Portfolio
   q-list.bg-white(separator)
     q-item(multiline v-for="(coin, index) in portfolio")
-      q-item-side
-        q-item-tile
-          img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
-        q-item-tile.coin-name {{ coin.name }}
       q-item-main
-        q-item-tile {{ coin.total_price | money }}
-        q-item-tile {{ coin.number.toFixed(2) }}
-      q-item-main
-        q-item-tile {{ coin.price | money }}
+        .row.md-gutter
+          .col-3
+            img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
+            .coin-name {{ coin.name }}
+          .col-3 {{ coin.number.toFixed(2) }}
+          .col-3 {{ coin.price | money }}
+          .col-3 {{ coin.total_price | money }}
     //- q-collapsible(
       :label="coin.name"
       group="portfolio"
@@ -60,7 +59,7 @@
 
     filters: {
       money (value) {
-        value = parseInt(value)
+        value = parseFloat(value)
 
         return value.toLocaleString(undefined, {style: 'currency', currency: 'USD'})
       }
@@ -68,6 +67,13 @@
 
     methods: {
       setPortfolio () {
+        // this.portfolio.push({
+        //   name: 'Bitcoin',
+        //   address: 'aaaaaaaaaaaaa',
+        //   number: 100.00,
+        //   price: 5.00,
+        //   total_price: 500.00
+        // })
         this.addresses = store.get('addresses', [])
         let explorers = {
           bitcore: 'http://51.15.78.208:3001/ext/getbalance/$addr',
