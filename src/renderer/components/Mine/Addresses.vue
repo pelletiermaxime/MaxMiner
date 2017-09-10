@@ -10,9 +10,9 @@
         .col-2
           q-btn(round color="secondary" icon="add" @click="addNewCoin")
   q-list.bg-white(separator)
-    q-item(v-for="coin in coins" key="coin.name")
+    q-item(v-for="(coin, coinName) in coins" key="coinName")
       .col-3
-        | {{ coin.name }}
+        | {{ coinName }}
       .row.col-9.sm-gutter(v-for="address in coin.addresses")
         .col-9
           q-input(
@@ -27,7 +27,6 @@
         )
 </template>
 <script>
-  // import currencies from '@/store/currencies'
   import Store from 'electron-store'
   import {
     QAutocomplete, QBtn, QCard, QCardMain, QItem, QItemMain, QInput, QList, QSearch
@@ -50,15 +49,14 @@
     data () {
       return {
         allCoins: [],
-        coins: [],
+        coins: {},
         newCoin: ''
       }
     },
 
     methods: {
       addNewCoin () {
-        this.coins.push({
-          name: this.newCoin,
+        this.$set(this.coins, this.newCoin, {
           addresses: [
             {
               address: '',
