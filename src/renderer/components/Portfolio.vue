@@ -60,14 +60,29 @@
     },
 
     methods: {
+      async getCoinPrice (coinInfo) {
+        let coinPrice = 0
+        let storePath = `coinPrice.${coinInfo.name}`
+        if (store.has(storePath)) {
+          coinPrice = store.get(storePath)
+        } else {
+          let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinInfo.coinMarketCapName}`
+          let result = await this.$http.get(coinMarketCapURL)
+          coinPrice = result.data[0].price_usd
+          store.set(storePath, coinPrice)
+        }
+
+        return coinPrice
+      },
       setPortfolio () {
         this.addresses = store.get('addresses', [])
+
         each(this.addresses, async (addresses, coinName) => {
           let address = addresses.addresses[0].address
           let coinNumber = 0
           let result
-
           let coinInfo = find(this.coins, ['name', coinName])
+
           if (coinInfo.balance_url) {
             let explorerUrl = coinInfo.balance_url.replace('$addr', address)
             result = await this.$http.get(explorerUrl)
@@ -79,9 +94,7 @@
 
           coinNumber = parseFloat(coinNumber)
 
-          let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinInfo.coinMarketCapName}`
-          result = await this.$http.get(coinMarketCapURL)
-          let coinPrice = result.data[0].price_usd
+          let coinPrice = await this.getCoinPrice(coinInfo)
 
           this.portfolio.push({
             name: coinName,
