@@ -2,6 +2,7 @@ export default {
   coins: {
     BCC: {
       algo: 'scrypt',
+      balance_url: 'https://www.blockexperts.com/api?coin=bcc&action=getbalance&address=$addr',
       coinMarketCapName: 'bitconnect',
       default_hash_rate_mhs: 100,
       cryptoid: 'bcc',

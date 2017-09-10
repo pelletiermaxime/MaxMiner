@@ -99,7 +99,6 @@
     watch: {
       coins: {
         handler: function (coins) {
-          console.log(coins)
           store.set('addresses', coins)
         },
         deep: true
