@@ -1,26 +1,18 @@
 <template lang="pug">
 .portfolio
   h1.text-center Portfolio
-  q-list.bg-white(separator)
-    q-item(multiline v-for="(coin, index) in portfolio" key="index")
-      q-item-main
-        .row.md-gutter
-          .col-3
-            img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
-            .coin-name {{ coin.name }}
-          .col-3 {{ coin.number.toFixed(2) }}
-          .col-3 {{ coin.price | money }}
-          .col-3 {{ coin.total_price | money }}
-    //- q-collapsible(
-      :label="coin.name"
-      group="portfolio"
-      v-for="(coin, index) in portfolio"
-      v-bind:key="index"
-      )
-      q-card
-          q-card-main.bg-white
-            .row
-              br
+  q-card(v-for="(coin, index) in portfolio" key="index")
+    q-card-main.bg-white
+      .row.md-gutter
+        .col-2
+          img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
+        .col-4
+          .coin-name {{ coin.name }}
+      .row.md-gutter
+        .col-6.address {{ coin.address }}
+        .col-2 {{ coin.number.toFixed(2) }}
+        .col-2 {{ coin.price | money }}
+        .col-2 {{ coin.total_price | money }}
 </template>
 
 <script>
@@ -67,13 +59,22 @@
 
     methods: {
       setPortfolio () {
-        // this.portfolio.push({
-        //   name: 'Bitcoin',
-        //   address: 'aaaaaaaaaaaaa',
-        //   number: 100.00,
-        //   price: 5.00,
-        //   total_price: 500.00
-        // })
+        // this.portfolio.push(
+        //   {
+        //     name: 'Bitcoin',
+        //     address: 'aaaaaaaaaaaaa',
+        //     number: 100.00,
+        //     price: 5.00,
+        //     total_price: 500.00
+        //   },
+        //   {
+        //     name: 'Bitcoin',
+        //     address: 'aaaaaaaaaaaaa',
+        //     number: 100.00,
+        //     price: 5.00,
+        //     total_price: 500.00
+        //   }
+        // )
         this.addresses = store.get('addresses', [])
         let explorers = {
           bitcore: 'http://51.15.78.208:3001/ext/getbalance/$addr',
@@ -117,8 +118,10 @@
 .q-card
   margin-left 0px
   margin-right 0px
-.q-item-main
-  font-size 22px
+.q-card-main
+  font-size 20px
+.address
+  font-size: 16px
 .coin-name
   font-size 18px
 </style>
