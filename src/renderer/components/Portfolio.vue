@@ -2,7 +2,7 @@
 .portfolio
   h1.text-center Portfolio
   q-list.bg-white(separator)
-    q-item(multiline v-for="(coin, index) in portfolio")
+    q-item(multiline v-for="(coin, index) in portfolio" key="index")
       q-item-main
         .row.md-gutter
           .col-3
@@ -79,9 +79,9 @@
           bitcore: 'http://51.15.78.208:3001/ext/getbalance/$addr',
           bitcoin: 'https://blockexplorer.com/api/addr/$addr/balance'
         }
-        each(this.addresses, async (addresses) => {
+        each(this.addresses, async (addresses, coinName) => {
           let address = addresses.addresses[0].address
-          let coinName = addresses.name.toLowerCase()
+          coinName = coinName.toLowerCase()
 
           let explorerUrl = explorers[coinName].replace('$addr', address)
           let result = await this.$http.get(explorerUrl)

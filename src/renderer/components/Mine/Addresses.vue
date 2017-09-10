@@ -13,7 +13,7 @@
     q-item(v-for="(coin, coinName) in coins" key="coinName")
       q-item-side {{ coinName }}
       q-item-main
-        q-item-tile.row.sm-gutter(v-for="address in coin.addresses")
+        q-item-tile.row.sm-gutter(v-for="address in coin.addresses" key="address.address")
           .col-9
             q-input(
               required="true"
