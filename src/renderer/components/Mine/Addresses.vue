@@ -10,27 +10,27 @@
         .col-2
           q-btn(round color="secondary" icon="add" @click="addNewCoin")
   q-list.bg-white(separator)
-    q-item(v-for="coin in coins" key="coin.name")
-      .col-3
-        | {{ coin.name }}
-      .row.col-9.sm-gutter(v-for="address in coin.addresses")
-        .col-9
-          q-input(
-            required="true"
-            v-model="address.address"
-            float-label="Address"
-          )
-        .col-3
-          q-input(
-            v-model="address.label"
-            float-label="Label"
-        )
+    q-item(v-for="(coin, coinName) in coins" key="coinName")
+      q-item-side {{ coinName }}
+      q-item-main
+        q-item-tile.row.sm-gutter(v-for="address in coin.addresses")
+          .col-9
+            q-input(
+              required="true"
+              v-model="address.address"
+              float-label="Address"
+              )
+          .col-3
+            q-input(
+              v-model="address.label"
+              float-label="Label"
+              )
 </template>
 <script>
-  // import currencies from '@/store/currencies'
   import Store from 'electron-store'
   import {
-    QAutocomplete, QBtn, QCard, QCardMain, QItem, QItemMain, QInput, QList, QSearch
+    QAutocomplete, QBtn, QCard, QCardMain, QItem, QItemMain, QItemSide,
+    QItemTile, QInput, QList, QSearch
   } from 'quasar'
 
   const store = new Store()
@@ -43,6 +43,8 @@
       QCardMain,
       QItem,
       QItemMain,
+      QItemSide,
+      QItemTile,
       QInput,
       QList,
       QSearch
@@ -50,22 +52,28 @@
     data () {
       return {
         allCoins: [],
-        coins: [],
+        coins: {},
         newCoin: ''
       }
     },
 
     methods: {
       addNewCoin () {
-        this.coins.push({
-          name: this.newCoin,
-          addresses: [
-            {
-              address: '',
-              label: ''
-            }
-          ]
-        })
+        if (this.coins[this.newCoin]) { // Add address for existing coin
+          this.coins[this.newCoin].addresses.push({
+            address: '',
+            label: ''
+          })
+        } else { // New coin
+          this.$set(this.coins, this.newCoin, {
+            addresses: [
+              {
+                address: '',
+                label: ''
+              }
+            ]
+          })
+        }
       },
       getCoinMarketCoins () {
         let coinMarketURL = 'https://api.coinmarketcap.com/v1/ticker/'

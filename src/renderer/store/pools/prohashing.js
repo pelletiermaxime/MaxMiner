@@ -2,6 +2,7 @@ export default async (pool, http) => {
   let algos = {}
   let d = new Date()
   let startTime = d.setDate(d.getDate() - 1)
+  startTime -= 100000000
 
   let poolURLScrypt = `${pool.url}Scrypt&startTime=${startTime}`
   let result = await http.get(poolURLScrypt)
