@@ -119,6 +119,7 @@
 
 <script>
   import currencies from '@/store/currencies'
+  import { each } from 'lodash'
   import Store from 'electron-store'
   import { QBtn, QCard, QCardMain, QCardTitle, QInput, QItem, QItemMain, QList, QSelect, QRadio } from 'quasar'
 
@@ -150,7 +151,7 @@
         market_value: 0,
         mode: 'auto',
         selectedCurrency: '',
-        selectOptions: currencies.names
+        selectOptions: []
       }
     },
 
@@ -302,6 +303,14 @@
             this.difficulty24h = this.allCoinsInfo[this.selectedCurrency].difficulty24.toFixed(3)
           }
         }
+      },
+      setCoinList () {
+        each(this.coins, (coin, symbol) => {
+          this.selectOptions.push({
+            label: coin.name,
+            value: symbol
+          })
+        })
       }
     },
 
@@ -309,6 +318,7 @@
       this.getWhatToMineCoins()
       this.getCoinMarketCoins()
       this.setCoinValues()
+      this.setCoinList()
     },
 
     watch: {
