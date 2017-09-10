@@ -3,21 +3,22 @@
   h1.text-center Portfolio
   q-card(v-for="(coin, index) in portfolio" key="index")
     q-card-main.bg-white
-      .row.md-gutter
+      .row
         .col-2
           img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
         .col-4
           .coin-name {{ coin.name }}
-      .row.md-gutter
-        .col-6.address {{ coin.address }}
-        .col-2 {{ coin.number.toFixed(2) }}
         .col-2 {{ coin.price | money }}
+      .row.md-gutter
+        .col-8.address {{ coin.address }}
+        .col-2 {{ coin.number.toFixed(2) }}
         .col-2 {{ coin.total_price | money }}
 </template>
 
 <script>
+  import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { each } from 'lodash'
+  import { each, find, get } from 'lodash'
   import {
     QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem, QItemSide,
     QItemTile, QItemMain, QList
@@ -41,6 +42,7 @@
     data () {
       return {
         addresses: [],
+        coins: currencies.coins,
         portfolio: [],
         store
       }
@@ -59,36 +61,23 @@
 
     methods: {
       setPortfolio () {
-        // this.portfolio.push(
-        //   {
-        //     name: 'Bitcoin',
-        //     address: 'aaaaaaaaaaaaa',
-        //     number: 100.00,
-        //     price: 5.00,
-        //     total_price: 500.00
-        //   },
-        //   {
-        //     name: 'Bitcoin',
-        //     address: 'aaaaaaaaaaaaa',
-        //     number: 100.00,
-        //     price: 5.00,
-        //     total_price: 500.00
-        //   }
-        // )
         this.addresses = store.get('addresses', [])
-        let explorers = {
-          bitcore: 'http://51.15.78.208:3001/ext/getbalance/$addr',
-          bitcoin: 'https://blockexplorer.com/api/addr/$addr/balance'
-        }
         each(this.addresses, async (addresses, coinName) => {
           let address = addresses.addresses[0].address
-          coinName = coinName.toLowerCase()
+          let coinNumber = 0
+          let result
 
-          let explorerUrl = explorers[coinName].replace('$addr', address)
-          let result = await this.$http.get(explorerUrl)
-          let coinNumber = result.data
+          let coinInfo = find(this.coins, ['name', coinName])
+          if (coinInfo.balance_url) {
+            let explorerUrl = coinInfo.balance_url.replace('$addr', address)
+            result = await this.$http.get(explorerUrl)
+            coinNumber = result.data
+            if (coinInfo.balance_path) {
+              coinNumber = get(coinNumber, coinInfo.balance_path)
+            }
+          }
 
-          let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinName}`
+          let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinInfo.coinMarketCapName}`
           result = await this.$http.get(coinMarketCapURL)
           let coinPrice = result.data[0].price_usd
 
@@ -99,6 +88,13 @@
             price: coinPrice,
             total_price: coinNumber * coinPrice
           })
+          // this.portfolio.push({
+          //   name: coinName,
+          //   address: address,
+          //   number: coinNumber,
+          //   price: 1,
+          //   total_price: 999
+          // })
         })
       }
     },
