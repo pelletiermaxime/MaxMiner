@@ -64,6 +64,8 @@ export default {
     },
     LTC: {
       algo: 'scrypt',
+      balance_path: 'data.confirmed_balance',
+      balance_url: 'https://chain.so/api/v2/get_address_balance/LTC/$addr',
       coinMarketCapName: 'litecoin',
       default_hash_rate_mhs: 100.0,
       name: 'Litecoin',

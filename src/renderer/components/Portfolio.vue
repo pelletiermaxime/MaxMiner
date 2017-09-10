@@ -77,6 +77,8 @@
             }
           }
 
+          coinNumber = parseFloat(coinNumber)
+
           let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinInfo.coinMarketCapName}`
           result = await this.$http.get(coinMarketCapURL)
           let coinPrice = result.data[0].price_usd
