@@ -109,13 +109,6 @@
             price: coinPrice,
             total_price: coinNumber * coinPrice
           })
-          // this.portfolio.push({
-          //   name: coinName,
-          //   address: address,
-          //   number: coinNumber,
-          //   price: 1,
-          //   total_price: 999
-          // })
         })
       }
     },
