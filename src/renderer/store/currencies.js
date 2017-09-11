@@ -74,6 +74,7 @@ export default {
     },
     SIGT: {
       algo: 'skunk',
+      balance_url: 'http://explorer.signatum.download/ext/getbalance/$addr',
       coinMarketCapName: 'signatum',
       default_hash_rate_mhs: 50.0,
       name: 'Signatum',
