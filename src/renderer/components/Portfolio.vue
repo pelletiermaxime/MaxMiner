@@ -60,6 +60,25 @@
     },
 
     methods: {
+      async getCoinNumber (coinInfo, address) {
+        let coinNumber = 0
+        let storePath = `coinNumber.${coinInfo.name}`
+        if (store.has(storePath)) {
+          coinNumber = store.get(storePath)
+        } else {
+          if (coinInfo.balance_url) {
+            let explorerUrl = coinInfo.balance_url.replace('$addr', address)
+            let result = await this.$http.get(explorerUrl)
+            coinNumber = result.data
+            if (coinInfo.balance_path) {
+              coinNumber = get(coinNumber, coinInfo.balance_path)
+            }
+            store.set(storePath, coinNumber)
+          }
+        }
+
+        return parseFloat(coinNumber)
+      },
       async getCoinPrice (coinInfo) {
         let coinPrice = 0
         let storePath = `coinPrice.${coinInfo.name}`
@@ -79,21 +98,8 @@
 
         each(this.addresses, async (addresses, coinName) => {
           let address = addresses.addresses[0].address
-          let coinNumber = 0
-          let result
           let coinInfo = find(this.coins, ['name', coinName])
-
-          if (coinInfo.balance_url) {
-            let explorerUrl = coinInfo.balance_url.replace('$addr', address)
-            result = await this.$http.get(explorerUrl)
-            coinNumber = result.data
-            if (coinInfo.balance_path) {
-              coinNumber = get(coinNumber, coinInfo.balance_path)
-            }
-          }
-
-          coinNumber = parseFloat(coinNumber)
-
+          let coinNumber = await this.getCoinNumber(coinInfo, address)
           let coinPrice = await this.getCoinPrice(coinInfo)
 
           this.portfolio.push({
