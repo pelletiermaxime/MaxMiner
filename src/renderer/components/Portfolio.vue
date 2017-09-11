@@ -9,10 +9,10 @@
         .col-4
           .coin-name {{ coin.name }}
         .col-2 {{ coin.price | money }}
-      .row.md-gutter
-        .col-8.address {{ coin.address }}
-        .col-2 {{ coin.number.toFixed(2) }}
-        .col-2 {{ coin.total_price | money }}
+      .row.md-gutter(v-for="address in coin.coinAddresses")
+        .col-8.address {{ address.address }}
+        .col-2 {{ address.number.toFixed(2) }}
+        .col-2 {{ address.total_price | money }}
 </template>
 
 <script>
@@ -62,7 +62,7 @@
     methods: {
       async getCoinNumber (coinInfo, address) {
         let coinNumber = 0
-        let storePath = `coinNumber.${coinInfo.name}`
+        let storePath = `coinNumber.${coinInfo.name}.${address}`
         if (store.has(storePath)) {
           coinNumber = store.get(storePath)
         } else {
@@ -97,17 +97,25 @@
         this.addresses = store.get('addresses', [])
 
         each(this.addresses, async (addresses, coinName) => {
-          let address = addresses.addresses[0].address
           let coinInfo = find(this.coins, ['name', coinName])
-          let coinNumber = await this.getCoinNumber(coinInfo, address)
+
+          let coinAddresses = []
           let coinPrice = await this.getCoinPrice(coinInfo)
+
+          each(addresses.addresses, async (address) => {
+            address = address.address
+            let coinNumber = await this.getCoinNumber(coinInfo, address)
+            coinAddresses.push({
+              address: address,
+              number: coinNumber,
+              total_price: coinNumber * coinPrice
+            })
+          })
 
           this.portfolio.push({
             name: coinName,
-            address: address,
-            number: coinNumber,
             price: coinPrice,
-            total_price: coinNumber * coinPrice
+            coinAddresses: coinAddresses
           })
         })
       }
