@@ -1,14 +1,16 @@
 <template lang="pug">
 .portfolio
   h1.text-center Portfolio
-  q-card(v-for="(coin, index) in portfolio" key="index")
+  q-card(v-for="(coin, index) in sortByCoinName(portfolio)" key="index")
     q-card-main.bg-white
       .row
         .col-2
           img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
         .col-4
           .coin-name {{ coin.name }}
-        .col-2 {{ coin.price | money }}
+        .col-5 {{ coin.price | money }}
+        .col-1.refresh
+          q-btn(icon="refresh" color="secondary" small round @click="refreshCoin(coin.name)")
       .row.md-gutter(v-for="address in coin.coinAddresses")
         .col-8.address {{ address.address }}
         .col-2 {{ address.number.toFixed(2) }}
@@ -18,15 +20,16 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { each, find, get } from 'lodash'
+  import { each, find, get, sortBy } from 'lodash'
   import {
-    QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem, QItemSide,
-    QItemTile, QItemMain, QList
+    QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
+    QItemSide, QItemTile, QItemMain, QList
   } from 'quasar'
   const store = new Store()
 
   export default {
     components: {
+      QBtn,
       QCard,
       QCardMain,
       QCheckbox,
@@ -93,6 +96,12 @@
 
         return coinPrice
       },
+      refreshCoin (coinName) {
+        store.delete(`coinNumber.${coinName}`)
+        store.delete(`coinPrice.${coinName}`)
+        this.setPortfolio()
+        this.portfolio = []
+      },
       setPortfolio () {
         this.addresses = store.get('addresses', [])
 
@@ -118,6 +127,9 @@
             coinAddresses: coinAddresses
           })
         })
+      },
+      sortByCoinName (coins) {
+        return sortBy(coins, ['name'])
       }
     },
 
@@ -142,4 +154,8 @@
   font-size: 16px
 .coin-name
   font-size 18px
+.refresh
+  button
+    height 20px
+    width 27px
 </style>
