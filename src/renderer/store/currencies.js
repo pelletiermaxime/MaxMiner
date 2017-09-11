@@ -2,6 +2,7 @@ export default {
   coins: {
     BCC: {
       algo: 'scrypt',
+      balance_url: 'https://www.blockexperts.com/api?coin=bcc&action=getbalance&address=$addr',
       coinMarketCapName: 'bitconnect',
       default_hash_rate_mhs: 100,
       cryptoid: 'bcc',
@@ -16,6 +17,7 @@ export default {
     },
     BTC: {
       algo: 'sha256',
+      balance_url: 'https://blockexplorer.com/api/addr/$addr/balance',
       coinMarketCapName: 'bitcoin',
       default_hash_rate_mhs: 14000000,
       name: 'Bitcoin',
@@ -24,12 +26,14 @@ export default {
     BTX: {
       algo: 'bitcore',
       coinMarketCapName: 'bitcore',
+      balance_url: 'http://51.15.78.208:3001/ext/getbalance/$addr',
       default_hash_rate_mhs: 30,
       cryptoid: 'btx',
       name: 'Bitcore'
     },
     DNR: {
       algo: 'tribus',
+      balance_url: 'http://denarius.name/ext/getbalance/$addr',
       coinMarketCapName: 'denarius-dnr',
       cryptoid: 'dnr',
       default_hash_rate_mhs: 100.0,
@@ -45,6 +49,8 @@ export default {
     },
     ETH: {
       algo: 'daggerhashimoto',
+      balance_path: 'ETH.balance',
+      balance_url: 'https://api.ethplorer.io/getAddressInfo/$addr?apiKey=freekey',
       coinMarketCapName: 'ethereum',
       default_hash_rate_mhs: 30.0,
       name: 'Ethereum',
@@ -59,6 +65,8 @@ export default {
     },
     LTC: {
       algo: 'scrypt',
+      balance_path: 'data.confirmed_balance',
+      balance_url: 'https://chain.so/api/v2/get_address_balance/LTC/$addr',
       coinMarketCapName: 'litecoin',
       default_hash_rate_mhs: 100.0,
       name: 'Litecoin',
