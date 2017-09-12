@@ -20,15 +20,17 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { each, find, get, sortBy } from 'lodash'
+  import { each, find, get, pickBy, sortBy } from 'lodash'
   import {
     QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
     QItemSide, QItemTile, QItemMain, QList
   } from 'quasar'
-  import Cryptopia from 'cryptopia.js'
+  import ccxt from 'ccxt'
 
-  const cryptopia = new Cryptopia(
-  )
+  const bittrex = new ccxt.bittrex({  // eslint-disable-line new-cap
+  })
+  const cryptopia = new ccxt.cryptopia({  // eslint-disable-line new-cap
+  })
   const store = new Store()
 
   export default {
@@ -107,14 +109,20 @@
         this.portfolio = []
       },
       async setMarkets () {
-        let result = await cryptopia.GetBalance()
-        let results = result.data
-        // let result = await cryptopia.GetMarket('DOT_BTC', 12)
-        console.log(results)
-        results = results.filter((result) => {
-          return result.Total !== 0
+        let resultsB = await bittrex.fetchBalance()
+        let resultsC = await cryptopia.fetchBalance()
+
+        delete resultsB.info
+        delete resultsC.info
+        // console.log(results)
+        resultsB = pickBy(resultsB, (result) => {
+          return result.total !== 0
         })
-        console.log(results)
+        resultsC = pickBy(resultsC, (result) => {
+          return result.total !== 0
+        })
+        console.log(resultsB)
+        console.log(resultsC)
       },
       setPortfolio () {
         this.addresses = store.get('addresses', [])
