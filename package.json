@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "cryptopia.js": "^1.0.0",
+    "ccxt": "^1.6.92",
     "decompress": "^4.2.0",
     "electron-store": "^1.2.0",
     "material-design-icons": "^3.0.1",
