@@ -25,6 +25,10 @@
     QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
     QItemSide, QItemTile, QItemMain, QList
   } from 'quasar'
+  import Cryptopia from 'cryptopia.js'
+
+  const cryptopia = new Cryptopia(
+  )
   const store = new Store()
 
   export default {
@@ -102,6 +106,16 @@
         this.setPortfolio()
         this.portfolio = []
       },
+      async setMarkets () {
+        let result = await cryptopia.GetBalance()
+        let results = result.data
+        // let result = await cryptopia.GetMarket('DOT_BTC', 12)
+        console.log(results)
+        results = results.filter((result) => {
+          return result.Total !== 0
+        })
+        console.log(results)
+      },
       setPortfolio () {
         this.addresses = store.get('addresses', [])
 
@@ -138,6 +152,7 @@
 
     mounted () {
       this.setPortfolio()
+      this.setMarkets()
     }
   }
 </script>
