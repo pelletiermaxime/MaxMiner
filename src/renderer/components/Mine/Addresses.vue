@@ -93,7 +93,7 @@
 
     mounted () {
       this.getCoinMarketCoins()
-      this.coins = store.get('addresses', [])
+      this.coins = store.get('addresses', {})
     },
 
     watch: {
