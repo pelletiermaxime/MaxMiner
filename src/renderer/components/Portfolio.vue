@@ -8,13 +8,13 @@
           img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
         .col-4
           .coin-name {{ coin.name }}
-        .col-5 {{ coin.price | money }}
+        .col-5 {{ allCoinPrices[coin.name] | money }}
         .col-1.refresh
           q-btn(icon="refresh" color="secondary" small round @click="refreshCoin(coin.name)")
       .row.md-gutter(v-for="address in coin.coinAddresses")
         .col-8.address {{ address.address }}
         .col-2 {{ address.number.toFixed(2) }}
-        .col-2 {{ address.total_price | money }}
+        .col-2 {{allCoinPrices[coin.name] * address.number | money }}
 </template>
 
 <script>
@@ -51,6 +51,7 @@
     data () {
       return {
         addresses: [],
+        allCoinPrices: {},
         coins: currencies.coins,
         portfolio: [],
         store
@@ -88,25 +89,10 @@
 
         return parseFloat(coinNumber)
       },
-      async getCoinPrice (coinInfo) {
-        let coinPrice = 0
-        let storePath = `coinPrice.${coinInfo.name}`
-        if (store.has(storePath)) {
-          coinPrice = store.get(storePath)
-        } else {
-          let coinMarketCapURL = `https://api.coinmarketcap.com/v1/ticker/${coinInfo.coinMarketCapName}`
-          let result = await this.$http.get(coinMarketCapURL)
-          coinPrice = result.data[0].price_usd
-          store.set(storePath, coinPrice)
-        }
-
-        return coinPrice
-      },
       refreshCoin (coinName) {
         store.delete(`coinNumber.${coinName}`)
-        store.delete(`coinPrice.${coinName}`)
-        this.setPortfolio()
         this.portfolio = []
+        this.setPortfolio()
       },
       async setMarkets () {
         let resultsB = await bittrex.fetchBalance()
@@ -124,6 +110,14 @@
         console.log(resultsB)
         console.log(resultsC)
       },
+      async setAllCoinPrices () {
+        let coinMarketCapURL = 'https://api.coinmarketcap.com/v1/ticker/'
+        let result = await this.$http.get(coinMarketCapURL)
+
+        each(result.data, (coin) => {
+          this.$set(this.allCoinPrices, coin.name, coin.price_usd)
+        })
+      },
       setPortfolio () {
         this.addresses = store.get('addresses', [])
 
@@ -131,21 +125,18 @@
           let coinInfo = find(this.coins, ['name', coinName])
 
           let coinAddresses = []
-          let coinPrice = await this.getCoinPrice(coinInfo)
 
           each(addresses.addresses, async (address) => {
             address = address.address
             let coinNumber = await this.getCoinNumber(coinInfo, address)
             coinAddresses.push({
               address: address,
-              number: coinNumber,
-              total_price: coinNumber * coinPrice
+              number: coinNumber
             })
           })
 
           this.portfolio.push({
             name: coinName,
-            price: coinPrice,
             coinAddresses: coinAddresses
           })
         })
@@ -159,8 +150,10 @@
     },
 
     mounted () {
+      this.setAllCoinPrices()
       this.setPortfolio()
-      this.setMarkets()
+      // console.log(ccxt.exchanges)
+      // this.setMarkets()
     }
   }
 </script>
