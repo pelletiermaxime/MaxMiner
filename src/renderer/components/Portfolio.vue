@@ -1,6 +1,24 @@
 <template lang="pug">
 .portfolio
   h1.text-center Portfolio
+  q-card
+    q-card-main
+      q-input(
+        v-model="market_api.bittrex.key"
+        stack-label="Bittrex key"
+        )
+      q-input(
+        v-model="market_api.bittrex.secret"
+        stack-label="Bittrex secret"
+        )
+      q-input(
+        v-model="market_api.cryptopia.key"
+        stack-label="Cryptopia key"
+        )
+      q-input(
+        v-model="market_api.cryptopia.secret"
+        stack-label="Cryptopia secret"
+        )
   q-card(v-for="(coin, index) in sortByCoinName(portfolio)" key="index")
     q-card-main.bg-white
       .row
@@ -27,10 +45,8 @@
   } from 'quasar'
   import ccxt from 'ccxt'
 
-  const bittrex = new ccxt.bittrex({  // eslint-disable-line new-cap
-  })
-  const cryptopia = new ccxt.cryptopia({  // eslint-disable-line new-cap
-  })
+  const bittrex = new ccxt.bittrex({})  // eslint-disable-line new-cap
+  const cryptopia = new ccxt.cryptopia({})  // eslint-disable-line new-cap
   const store = new Store()
 
   export default {
@@ -53,6 +69,16 @@
         addresses: [],
         allCoinPrices: {},
         coins: currencies.coins,
+        market_api: {
+          bittrex: {
+            key: '',
+            secret: ''
+          },
+          cryptopia: {
+            key: '',
+            secret: ''
+          }
+        },
         portfolio: [],
         store
       }
@@ -95,6 +121,13 @@
         this.setPortfolio()
       },
       async setMarkets () {
+        if (store.has('settings.market_api')) {
+          this.market_api = store.get('settings.market_api')
+        }
+        bittrex.apiKey = this.market_api.bittrex.key
+        bittrex.secret = this.market_api.bittrex.secret
+        cryptopia.apiKey = this.market_api.cryptopia.key
+        cryptopia.secret = this.market_api.cryptopia.secret
         let resultsB = await bittrex.fetchBalance()
         let resultsC = await cryptopia.fetchBalance()
 
@@ -147,13 +180,20 @@
     },
 
     watch: {
+      market_api: {
+        handler (apiConfig) {
+          store.set('settings.market_api', apiConfig)
+          // console.log(apiConfig)
+        },
+        deep: true
+      }
     },
 
     mounted () {
       this.setAllCoinPrices()
-      this.setPortfolio()
+      // this.setPortfolio()
       // console.log(ccxt.exchanges)
-      // this.setMarkets()
+      this.setMarkets()
     }
   }
 </script>
