@@ -3,22 +3,23 @@
   h1.text-center Portfolio
   q-card
     q-card-main
-      q-input(
-        v-model="market_api.bittrex.key"
-        stack-label="Bittrex key"
-        )
-      q-input(
-        v-model="market_api.bittrex.secret"
-        stack-label="Bittrex secret"
-        )
-      q-input(
-        v-model="market_api.cryptopia.key"
-        stack-label="Cryptopia key"
-        )
-      q-input(
-        v-model="market_api.cryptopia.secret"
-        stack-label="Cryptopia secret"
-        )
+      .row.xl-gutter
+        .col-6
+          q-search(v-model="newMarket" placeholder="Add a new market")
+            q-autocomplete(:static-data="{field: 'value', list: allMarkets}")
+        .col-2
+          q-btn(round color="secondary" icon="add" @click="addNewMarket")
+      .row(v-for="(market, marketName) in markets")
+        .col-5
+          q-input(
+            v-model="market_api[marketName].key"
+            :stack-label="market.name + ' key'"
+            )
+        .col-7
+          q-input(
+            v-model="market_api[marketName].secret"
+            :stack-label="market.name + ' secret'"
+            )
   q-card(v-for="(coin, index) in sortByCoinName(portfolio)" key="index")
     q-card-main.bg-white
       .row
@@ -38,19 +39,19 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { each, find, get, pickBy, sortBy } from 'lodash'
+  // import { each, find, get, pickBy, sortBy } from 'lodash'
+  import { each, find, get, map, sortBy } from 'lodash'
   import {
-    QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
-    QItemSide, QItemTile, QItemMain, QList
+    QAutocomplete, QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
+    QItemSide, QItemTile, QItemMain, QList, QSearch
   } from 'quasar'
   import ccxt from 'ccxt'
 
-  const bittrex = new ccxt.bittrex({})  // eslint-disable-line new-cap
-  const cryptopia = new ccxt.cryptopia({})  // eslint-disable-line new-cap
   const store = new Store()
 
   export default {
     components: {
+      QAutocomplete,
       QBtn,
       QCard,
       QCardMain,
@@ -61,14 +62,17 @@
       QItemTile,
       QItemMain,
       QItemSide,
-      QList
+      QList,
+      QSearch
     },
 
     data () {
       return {
         addresses: [],
         allCoinPrices: {},
+        allMarkets: {},
         coins: currencies.coins,
+        markets: {},
         market_api: {
           bittrex: {
             key: '',
@@ -79,6 +83,7 @@
             secret: ''
           }
         },
+        newMarket: '',
         portfolio: [],
         store
       }
@@ -96,6 +101,13 @@
     },
 
     methods: {
+      addNewMarket () {
+        this.$set(this.market_api, this.newMarket, {
+          key: '',
+          secret: ''
+        })
+        this.setMarkets()
+      },
       async getCoinNumber (coinInfo, address) {
         let coinNumber = 0
         let storePath = `coinNumber.${coinInfo.name}.${address}`
@@ -121,27 +133,27 @@
         this.setPortfolio()
       },
       async setMarkets () {
-        if (store.has('settings.market_api')) {
-          this.market_api = store.get('settings.market_api')
-        }
-        bittrex.apiKey = this.market_api.bittrex.key
-        bittrex.secret = this.market_api.bittrex.secret
-        cryptopia.apiKey = this.market_api.cryptopia.key
-        cryptopia.secret = this.market_api.cryptopia.secret
-        let resultsB = await bittrex.fetchBalance()
-        let resultsC = await cryptopia.fetchBalance()
+        let newMarket
+        each(this.market_api, (market, marketName) => {
+          newMarket = new ccxt[marketName]()
+          newMarket.apiKey = market.key
+          newMarket.secret = market.secret
+          this.$set(this.markets, marketName, newMarket)
+        })
+        // let resultsB = await bittrex.fetchBalance()
+        // let resultsC = await cryptopia.fetchBalance()
 
-        delete resultsB.info
-        delete resultsC.info
-        // console.log(results)
-        resultsB = pickBy(resultsB, (result) => {
-          return result.total !== 0
-        })
-        resultsC = pickBy(resultsC, (result) => {
-          return result.total !== 0
-        })
-        console.log(resultsB)
-        console.log(resultsC)
+        // delete resultsB.info
+        // delete resultsC.info
+        // // console.log(results)
+        // resultsB = pickBy(resultsB, (result) => {
+        //   return result.total !== 0
+        // })
+        // resultsC = pickBy(resultsC, (result) => {
+        //   return result.total !== 0
+        // })
+        // console.log(resultsB)
+        // console.log(resultsC)
       },
       async setAllCoinPrices () {
         let coinMarketCapURL = 'https://api.coinmarketcap.com/v1/ticker/'
@@ -190,9 +202,18 @@
     },
 
     mounted () {
+      if (store.has('settings.market_api')) {
+        this.market_api = store.get('settings.market_api')
+      }
       this.setAllCoinPrices()
       // this.setPortfolio()
       // console.log(ccxt.exchanges)
+      this.allMarkets = map(ccxt.exchanges, (exchange) => {
+        return {
+          label: exchange,
+          value: exchange
+        }
+      })
       this.setMarkets()
     }
   }
