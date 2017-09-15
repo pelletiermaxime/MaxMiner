@@ -20,6 +20,19 @@
             v-model="market_api[marketName].secret"
             :stack-label="market.name + ' secret'"
             )
+  q-card(v-for="(market, index) in marketPortfolio" key="index")
+    q-card-main.bg-white
+      .row
+        .col-2
+          img(:src="markets[market.name].urls.logo")
+        .col-4
+          .coin-name {{ markets[market.name].name }}
+        //- .col-1.refresh
+          q-btn(icon="refresh" color="secondary" small round @click="refreshCoin(coin.name)")
+      .row.md-gutter(v-for="(coinBalance, coinName) in market.coinsBalance")
+        .col-8.address {{ coinName }}
+        .col-2 {{ coinBalance.total.toFixed(3) }}
+        .col-2 {{allCoinSymbolPrices[coinName] * coinBalance.total | money }}
   q-card(v-for="(coin, index) in sortByCoinName(portfolio)" key="index")
     q-card-main.bg-white
       .row
@@ -39,8 +52,7 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  // import { each, find, get, pickBy, sortBy } from 'lodash'
-  import { each, find, get, map, sortBy } from 'lodash'
+  import { each, find, get, pickBy, map, sortBy } from 'lodash'
   import {
     QAutocomplete, QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
     QItemSide, QItemTile, QItemMain, QList, QSearch
@@ -70,6 +82,7 @@
       return {
         addresses: [],
         allCoinPrices: {},
+        allCoinSymbolPrices: {},
         allMarkets: {},
         coins: currencies.coins,
         markets: {},
@@ -83,6 +96,7 @@
             secret: ''
           }
         },
+        marketPortfolio: [],
         newMarket: '',
         portfolio: [],
         store
@@ -134,26 +148,23 @@
       },
       async setMarkets () {
         let newMarket
-        each(this.market_api, (market, marketName) => {
+        each(this.market_api, async (market, marketName) => {
           newMarket = new ccxt[marketName]()
           newMarket.apiKey = market.key
           newMarket.secret = market.secret
           this.$set(this.markets, marketName, newMarket)
+          if (newMarket.apiKey && newMarket.secret) {
+            let balance = await newMarket.fetchBalance()
+            delete balance.info
+            balance = pickBy(balance, (result) => {
+              return result.total !== 0
+            })
+            this.marketPortfolio.push({
+              name: marketName,
+              coinsBalance: balance
+            })
+          }
         })
-        // let resultsB = await bittrex.fetchBalance()
-        // let resultsC = await cryptopia.fetchBalance()
-
-        // delete resultsB.info
-        // delete resultsC.info
-        // // console.log(results)
-        // resultsB = pickBy(resultsB, (result) => {
-        //   return result.total !== 0
-        // })
-        // resultsC = pickBy(resultsC, (result) => {
-        //   return result.total !== 0
-        // })
-        // console.log(resultsB)
-        // console.log(resultsC)
       },
       async setAllCoinPrices () {
         let coinMarketCapURL = 'https://api.coinmarketcap.com/v1/ticker/'
@@ -161,6 +172,7 @@
 
         each(result.data, (coin) => {
           this.$set(this.allCoinPrices, coin.name, coin.price_usd)
+          this.$set(this.allCoinSymbolPrices, coin.symbol, coin.price_usd)
         })
       },
       setPortfolio () {
@@ -206,7 +218,7 @@
         this.market_api = store.get('settings.market_api')
       }
       this.setAllCoinPrices()
-      // this.setPortfolio()
+      this.setPortfolio()
       // console.log(ccxt.exchanges)
       this.allMarkets = map(ccxt.exchanges, (exchange) => {
         return {
