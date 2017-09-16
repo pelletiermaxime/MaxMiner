@@ -16,21 +16,21 @@ export default new Router({
       component: require('@/components/Mine'),
       children: [
         {
+          name: 'mine-index',
+          path: 'index',
+          component: require('@/components/Mine/Index')
+        },
+        {
           name: 'mine-benchmark',
           path: 'benchmark',
           component: require('@/components/Mine/Benchmark')
         },
         {
-          name: 'mine-index',
-          path: 'index',
-          component: require('@/components/Mine/Index')
+          name: 'mine-miners',
+          path: 'miners',
+          component: require('@/components/Mine/Miners')
         }
       ]
-    },
-    {
-      name: 'miners',
-      path: '/miners',
-      component: require('@/components/Miners')
     },
     {
       name: 'algos',
