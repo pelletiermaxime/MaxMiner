@@ -29,32 +29,32 @@ export default new Router({
           name: 'mine-miners',
           path: 'miners',
           component: require('@/components/Mine/Miners')
+        },
+        {
+          name: 'mine-algos',
+          path: 'algos',
+          component: require('@/components/Mine/Algos')
         }
       ]
     },
     {
-      name: 'algos',
-      path: '/algos',
-      component: require('@/components/Algos')
-    },
-    {
       name: 'pools',
-      path: '/pools',
+      path: 'pools',
       component: require('@/components/Pools')
     },
     {
       name: 'profits',
-      path: '/profit-calculator',
+      path: 'profit-calculator',
       component: require('@/components/Profits')
     },
     {
       name: 'portfolio',
-      path: '/portfolio',
+      path: 'portfolio',
       component: require('@/components/Portfolio')
     },
     {
       name: 'settings',
-      path: '/settings',
+      path: 'settings',
       component: require('@/components/Settings'),
       children: [
         {

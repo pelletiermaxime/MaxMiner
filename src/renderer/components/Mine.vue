@@ -10,6 +10,8 @@ q-layout(ref="layout")
       q-item-main(label="Benchmark", sublabel="Benchmark miners")
     q-side-link(item, to="/mine/miners")
       q-item-main(label="Miners", sublabel="Download and setup miners")
+    q-side-link(item, to="/mine/algos")
+      q-item-main(label="Algos", sublabel="Manually enter algos speed")
   router-view.layout-view
 </template>
 <script>

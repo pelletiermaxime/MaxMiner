@@ -1,6 +1,6 @@
 <template lang="pug">
 .algos
-  h1.text-center Algos
+  h1.text-center Mine - Algos
   q-card
     q-card-main.bg-white
       .row
