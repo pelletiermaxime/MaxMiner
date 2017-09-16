@@ -11,7 +11,9 @@
           q-btn(round color="secondary" icon="add" @click="addNewCoin")
   q-list.bg-white(separator)
     q-item(v-for="(coin, coinName) in coins" key="coinName")
-      q-item-side {{ coinName }}
+      q-item-side
+        img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coinName.toLowerCase() + '.png'")
+        | {{ coinName }}
       q-item-main
         q-item-tile.row.sm-gutter(v-for="address in coin.addresses" key="address.address")
           .col-9
