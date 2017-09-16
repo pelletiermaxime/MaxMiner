@@ -1,6 +1,6 @@
 <template lang="pug">
-.mine-addresses
-  h1.text-center Mine - Addresses
+.settings-addresses
+  h1.text-center Settings - Addresses
   q-card
     q-card-main.bg-white
       .row.xl-gutter
@@ -108,7 +108,7 @@
   }
 </script>
 <style lang="stylus" scoped>
-.mine-addresses
+.settings-addresses
   padding 1.5rem 2rem
 .q-card
   margin-left 0px

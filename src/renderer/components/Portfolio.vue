@@ -1,25 +1,6 @@
 <template lang="pug">
 .portfolio
   h1.text-center Portfolio
-  q-card
-    q-card-main
-      .row.xl-gutter
-        .col-6
-          q-search(v-model="newMarket" placeholder="Add a new market")
-            q-autocomplete(:static-data="{field: 'value', list: allMarkets}")
-        .col-2
-          q-btn(round color="secondary" icon="add" @click="addNewMarket")
-      .row(v-for="(market, marketName) in markets")
-        .col-5
-          q-input(
-            v-model="market_api[marketName].key"
-            :stack-label="market.name + ' key'"
-            )
-        .col-7
-          q-input(
-            v-model="market_api[marketName].secret"
-            :stack-label="market.name + ' secret'"
-            )
   q-card(v-for="(market, index) in marketPortfolio" key="index")
     q-card-main.bg-white
       .row
@@ -52,7 +33,7 @@
 <script>
   import currencies from '@/store/currencies'
   import Store from 'electron-store'
-  import { each, find, get, pickBy, map, sortBy } from 'lodash'
+  import { each, find, get, pickBy, sortBy } from 'lodash'
   import {
     QAutocomplete, QBtn, QCard, QCardMain, QCheckbox, QCollapsible, QInput, QItem,
     QItemSide, QItemTile, QItemMain, QList, QSearch
@@ -83,21 +64,10 @@
         addresses: [],
         allCoinPrices: {},
         allCoinSymbolPrices: {},
-        allMarkets: {},
         coins: currencies.coins,
         markets: {},
-        market_api: {
-          bittrex: {
-            key: '',
-            secret: ''
-          },
-          cryptopia: {
-            key: '',
-            secret: ''
-          }
-        },
+        market_api: {},
         marketPortfolio: [],
-        newMarket: '',
         portfolio: [],
         store
       }
@@ -115,13 +85,6 @@
     },
 
     methods: {
-      addNewMarket () {
-        this.$set(this.market_api, this.newMarket, {
-          key: '',
-          secret: ''
-        })
-        this.setMarkets()
-      },
       async getCoinNumber (coinInfo, address) {
         let coinNumber = 0
         let storePath = `coinNumber.${coinInfo.name}.${address}`
@@ -207,7 +170,6 @@
       market_api: {
         handler (apiConfig) {
           store.set('settings.market_api', apiConfig)
-          // console.log(apiConfig)
         },
         deep: true
       }
@@ -219,13 +181,6 @@
       }
       this.setAllCoinPrices()
       this.setPortfolio()
-      // console.log(ccxt.exchanges)
-      this.allMarkets = map(ccxt.exchanges, (exchange) => {
-        return {
-          label: exchange,
-          value: exchange
-        }
-      })
       this.setMarkets()
     }
   }

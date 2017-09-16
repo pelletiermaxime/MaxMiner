@@ -16,11 +16,6 @@ export default new Router({
       component: require('@/components/Mine'),
       children: [
         {
-          name: 'mine-addresses',
-          path: 'addresses',
-          component: require('@/components/Mine/Addresses')
-        },
-        {
           name: 'mine-benchmark',
           path: 'benchmark',
           component: require('@/components/Mine/Benchmark')
@@ -56,6 +51,28 @@ export default new Router({
       name: 'portfolio',
       path: '/portfolio',
       component: require('@/components/Portfolio')
+    },
+    {
+      name: 'settings',
+      path: '/settings',
+      component: require('@/components/Settings'),
+      children: [
+        {
+          name: 'settings-addresses',
+          path: 'addresses',
+          component: require('@/components/Settings/Addresses')
+        },
+        {
+          name: 'settings-markets',
+          path: 'markets',
+          component: require('@/components/Settings/Markets')
+        },
+        {
+          name: 'settings-index',
+          path: 'index',
+          component: require('@/components/Settings/Index')
+        }
+      ]
     },
     {
       path: '*',
