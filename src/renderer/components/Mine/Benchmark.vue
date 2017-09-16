@@ -17,7 +17,6 @@
             td Ccminer {{ algosSpeed[algoName] }} MH / S
 </template>
 <script>
-  // import Store from 'electron-store'
   import algos from '@/store/algos'
   import { pickBy } from 'lodash'
   import {
@@ -28,12 +27,6 @@
   import path from 'path'
 
   const { exec } = require('child_process')
-
-  // const store = new Store()
-
-  // function sleep (time) {
-  //   return new Promise((resolve) => setTimeout(resolve, time))
-  // }
 
   export default {
     components: {

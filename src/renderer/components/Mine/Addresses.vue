@@ -49,6 +49,7 @@
       QList,
       QSearch
     },
+
     data () {
       return {
         allCoins: [],

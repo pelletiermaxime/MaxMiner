@@ -32,7 +32,6 @@
               q-input(v-model="algoSpeed")
 
 </template>
-
 <script>
   import algos from '@/store/algos'
   import Store from 'electron-store'
@@ -105,7 +104,6 @@
     }
   }
 </script>
-
 <style lang="stylus" scoped>
 .algos
   padding 1.5rem 2rem

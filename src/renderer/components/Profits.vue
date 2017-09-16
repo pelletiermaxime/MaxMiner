@@ -116,7 +116,6 @@
         td(v-if="difficulty100b != 0") {{ reward_money_daily100b | dailyToYearly | roundMoney }}
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToYearly | roundMoney }}
 </template>
-
 <script>
   import currencies from '@/store/currencies'
   import { each } from 'lodash'
@@ -338,7 +337,6 @@
     }
   }
 </script>
-
 <style lang="stylus" scoped>
 .profits
   padding 1.5rem 2rem

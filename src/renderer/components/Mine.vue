@@ -13,27 +13,20 @@ q-layout(ref="layout")
   router-view.layout-view
 </template>
 <script>
-  // import currencies from '@/store/currencies'
-  // import Store from 'electron-store'
   import {
-    QBtn, QCard, QCardMain, QIcon, QItemMain, QItemSide,
-    QLayout, QSideLink, QToolbar
+    QBtn, QIcon, QItemMain, QLayout, QSideLink, QToolbar
   } from 'quasar'
-
-  // const store = new Store()
 
   export default {
     components: {
       QBtn,
-      QCard,
-      QCardMain,
       QIcon,
       QItemMain,
-      QItemSide,
       QLayout,
       QSideLink,
       QToolbar
     },
+
     data () {
       return {
         allCoinsInfo: {}

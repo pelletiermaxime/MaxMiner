@@ -29,7 +29,7 @@
             :options="miners"
             float-label="Miner"
           )
-  q-card
+  q-card(v-if="miner_command")
     q-card-main.bg-white
       .row.
         {{ miner_command }}
@@ -39,8 +39,7 @@
   import { each, map } from 'lodash'
   import * as pools from '@/store/pools'
   import {
-    QBtn, QCard, QCardMain, QIcon, QItemMain, QItemSide,
-    QLayout, QSelect, QSideLink, QToolbar
+    QCard, QCardMain, QSelect
   } from 'quasar'
   import Store from 'electron-store'
 
@@ -48,17 +47,11 @@
 
   export default {
     components: {
-      QBtn,
       QCard,
       QCardMain,
-      QIcon,
-      QItemMain,
-      QItemSide,
-      QLayout,
-      QSelect,
-      QSideLink,
-      QToolbar
+      QSelect
     },
+
     data () {
       return {
         addresses: [],
@@ -74,6 +67,7 @@
         pools: []
       }
     },
+
     computed: {
       miner_command () {
         if (this.address === '' || this.algo === '' || this.miner === '' || this.pool === '') {
@@ -87,6 +81,7 @@
         return command
       }
     },
+
     methods: {
       setAddresses () {
         each(this.allAddresses, (addresses) => {
@@ -116,15 +111,15 @@
         })
       }
     },
+
     mounted () {
       this.allAddresses = store.get('addresses', [])
       this.setAddresses()
       this.setPools()
       this.setMiners()
     },
+
     watch: {
-      algo () {
-      },
       pool () {
         if (!this.pool) {
           return []
@@ -145,4 +140,9 @@
   }
 </script>
 <style lang="stylus" scoped>
+.mine-index
+  padding 1.5rem 2rem
+.q-card
+  margin-left 0px
+  margin-right 0px
 </style>

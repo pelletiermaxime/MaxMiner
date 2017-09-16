@@ -106,9 +106,6 @@ export default {
         })
       })
     }
-  },
-
-  mounted () {
   }
 }
 </script>

@@ -11,16 +11,6 @@ export default new Router({
       component: require('@/components/Home')
     },
     {
-      name: 'about',
-      path: '/about',
-      component: require('@/components/About')
-    },
-    {
-      name: 'algos',
-      path: '/algos',
-      component: require('@/components/Algos')
-    },
-    {
       name: 'mine',
       path: '/mine',
       component: require('@/components/Mine'),
@@ -48,19 +38,24 @@ export default new Router({
       component: require('@/components/Miners')
     },
     {
+      name: 'algos',
+      path: '/algos',
+      component: require('@/components/Algos')
+    },
+    {
       name: 'pools',
       path: '/pools',
       component: require('@/components/Pools')
     },
     {
-      name: 'portfolio',
-      path: '/portfolio',
-      component: require('@/components/Portfolio')
-    },
-    {
       name: 'profits',
       path: '/profit-calculator',
       component: require('@/components/Profits')
+    },
+    {
+      name: 'portfolio',
+      path: '/portfolio',
+      component: require('@/components/Portfolio')
     },
     {
       path: '*',
