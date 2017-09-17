@@ -45,6 +45,7 @@
       return {
         allMarkets: {},
         markets: {},
+        market_api: {},
         newMarket: ''
       }
     },
@@ -82,7 +83,12 @@
     },
 
     watch: {
-
+      market_api: {
+        handler (apiConfig) {
+          store.set('settings.market_api', apiConfig)
+        },
+        deep: true
+      }
     }
   }
 </script>

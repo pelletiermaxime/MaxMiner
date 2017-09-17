@@ -166,15 +166,6 @@
       }
     },
 
-    watch: {
-      market_api: {
-        handler (apiConfig) {
-          store.set('settings.market_api', apiConfig)
-        },
-        deep: true
-      }
-    },
-
     mounted () {
       if (store.has('settings.market_api')) {
         this.market_api = store.get('settings.market_api')

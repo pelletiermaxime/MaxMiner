@@ -39,22 +39,22 @@ export default new Router({
     },
     {
       name: 'pools',
-      path: 'pools',
+      path: '/pools',
       component: require('@/components/Pools')
     },
     {
       name: 'profits',
-      path: 'profit-calculator',
+      path: '/profit-calculator',
       component: require('@/components/Profits')
     },
     {
       name: 'portfolio',
-      path: 'portfolio',
+      path: '/portfolio',
       component: require('@/components/Portfolio')
     },
     {
       name: 'settings',
-      path: 'settings',
+      path: '/settings',
       component: require('@/components/Settings'),
       children: [
         {
