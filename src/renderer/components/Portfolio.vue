@@ -116,12 +116,19 @@
           newMarket.apiKey = market.key
           newMarket.secret = market.secret
           this.$set(this.markets, marketName, newMarket)
+          let balance = 0
           if (newMarket.apiKey && newMarket.secret) {
-            let balance = await newMarket.fetchBalance()
-            delete balance.info
-            balance = pickBy(balance, (result) => {
-              return result.total !== 0
-            })
+            let storePath = `marketBalance.${marketName}`
+            if (store.has(storePath)) {
+              balance = store.get(storePath)
+            } else {
+              balance = await newMarket.fetchBalance()
+              delete balance.info
+              balance = pickBy(balance, (result) => {
+                return result.total !== 0
+              })
+              store.set(storePath, balance)
+            }
             this.marketPortfolio.push({
               name: marketName,
               coinsBalance: balance
