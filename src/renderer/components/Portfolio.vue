@@ -6,10 +6,10 @@
       .row
         .col-2
           img(:src="markets[market.name].urls.logo")
-        .col-4
+        .col-9
           .coin-name {{ markets[market.name].name }}
-        //- .col-1.refresh
-          q-btn(icon="refresh" color="secondary" small round @click="refreshCoin(coin.name)")
+        .col-1.refresh
+          q-btn(icon="refresh" color="secondary" small round @click="refreshMarket(market.name)")
       .row.md-gutter(v-for="(coinBalance, coinName) in market.coinsBalance")
         .col-8.address {{ coinName }}
         .col-2 {{ coinBalance.total.toFixed(3) }}
@@ -108,6 +108,10 @@
         store.delete(`coinNumber.${coinName}`)
         this.portfolio = []
         this.setPortfolio()
+      },
+      refreshMarket (marketName) {
+        store.delete(`marketBalance.${marketName}`)
+        this.setMarkets()
       },
       async setMarkets () {
         let newMarket
