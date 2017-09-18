@@ -111,6 +111,7 @@
       },
       refreshMarket (marketName) {
         store.delete(`marketBalance.${marketName}`)
+        this.marketPortfolio = []
         this.setMarkets()
       },
       async setMarkets () {
