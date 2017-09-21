@@ -1,5 +1,11 @@
 export default {
   coins: {
+    ATB: {
+      balance_path: 'balance',
+      balance_url: 'https://explorer.atbcoin.com/atb-insight-api/addr/$addr/?noTxList=1',
+      coinMarketCapName: 'atbcoin',
+      name: 'ATBCoin'
+    },
     BCC: {
       algo: 'scrypt',
       balance_url: 'https://www.blockexperts.com/api?coin=bcc&action=getbalance&address=$addr',
