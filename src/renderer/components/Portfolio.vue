@@ -25,9 +25,15 @@
         .col-1.refresh
           q-btn(icon="refresh" color="secondary" small round @click="refreshCoin(coin.name)")
       .row.md-gutter(v-for="address in coin.coinAddresses")
-        .col-8.address {{ address.address }}
-        .col-2 {{ address.number.toFixed(2) }}
-        .col-2 {{allCoinPrices[coin.name] * address.number | money }}
+        template(v-if="address.symbol")
+          .col-6.address {{ address.address }} ({{ address.symbol }})
+          .col-2 {{ address.number.toFixed(2) }}
+          .col-2 {{ allCoinSymbolPrices[address.symbol] | money }}
+          .col-2 {{ allCoinSymbolPrices[address.symbol] * address.number | money }}
+        template(v-else)
+          .col-8.address {{ address.address }}
+          .col-2 {{ address.number.toFixed(2) }}
+          .col-2 {{ allCoinPrices[coin.name] * address.number | money }}
 </template>
 
 <script>
@@ -104,6 +110,33 @@
 
         return parseFloat(coinNumber)
       },
+      async getETHCoinsNumbers (coinInfo, address) {
+        let addresses = []
+        let storePath = `coinNumber.${coinInfo.name}.${address}`
+        if (store.has(storePath)) {
+          addresses = store.get(storePath)
+        } else {
+          if (coinInfo.balance_url) {
+            let explorerUrl = coinInfo.balance_url.replace('$addr', address)
+            let result = await this.$http.get(explorerUrl)
+            let ethBalance = result.data.ETH.balance
+            addresses.push({
+              address: address,
+              number: ethBalance
+            })
+            each(result.data.tokens, (token) => {
+              addresses.push({
+                symbol: token.tokenInfo.symbol,
+                address: token.tokenInfo.name,
+                number: token.balance / (1 + ('0'.repeat(token.tokenInfo.decimals)))
+              })
+            })
+            store.set(storePath, addresses)
+          }
+        }
+
+        return addresses
+      },
       refreshCoin (coinName) {
         store.delete(`coinNumber.${coinName}`)
         this.portfolio = []
@@ -160,11 +193,18 @@
 
           each(addresses.addresses, async (address) => {
             address = address.address
-            let coinNumber = await this.getCoinNumber(coinInfo, address)
-            coinAddresses.push({
-              address: address,
-              number: coinNumber
-            })
+            if (coinName === 'Ethereum') {
+              let ethAddresses = await this.getETHCoinsNumbers(coinInfo, address)
+              each(ethAddresses, (ethAddress) => {
+                coinAddresses.push(ethAddress)
+              })
+            } else {
+              let coinNumber = await this.getCoinNumber(coinInfo, address)
+              coinAddresses.push({
+                address: address,
+                number: coinNumber
+              })
+            }
           })
 
           this.portfolio.push({
