@@ -1563,9 +1563,9 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
 
-ccxt@^1.7.33:
-  version "1.7.33"
-  resolved "https://registry.yarnpkg.com/ccxt/-/ccxt-1.7.33.tgz#3e91de0c0155fa177fb4f5998ddac04fbb5c14c0"
+ccxt@1.7.77:
+  version "1.7.77"
+  resolved "https://registry.yarnpkg.com/ccxt/-/ccxt-1.7.77.tgz#ed13254ee58d4f341d616fe0ba7be4dfa50c1b9a"
   dependencies:
     crypto-js "3.1.9-1"
     node-fetch "2.0.0-alpha.8"
