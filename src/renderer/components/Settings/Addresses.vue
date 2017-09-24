@@ -9,7 +9,7 @@
             q-autocomplete(:static-data="{field: 'value', list: allCoins}")
         .col-2
           q-btn(round color="secondary" icon="add" @click="addNewCoin")
-  q-list.bg-white(separator)
+  q-list.bg-white(separator v-if="coins")
     q-item(v-for="(coin, coinName) in coins" key="coinName")
       q-item-side.col-2
         img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coinName.toLowerCase() + '.png'")

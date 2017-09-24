@@ -9,23 +9,34 @@
             q-autocomplete(:static-data="{field: 'value', list: allMarkets}")
         .col-2
           q-btn(round color="secondary" icon="add" @click="addNewMarket")
-      .row(v-for="(market, marketName) in markets")
-        .col-5
-          q-input(
-            v-model="market_api[marketName].key"
-            :stack-label="market.name + ' key'"
-            )
-        .col-7
-          q-input(
-            v-model="market_api[marketName].secret"
-            :stack-label="market.name + ' secret'"
+  q-list.bg-white(separator)
+    q-item(v-for="(market, marketName) in markets" key="marketName")
+      q-item-side.col-2
+        img(:src="markets[marketName].urls.logo")
+        br
+        | {{ markets[marketName].name }}
+        br
+        q-btn.delete(color="red" icon="delete" @click="deleteMarket(marketName)" small round)
+      q-item-main.col-10
+        q-item-tile.row.sm-gutter
+          .col-12
+            q-input(
+              v-model="market_api[marketName].key"
+              stack-label="Key"
+              )
+        q-item-tile.row.sm-gutter
+          .col-12
+            q-input(
+              v-model="market_api[marketName].secret"
+              stack-label="Secret"
             )
 </template>
 <script>
   import Store from 'electron-store'
   import { each, map } from 'lodash'
   import {
-    QAutocomplete, QBtn, QCard, QCardMain, QInput, QSearch
+    QAutocomplete, QBtn, QCard, QCardMain, QItem, QItemMain, QItemSide,
+    QItemTile, QInput, QList, QSearch
   } from 'quasar'
   import ccxt from 'ccxt'
 
@@ -37,7 +48,12 @@
       QBtn,
       QCard,
       QCardMain,
+      QItem,
+      QItemMain,
+      QItemSide,
+      QItemTile,
       QInput,
+      QList,
       QSearch
     },
 
@@ -57,6 +73,12 @@
           secret: ''
         })
         this.setMarkets()
+      },
+      deleteMarket (marketName) {
+        delete this.market_api[marketName]
+        delete this.markets[marketName]
+        this.setMarkets()
+        store.set('settings.market_api', this.market_api)
       },
       async setMarkets () {
         let newMarket
@@ -97,4 +119,8 @@
   padding 1.5rem 2rem
 .q-card
   margin-left 0px
+.delete
+  height 22px
+  width 29px
+  margin-top 5px
 </style>
