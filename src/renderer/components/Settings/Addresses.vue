@@ -11,12 +11,13 @@
           q-btn(round color="secondary" icon="add" @click="addNewCoin")
   q-list.bg-white(separator)
     q-item(v-for="(coin, coinName) in coins" key="coinName")
-      q-item-side
+      q-item-side.col-2
         img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coinName.toLowerCase() + '.png'")
+        br
         | {{ coinName }}
-      q-item-main
+      q-item-main.col-10
         q-item-tile.row.sm-gutter(v-for="address in coin.addresses" key="address.address")
-          .col-9
+          .col-8
             q-input(
               required="true"
               v-model="address.address"
@@ -27,6 +28,8 @@
               v-model="address.label"
               float-label="Label"
               )
+          .col-1
+            q-btn(color="red" icon="delete" @click="deleteAddress(coinName, address.address)" small round)
 </template>
 <script>
   import Store from 'electron-store'
@@ -34,6 +37,7 @@
     QAutocomplete, QBtn, QCard, QCardMain, QItem, QItemMain, QItemSide,
     QItemTile, QInput, QList, QSearch
   } from 'quasar'
+  import { findIndex } from 'lodash'
 
   const store = new Store()
 
@@ -76,6 +80,15 @@
               }
             ]
           })
+        }
+      },
+      deleteAddress (coinName, address) {
+        let coin = this.coins[coinName].addresses
+        let coinKey = findIndex(coin, ['address', address])
+        this.coins[coinName].addresses.splice(coinKey, 1)
+        let addressesCount = this.coins[coinName].addresses.length
+        if (addressesCount === 0) {
+          delete this.coins[coinName]
         }
       },
       getCoinMarketCoins () {
