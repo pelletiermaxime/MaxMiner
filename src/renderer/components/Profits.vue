@@ -271,7 +271,6 @@
                   return block.tx === 1
                 })
                 blocks.splice(50)
-                console.log(blocks)
                 let lastBlock = blocks[0]
                 this.block_reward = lastBlock.value
                 let totalBlocsDiff = 0
@@ -305,10 +304,12 @@
       },
       setCoinList () {
         each(this.coins, (coin, symbol) => {
-          this.selectOptions.push({
-            label: coin.name,
-            value: symbol
-          })
+          if (coin.mineable !== false) {
+            this.selectOptions.push({
+              label: coin.name,
+              value: symbol
+            })
+          }
         })
       }
     },
@@ -327,9 +328,6 @@
         if (this.current_coin) {
           algo = this.current_coin.algo
         }
-        // if (this.allCoinsInfo[this.selectedCurrency]) {
-        //   algo = this.allCoinsInfo[this.selectedCurrency].algorithm
-        // }
         if (algo) {
           store.set(`hashRateAlgo.${algo}`, newHashRate)
         }

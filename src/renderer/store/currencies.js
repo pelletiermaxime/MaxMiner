@@ -4,7 +4,8 @@ export default {
       balance_path: 'balance',
       balance_url: 'https://explorer.atbcoin.com/atb-insight-api/addr/$addr/?noTxList=1',
       coinMarketCapName: 'atbcoin',
-      name: 'ATBCoin'
+      name: 'ATBCoin',
+      mineable: false
     },
     BCC: {
       algo: 'scrypt',
