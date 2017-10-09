@@ -22,6 +22,14 @@ export default {
       name: 'Bitcoin Cash',
       whattomineID: 193
     },
+    BSD: {
+      algo: 'xevan',
+      coinMarketCapName: 'bitsend',
+      cryptoid: 'bsd',
+      default_hash_rate_mhs: 5,
+      name: 'BitSend',
+      whattomineID: 201
+    },
     BTC: {
       algo: 'sha256',
       balance_url: 'https://blockexplorer.com/api/addr/$addr/balance',
@@ -95,7 +103,7 @@ export default {
       whattomineID: 5
     },
     XLR: {
-      algo: 'nist5',
+      algo: 'xevan',
       coinMarketCapName: 'solaris',
       default_hash_rate_mhs: 100.0,
       name: 'Solaris',

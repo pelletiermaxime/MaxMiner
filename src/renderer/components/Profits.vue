@@ -270,7 +270,7 @@
                 blocks = blocks.filter((block) => {
                   return block.tx === 1
                 })
-                blocks.splice(50)
+                blocks.splice(100)
                 let lastBlock = blocks[0]
                 this.block_reward = lastBlock.value
                 let totalBlocsDiff = 0
