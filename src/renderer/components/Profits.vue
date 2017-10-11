@@ -272,7 +272,9 @@
                 })
                 blocks.splice(100)
                 let lastBlock = blocks[0]
-                this.block_reward = lastBlock.value
+                if (!this.block_reward || this.block_reward === 0) {
+                  this.block_reward = lastBlock.value
+                }
                 let totalBlocsDiff = 0
                 let nbBlocs = 0
                 blocks.forEach((bloc) => {

@@ -91,9 +91,14 @@ export default {
       algo: 'skunk',
       balance_url: 'http://explorer.signatum.download/ext/getbalance/$addr',
       coinMarketCapName: 'signatum',
-      default_hash_rate_mhs: 50.0,
       name: 'Signatum',
-      whattomineID: 191
+      mineable: false
+    },
+    VLT: {
+      algo: 'veltor',
+      coinMarketCapName: 'veltor',
+      default_hash_rate_mhs: 50,
+      name: 'Veltor'
     },
     VTC: {
       algo: 'lyra2v2',
