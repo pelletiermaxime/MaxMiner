@@ -1,5 +1,4 @@
 export default async (pool, http) => {
-  console.log('YIIMP')
   let algos = {}
   let poolURL = `${pool.url}/api/status`
   let result = await http.get(poolURL)

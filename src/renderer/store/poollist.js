@@ -17,16 +17,22 @@ export default {
     type: 'prohashing',
     url: 'https://prohashing.com/exchange/expectedPayouts?algorithm='
   },
-  zpool: {
-    logo: 'https://www.cryptocompare.com/media/351195/zpool.png',
-    name: 'zpool',
+  UMine: {
+    logo: '',
+    name: 'UMine',
     type: 'yiimp',
-    url: 'http://zpool.ca'
+    url: 'http://umine.org'
   },
   YiiMP: {
     logo: 'http://yiimp.ccminer.org/favicon.ico',
     name: 'YiiMP',
     type: 'yiimp',
     url: 'http://yiimp.ccminer.org'
+  },
+  zpool: {
+    logo: 'https://www.cryptocompare.com/media/351195/zpool.png',
+    name: 'zpool',
+    type: 'yiimp',
+    url: 'http://zpool.ca'
   }
 }

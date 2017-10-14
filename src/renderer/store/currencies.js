@@ -71,6 +71,12 @@ export default {
       name: 'Ethereum',
       whattomineID: 151
     },
+    HSR: {
+      algo: 'hsr',
+      coinMarketCapName: 'hshare',
+      default_hash_rate_mhs: 20.0,
+      name: 'Hshare'
+    },
     LBC: {
       algo: 'lbry',
       coinMarketCapName: 'library-credit',
@@ -94,6 +100,14 @@ export default {
       name: 'Signatum',
       mineable: false
     },
+    SMART: {
+      algo: 'keccak',
+      balance_url: 'https://explorer.smartcash.cc/ext/getbalance/$addr',
+      coinMarketCapName: 'smartcash',
+      default_hash_rate_mhs: 1000,
+      name: 'SmartCash',
+      whattomineID: 197
+    },
     VLT: {
       algo: 'veltor',
       coinMarketCapName: 'veltor',
@@ -109,6 +123,7 @@ export default {
     },
     XLR: {
       algo: 'xevan',
+      balance_url: 'https://solaris.blockexplorer.pro/ext/getbalance/$addr',
       coinMarketCapName: 'solaris',
       default_hash_rate_mhs: 100.0,
       name: 'Solaris',

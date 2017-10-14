@@ -44,6 +44,11 @@ export default {
       gpu: ['ccminer']
     }
   },
+  hsr: {
+    miners: {
+      gpu: ['ccminer']
+    }
+  },
   jha: {
     miners: {
       gpu: ['ccminer']
@@ -85,6 +90,11 @@ export default {
     }
   },
   pascal: {
+    miners: {
+      gpu: ['ccminer']
+    }
+  },
+  phi: {
     miners: {
       gpu: ['ccminer']
     }
