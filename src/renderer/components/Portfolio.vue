@@ -97,7 +97,12 @@
         if (store.has(storePath)) {
           coinNumber = store.get(storePath)
         } else {
-          if (coinInfo.balance_url) {
+          if (coinInfo.cryptoid) {
+            let explorerUrl = `https://chainz.cryptoid.info//${coinInfo.cryptoid}/api.dws?q=getbalance&a=${address}&key=c20fa36e2180`
+            let result = await this.$http.get(explorerUrl)
+            coinNumber = result.data
+            store.set(storePath, coinNumber)
+          } else if (coinInfo.balance_url) {
             let explorerUrl = coinInfo.balance_url.replace('$addr', address)
             let result = await this.$http.get(explorerUrl)
             coinNumber = result.data

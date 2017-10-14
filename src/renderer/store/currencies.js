@@ -9,7 +9,6 @@ export default {
     },
     BCC: {
       algo: 'scrypt',
-      balance_url: 'https://www.blockexperts.com/api?coin=bcc&action=getbalance&address=$addr',
       coinMarketCapName: 'bitconnect',
       default_hash_rate_mhs: 100,
       cryptoid: 'bcc',
@@ -41,14 +40,12 @@ export default {
     BTX: {
       algo: 'bitcore',
       coinMarketCapName: 'bitcore',
-      balance_url: 'http://51.15.78.208:3001/ext/getbalance/$addr',
       default_hash_rate_mhs: 30,
       cryptoid: 'btx',
       name: 'Bitcore'
     },
     DNR: {
       algo: 'tribus',
-      balance_url: 'http://denarius.name/ext/getbalance/$addr',
       coinMarketCapName: 'denarius-dnr',
       cryptoid: 'dnr',
       default_hash_rate_mhs: 100.0,
