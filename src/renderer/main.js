@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 
+import App from './App'
 import router from './router'
 import store from './store'
 
@@ -21,6 +22,6 @@ Quasar.start(() => {
     el: '#app',
     router,
     store,
-    render: h => h(require('./App'))
+    render: h => h(App)
   })
 })

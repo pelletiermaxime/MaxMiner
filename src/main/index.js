@@ -1,7 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Menu } from 'electron'
-const electron = require('electron')
+import { app, dialog, shell, BrowserWindow, Menu } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -107,7 +106,7 @@ let template = [{
           buttons: ['Ok'],
           message: 'This demo is for the Menu section, showing how to create a clickable menu item in the application menu.'
         }
-        electron.dialog.showMessageBox(focusedWindow, options, function () {})
+        dialog.showMessageBox(focusedWindow, options, function () {})
       }
     }
   }]
@@ -117,7 +116,7 @@ let template = [{
   submenu: [{
     label: 'Learn More',
     click: function () {
-      electron.shell.openExternal('http://electron.atom.io')
+      shell.openExternal('http://electron.atom.io')
     }
   }]
 }]
