@@ -74,6 +74,12 @@ export default {
       default_hash_rate_mhs: 20.0,
       name: 'Hshare'
     },
+    ITZ: {
+      algo: 'c11',
+      coinMarketCapName: 'interzone',
+      default_hash_rate_mhs: 20.0,
+      name: 'Interzone'
+    },
     LBC: {
       algo: 'lbry',
       coinMarketCapName: 'library-credit',
@@ -89,6 +95,13 @@ export default {
       default_hash_rate_mhs: 100.0,
       name: 'Litecoin',
       whattomineID: 4
+    },
+    MONA: {
+      algo: 'lyra2v2',
+      coinMarketCapName: 'monacoin',
+      default_hash_rate_mhs: 50.0,
+      name: 'MonaCoin',
+      whattomineID: 148
     },
     SIGT: {
       algo: 'skunk',
