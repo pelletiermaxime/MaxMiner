@@ -102,6 +102,11 @@
             let result = await this.$http.get(explorerUrl)
             coinNumber = result.data
             store.set(storePath, coinNumber)
+          } else if (coinInfo.iquidus) {
+            let explorerUrl = `${coinInfo.iquidus}/ext/getbalance/${address}`
+            let result = await this.$http.get(explorerUrl)
+            coinNumber = result.data
+            store.set(storePath, coinNumber)
           } else if (coinInfo.balance_url) {
             let explorerUrl = coinInfo.balance_url.replace('$addr', address)
             let result = await this.$http.get(explorerUrl)

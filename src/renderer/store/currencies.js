@@ -55,6 +55,7 @@ export default {
     DASH: {
       algo: 'x11',
       coinMarketCapName: 'dash',
+      cryptoid: 'dash',
       default_hash_rate_mhs: 15000,
       name: 'Dash',
       whattomineID: 34
@@ -72,6 +73,7 @@ export default {
       algo: 'hsr',
       coinMarketCapName: 'hshare',
       default_hash_rate_mhs: 20.0,
+      iquidus: 'http://hshare-explorer.h.cash',
       name: 'Hshare'
     },
     ITZ: {
@@ -105,14 +107,14 @@ export default {
     },
     SIGT: {
       algo: 'skunk',
-      balance_url: 'http://explorer.signatum.download/ext/getbalance/$addr',
+      iquidus: 'http://explorer.signatum.download',
       coinMarketCapName: 'signatum',
       name: 'Signatum',
       mineable: false
     },
     SMART: {
       algo: 'keccak',
-      balance_url: 'https://explorer.smartcash.cc/ext/getbalance/$addr',
+      iquidus: 'https://explorer.smartcash.cc',
       coinMarketCapName: 'smartcash',
       default_hash_rate_mhs: 1000,
       name: 'SmartCash',
@@ -133,11 +135,10 @@ export default {
     },
     XLR: {
       algo: 'xevan',
-      balance_url: 'https://solaris.blockexplorer.pro/ext/getbalance/$addr',
+      iquidus: 'https://solaris.blockexplorer.pro',
       coinMarketCapName: 'solaris',
-      default_hash_rate_mhs: 100.0,
-      name: 'Solaris',
-      whattomineID: 179
+      default_hash_rate_mhs: 10.0,
+      name: 'Solaris'
     },
     ZEC: {
       algo: 'equihash',

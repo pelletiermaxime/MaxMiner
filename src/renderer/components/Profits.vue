@@ -267,7 +267,7 @@
             this.$http.get(cryptoidURL)
               .then((result) => {
                 let blocks = result.data.blocks
-                blocks = blocks.filter((block) => {
+                blocks = blocks.filter((block) => { // generally 1 recipient for POW
                   return block.tx === 1
                 })
                 blocks.splice(100)
@@ -283,6 +283,43 @@
                 })
                 this.difficulty_current = lastBlock.diff
                 this.difficulty100b = (totalBlocsDiff / nbBlocs).toFixed(3)
+              })
+          }
+          if (this.current_coin.iquidus) {
+            if (!this.block_reward || this.block_reward === 0) {
+              let explorerURL = `${this.current_coin.iquidus}/ext/getlasttxs/0.00000001`
+              this.$http.get(explorerURL)
+                .then((result) => {
+                  let blocks = result.data.data
+                  blocks = blocks.filter((block) => { // generally 1 recipient for POW
+                    return block.vout.length === 1
+                  })
+                  let amount = 0
+                  if (blocks.length === 0) { // but possible to have 2 in case of masternode...
+                    blocks = result.data.data.filter((block) => {
+                      return block.vout.length === 2
+                    })
+                    let vout = blocks[0].vout
+                    let biggestReward = vout[1]
+                    if (vout[0].amount > vout[1].amount) {
+                      biggestReward = vout[0]
+                    }
+                    amount = biggestReward.amount
+                  } else {
+                    amount = blocks[0].total
+                  }
+                  this.block_reward = amount / 100000000
+                })
+            }
+            let diffURL = `${this.current_coin.iquidus}/api/getdifficulty`
+            this.$http.get(diffURL)
+              .then((result) => {
+                let diff = result.data
+                if (diff['proof-of-work']) {
+                  this.difficulty_current = diff['proof-of-work']
+                } else {
+                  this.difficulty_current = diff
+                }
               })
           }
           if (this.current_coin.coinMarketCapName) {
