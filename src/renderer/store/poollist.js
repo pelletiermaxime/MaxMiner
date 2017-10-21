@@ -1,4 +1,10 @@
 export default {
+  hashrefinery: {
+    logo: '',
+    name: 'hashrefinery',
+    type: 'yiimp',
+    url: 'https://pool.hashrefinery.com'
+  },
   miningpoolhub: {
     logo: 'https://miningpoolhub.com/favicon.ico',
     name: 'miningpoolhub',
