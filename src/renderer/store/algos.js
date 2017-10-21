@@ -186,7 +186,7 @@ export default {
   },
   xevan: {
     miners: {
-      cpu: []
+      gpu: ['ccminer']
     }
   },
   yescrypt: {
