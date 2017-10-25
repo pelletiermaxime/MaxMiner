@@ -30,10 +30,10 @@ export default {
     url: 'http://umine.org'
   },
   YiiMP: {
-    logo: 'http://yiimp.ccminer.org/favicon.ico',
+    logo: 'http://yiimp.eu/favicon.ico',
     name: 'YiiMP',
     type: 'yiimp',
-    url: 'http://yiimp.ccminer.org'
+    url: 'http://api.yiimp.eu'
   },
   zpool: {
     logo: 'https://www.cryptocompare.com/media/351195/zpool.png',
