@@ -80,7 +80,10 @@ export default {
       algo: 'c11',
       coinMarketCapName: 'interzone',
       default_hash_rate_mhs: 20.0,
-      name: 'Interzone'
+      iquidus: 'http://interzone.space:8080',
+      masternode: true,
+      name: 'Interzone',
+      yiimp_explorer: 'https://umine.org/explorer/graph?id=1868'
     },
     LBC: {
       algo: 'lbry',
@@ -138,7 +141,9 @@ export default {
       iquidus: 'https://solaris.blockexplorer.pro',
       coinMarketCapName: 'solaris',
       default_hash_rate_mhs: 10.0,
-      name: 'Solaris'
+      masternode: true,
+      name: 'Solaris',
+      yiimp_explorer: 'https://umine.org/explorer/graph?id=1916'
     },
     ZEC: {
       algo: 'equihash',

@@ -285,20 +285,33 @@
                 this.difficulty100b = (totalBlocsDiff / nbBlocs).toFixed(3)
               })
           }
+          if (this.current_coin.yiimp_explorer) {
+            let url = this.current_coin.yiimp_explorer
+            this.$http.get(url)
+              .then((result) => {
+                let blocks = result.data[0]
+                let lastBlock = blocks[0]
+                let totalBlocsDiff = 0
+                let nbBlocs = 0
+                blocks.forEach((bloc) => {
+                  totalBlocsDiff += bloc[1]
+                  nbBlocs++
+                  if (nbBlocs === 100) {
+                    this.difficulty100b = (totalBlocsDiff / nbBlocs).toFixed(3)
+                  }
+                })
+                this.difficulty_current = lastBlock[1]
+                this.difficulty24h = (totalBlocsDiff / nbBlocs).toFixed(3)
+              })
+          }
           if (this.current_coin.iquidus) {
             if (!this.block_reward || this.block_reward === 0) {
               let explorerURL = `${this.current_coin.iquidus}/ext/getlasttxs/0.00000001`
               this.$http.get(explorerURL)
                 .then((result) => {
                   let blocks = result.data.data
-                  blocks = blocks.filter((block) => { // generally 1 recipient for POW
-                    return block.vout.length === 1
-                  })
                   let amount = 0
-                  if (blocks.length === 0) { // but possible to have 2 in case of masternode...
-                    blocks = result.data.data.filter((block) => {
-                      return block.vout.length === 2
-                    })
+                  if (this.current_coin.masternode && blocks[0].vout[1]) {
                     let vout = blocks[0].vout
                     let biggestReward = vout[1]
                     if (vout[0].amount > vout[1].amount) {
