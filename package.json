@@ -59,8 +59,8 @@
     }
   },
   "dependencies": {
-    "axios": "^0.16.1",
-    "ccxt": "1.7.77",
+    "axios": "^0.17.0",
+    "ccxt": "^1.9.282",
     "decompress": "^4.2.0",
     "electron-store": "^1.2.0",
     "material-design-icons": "^3.0.1",
@@ -76,7 +76,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.1",
     "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",

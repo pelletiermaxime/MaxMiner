@@ -12,8 +12,8 @@
           q-btn(icon="refresh" color="secondary" small round @click="refreshMarket(market.name)")
       .row.md-gutter(v-for="(coinBalance, coinName) in market.coinsBalance")
         .col-8.address {{ coinName }}
-        .col-2 {{ coinBalance.total.toFixed(3) }}
-        .col-2 {{allCoinSymbolPrices[coinName] * coinBalance.total | money }}
+        .col-2 {{ coinBalance.toFixed(3) }}
+        .col-2 {{allCoinSymbolPrices[coinName] * coinBalance | money }}
   q-card(v-for="(coin, index) in sortByCoinName(portfolio)" key="index")
     q-card-main.bg-white
       .row
@@ -171,9 +171,8 @@
               balance = store.get(storePath)
             } else {
               balance = await newMarket.fetchBalance()
-              delete balance.info
-              balance = pickBy(balance, (result) => {
-                return result.total !== 0
+              balance = pickBy(balance.total, (result) => {
+                return result !== 0
               })
               store.set(storePath, balance)
             }
