@@ -101,6 +101,14 @@ export default {
       name: 'Litecoin',
       whattomineID: 4
     },
+    LUX: {
+      algo: 'phi',
+      coinMarketCapName: 'luxcoin',
+      default_hash_rate_mhs: 50,
+      iquidus: 'https://explorer.luxcoin.xyz',
+      name: 'LUXCoin',
+      yiimp_explorer: 'http://yiimp.eu/explorer/graph?id=2366'
+    },
     MONA: {
       algo: 'lyra2v2',
       coinMarketCapName: 'monacoin',
