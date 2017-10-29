@@ -103,6 +103,7 @@ export default {
     },
     LUX: {
       algo: 'phi',
+      block_reward: 10,
       coinMarketCapName: 'luxcoin',
       default_hash_rate_mhs: 50,
       iquidus: 'https://explorer.luxcoin.xyz',

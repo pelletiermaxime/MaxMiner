@@ -252,6 +252,9 @@
         this.difficulty24h = 0
         this.difficulty100b = 0
         if (this.current_coin) {
+          if (this.current_coin.block_reward) {
+            this.block_reward = this.current_coin.block_reward
+          }
           if (this.current_coin.whattomineID) {
             let whattomineURL = `https://whattomine.com/coins/${this.current_coin.whattomineID}.json`
             this.$http.get(whattomineURL)
