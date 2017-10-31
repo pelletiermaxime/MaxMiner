@@ -304,7 +304,9 @@
                   }
                 })
                 this.difficulty_current = lastBlock[1]
-                this.difficulty24h = (totalBlocsDiff / nbBlocs).toFixed(3)
+                if (!this.difficulty24h) {
+                  this.difficulty24h = (totalBlocsDiff / nbBlocs).toFixed(3)
+                }
               })
           }
           if (this.current_coin.iquidus) {

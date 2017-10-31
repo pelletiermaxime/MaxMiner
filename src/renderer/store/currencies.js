@@ -60,6 +60,14 @@ export default {
       name: 'Dash',
       whattomineID: 34
     },
+    DSR: {
+      algo: 'neoscrypt',
+      default_hash_rate_mhs: 2,
+      iquidus: 'http://desire.lchain.cc',
+      masternode: true,
+      name: 'Desire',
+      yiimp_explorer: 'https://pool.unimining.net/explorer/graph?id=1935'
+    },
     ETH: {
       algo: 'daggerhashimoto',
       balance_path: 'ETH.balance',
@@ -75,6 +83,14 @@ export default {
       default_hash_rate_mhs: 20.0,
       iquidus: 'http://hshare-explorer.h.cash',
       name: 'Hshare'
+    },
+    INN: {
+      algo: 'neoscrypt',
+      block_reward: 10,
+      default_hash_rate_mhs: 2.0,
+      masternode: true,
+      name: 'Innova',
+      yiimp_explorer: 'https://altminer.net/explorer/graph?id=1964'
     },
     ITZ: {
       algo: 'c11',
@@ -152,7 +168,8 @@ export default {
       default_hash_rate_mhs: 10.0,
       masternode: true,
       name: 'Solaris',
-      yiimp_explorer: 'https://umine.org/explorer/graph?id=1916'
+      yiimp_explorer: 'https://umine.org/explorer/graph?id=1916',
+      whattomineID: 179
     },
     ZEC: {
       algo: 'equihash',
