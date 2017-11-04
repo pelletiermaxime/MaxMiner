@@ -79,9 +79,9 @@ export default {
     },
     HSR: {
       algo: 'hsr',
+      balance_url: 'http://explorer.h.cash/api/getbalance/$addr',
       coinMarketCapName: 'hshare',
       default_hash_rate_mhs: 20.0,
-      iquidus: 'http://hshare-explorer.h.cash',
       name: 'Hshare'
     },
     INN: {
