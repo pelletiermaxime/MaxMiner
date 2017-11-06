@@ -62,6 +62,7 @@ export default {
     },
     DSR: {
       algo: 'neoscrypt',
+      coinMarketCapName: 'desire',
       default_hash_rate_mhs: 2,
       iquidus: 'http://desire.lchain.cc',
       masternode: true,
