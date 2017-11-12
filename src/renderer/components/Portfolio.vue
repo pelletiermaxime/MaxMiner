@@ -184,7 +184,7 @@
         })
       },
       async setAllCoinPrices () {
-        let coinMarketCapURL = 'https://api.coinmarketcap.com/v1/ticker/'
+        let coinMarketCapURL = 'https://api.coinmarketcap.com/v1/ticker?limit=0'
         let result = await this.$http.get(coinMarketCapURL)
 
         each(result.data, (coin) => {
