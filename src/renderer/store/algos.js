@@ -69,6 +69,11 @@ export default {
       gpu: ['ccminer']
     }
   },
+  lyra2z: {
+    miners: {
+      gpu: ['ccminer']
+    }
+  },
   m7m: {
     miners: {
       cpu: ['cpuminer']

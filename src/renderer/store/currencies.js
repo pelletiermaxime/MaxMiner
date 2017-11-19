@@ -172,6 +172,14 @@ export default {
       yiimp_explorer: 'https://umine.org/explorer/graph?id=1916',
       whattomineID: 179
     },
+    XZC: {
+      algo: 'lyra2z',
+      cryptoid: 'xzc',
+      coinMarketCapName: 'zcoin',
+      default_hash_rate_mhs: 2,
+      name: 'ZCoin',
+      whattomineID: 175
+    },
     ZEC: {
       algo: 'equihash',
       coinMarketCapName: 'zcash',
