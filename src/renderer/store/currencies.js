@@ -88,6 +88,7 @@ export default {
     INN: {
       algo: 'neoscrypt',
       block_reward: 10,
+      coinMarketCapName: 'innova',
       default_hash_rate_mhs: 2.0,
       masternode: true,
       name: 'Innova',
@@ -134,9 +135,17 @@ export default {
       name: 'MonaCoin',
       whattomineID: 148
     },
+    ONX: {
+      algo: 'x11',
+      coinMarketCapName: 'onix',
+      default_hash_rate_mhs: 15000,
+      iquidus: 'http://explorer.onixcoin.com',
+      name: 'Onix',
+      whattomineID: 194,
+      yiimp_explorer: 'https://www.zpool.ca/explorer/graph?id=2351'
+    },
     SIGT: {
       algo: 'skunk',
-      iquidus: 'http://explorer.signatum.download',
       coinMarketCapName: 'signatum',
       name: 'Signatum',
       mineable: false
@@ -148,6 +157,21 @@ export default {
       default_hash_rate_mhs: 1000,
       name: 'SmartCash',
       whattomineID: 197
+    },
+    TZC: {
+      algo: 'neoscrypt',
+      iquidus: 'https://explorer.trezarcoin.com/',
+      coinMarketCapName: 'trezarcoin',
+      default_hash_rate_mhs: 2,
+      name: 'TrezarCoin',
+      whattomineID: 215
+    },
+    VIVO: {
+      algo: 'neoscrypt',
+      coinMarketCapName: 'vivo',
+      default_hash_rate_mhs: 2,
+      name: 'VIVO',
+      whattomineID: 200
     },
     VLT: {
       algo: 'veltor',
