@@ -42,7 +42,8 @@ export default {
       coinMarketCapName: 'bitcore',
       default_hash_rate_mhs: 30,
       cryptoid: 'btx',
-      name: 'Bitcore'
+      name: 'Bitcore',
+      whattomineID: 202
     },
     DNR: {
       algo: 'tribus',
@@ -90,6 +91,7 @@ export default {
       block_reward: 10,
       coinMarketCapName: 'innova',
       default_hash_rate_mhs: 2.0,
+      iquidus: 'http://explorer.innovacoin.info',
       masternode: true,
       name: 'Innova',
       yiimp_explorer: 'https://altminer.net/explorer/graph?id=1964'
@@ -164,7 +166,8 @@ export default {
       coinMarketCapName: 'trezarcoin',
       default_hash_rate_mhs: 2,
       name: 'TrezarCoin',
-      whattomineID: 215
+      whattomineID: 215,
+      yiimp_explorer: 'https://altminer.net/explorer/graph?id=1858'
     },
     VIVO: {
       algo: 'neoscrypt',

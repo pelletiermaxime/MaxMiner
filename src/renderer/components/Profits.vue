@@ -236,7 +236,7 @@
           })
       },
       getCoinMarketCoins () {
-        let coinMarketURL = 'https://api.coinmarketcap.com/v1/ticker/'
+        let coinMarketURL = 'https://api.coinmarketcap.com/v1/ticker?limit=0'
         this.$http.get(coinMarketURL)
           .then((result) => {
             let coins = result.data
