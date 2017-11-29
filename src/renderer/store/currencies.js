@@ -63,9 +63,10 @@ export default {
     },
     DSR: {
       algo: 'neoscrypt',
+      balance_path: 'data',
+      balance_url: 'http://desire.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
       coinMarketCapName: 'desire',
       default_hash_rate_mhs: 2,
-      iquidus: 'http://desire.lchain.cc',
       masternode: true,
       name: 'Desire',
       yiimp_explorer: 'https://pool.unimining.net/explorer/graph?id=1935'
@@ -154,7 +155,6 @@ export default {
     },
     SMART: {
       algo: 'keccak',
-      iquidus: 'https://explorer.smartcash.cc',
       coinMarketCapName: 'smartcash',
       default_hash_rate_mhs: 1000,
       name: 'SmartCash',
