@@ -45,6 +45,12 @@ export default {
       name: 'Bitcore',
       whattomineID: 202
     },
+    BWK: {
+      algo: 'nist5',
+      iquidus: 'http://bwk.explorerz.top:3011',
+      name: 'Bulwark',
+      yiimp_explorer: 'https://umine.org/explorer/graph?id=2001'
+    },
     DNR: {
       algo: 'tribus',
       coinMarketCapName: 'denarius-dnr',
