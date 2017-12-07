@@ -73,9 +73,17 @@ export default {
       balance_url: 'http://desire.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
       coinMarketCapName: 'desire',
       default_hash_rate_mhs: 2,
+      iquidus: 'http://dsr.explorerz.top:3033',
       masternode: true,
       name: 'Desire',
       yiimp_explorer: 'https://pool.unimining.net/explorer/graph?id=1935'
+    },
+    ENT: {
+      algo: 'x11',
+      coinMarketCapName: 'eternity',
+      cryptoid: 'ent',
+      default_hash_rate_mhs: 15000,
+      name: 'Eternity'
     },
     ETH: {
       algo: 'daggerhashimoto',
@@ -85,6 +93,23 @@ export default {
       default_hash_rate_mhs: 30.0,
       name: 'Ethereum',
       whattomineID: 151
+    },
+    GBX: {
+      algo: 'neoscrypt',
+      block_reward: 7.5,
+      coinMarketCapName: 'gobyte',
+      default_hash_rate_mhs: 2.0,
+      iquidus: 'https://gobyte.ezmine.io',
+      masternode: true,
+      name: 'GoByte',
+      yiimp_explorer: 'https://www.unimining.net/explorer/graph?id=1969'
+    },
+    HBC: {
+      algo: 'x11',
+      block_reward: 10,
+      default_hash_rate_mhs: 19000,
+      name: 'Homeblockcoin',
+      yiimp_explorer: 'https://pool.nosekefik.com/explorer/graph?id=2007'
     },
     HSR: {
       algo: 'hsr',
@@ -142,9 +167,9 @@ export default {
       block_reward: 100,
       coinMarketCapName: 'magnet',
       default_hash_rate_mhs: 15000,
-      iquidus: 'http://explorer.magnetwork.io',
+      iquidus: 'http://35.202.4.153:3001',
       name: 'Magnet',
-      yiimp_explorer: 'http://miningpool.shop/explorer/graph?id=1978'
+      yiimp_explorer: 'https://miningpool.shop/explorer/graph?id=1978'
     },
     MONA: {
       algo: 'lyra2v2',
@@ -213,6 +238,13 @@ export default {
       name: 'Solaris',
       yiimp_explorer: 'https://umine.org/explorer/graph?id=1916',
       whattomineID: 179
+    },
+    XYLO: {
+      algo: 'scrypt',
+      coinMarketCapName: 'xylo',
+      default_hash_rate_mhs: 505,
+      iquidus: 'http://xylo.unyun.cn',
+      name: 'XYLO'
     },
     XZC: {
       algo: 'lyra2z',
