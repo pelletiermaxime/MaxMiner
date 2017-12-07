@@ -137,6 +137,15 @@ export default {
       name: 'LUXCoin',
       yiimp_explorer: 'http://yiimp.eu/explorer/graph?id=2366'
     },
+    MAG: {
+      algo: 'x11',
+      block_reward: 100,
+      coinMarketCapName: 'magnet',
+      default_hash_rate_mhs: 15000,
+      iquidus: 'http://explorer.magnetwork.io',
+      name: 'Magnet',
+      yiimp_explorer: 'http://miningpool.shop/explorer/graph?id=1978'
+    },
     MONA: {
       algo: 'lyra2v2',
       coinMarketCapName: 'monacoin',
