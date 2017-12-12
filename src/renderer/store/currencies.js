@@ -1,5 +1,12 @@
 export default {
   coins: {
+    ASP: {
+      balance_path: 'balance',
+      balance_url: 'http://45.77.183.30:3000/api/addr/AP1XbScHM1zhi7Un4r5w7hd67BRu2MFEWC/?noTxList=1',
+      block_reward: 20,
+      name: 'Aspectcoin',
+      yiimp_explorer: 'https://miningpool.shop/explorer/graph?id=2016'
+    },
     ATB: {
       balance_path: 'balance',
       balance_url: 'https://explorer.atbcoin.com/atb-insight-api/addr/$addr/?noTxList=1',
@@ -12,7 +19,8 @@ export default {
       coinMarketCapName: 'bitconnect',
       default_hash_rate_mhs: 100,
       cryptoid: 'bcc',
-      name: 'BitConnect'
+      name: 'BitConnect',
+      mineable: false
     },
     BCH: {
       algo: 'sha256',
