@@ -55,6 +55,7 @@ export default {
     },
     BWK: {
       algo: 'nist5',
+      coinMarketCapName: 'bulwark',
       iquidus: 'http://bwk.explorerz.top:3011',
       name: 'Bulwark',
       yiimp_explorer: 'https://umine.org/explorer/graph?id=2001'
@@ -186,6 +187,13 @@ export default {
       name: 'MonaCoin',
       whattomineID: 148
     },
+    NMS: {
+      algo: 'skein',
+      block_reward: 8,
+      default_hash_rate_mhs: 1000,
+      name: 'Numus',
+      yiimp_explorer: 'http://hashfaster.com/explorer/graph?id=1973'
+    },
     ONX: {
       algo: 'x11',
       coinMarketCapName: 'onix',
@@ -224,11 +232,27 @@ export default {
       name: 'VIVO',
       whattomineID: 200
     },
+    XVG: {
+      algo: 'x17',
+      coinMarketCapName: 'verge',
+      default_hash_rate_mhs: 2,
+      iquidus: 'https://verge-blockchain.info',
+      name: 'XVG-X17',
+      yiimp_explorer: 'http://yiimp.eu/explorer/graph?id=562'
+    },
     VLT: {
       algo: 'veltor',
       coinMarketCapName: 'veltor',
       default_hash_rate_mhs: 50,
       name: 'Veltor'
+    },
+    VSX: {
+      algo: 'xevan',
+      block_reward: 150,
+      coinMarketCapName: 'vsync-vsx',
+      default_hash_rate_mhs: 10,
+      name: 'Vsync',
+      yiimp_explorer: 'https://altminer.net/explorer/graph?id=1851'
     },
     VTC: {
       algo: 'lyra2v2',
