@@ -14,6 +14,14 @@ export default {
       name: 'ATBCoin',
       mineable: false
     },
+    B2X: {
+      algo: 'x11',
+      block_reward: 12.5,
+      coinMarketCapName: 'segwit2x',
+      default_hash_rate_mhs: 15000,
+      name: 'SegWit2x',
+      yiimp_explorer: 'https://pool.coin-miners.info/explorer/graph?id=4268'
+    },
     BCC: {
       algo: 'scrypt',
       coinMarketCapName: 'bitconnect',
@@ -115,7 +123,10 @@ export default {
     },
     HBC: {
       algo: 'x11',
+      balance_path: 'data',
       block_reward: 10,
+      balance_url: 'http://homeblock.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
+      coinMarketCapName: 'homeblockcoin',
       default_hash_rate_mhs: 19000,
       name: 'Homeblockcoin',
       yiimp_explorer: 'https://pool.nosekefik.com/explorer/graph?id=2007'
