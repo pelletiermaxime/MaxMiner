@@ -68,6 +68,15 @@ export default {
       name: 'Bulwark',
       yiimp_explorer: 'https://umine.org/explorer/graph?id=2001'
     },
+    CRC: {
+      algo: 'neoscrypt',
+      block_reward: 10,
+      coinMarketCapName: 'crowdcoin',
+      default_hash_rate_mhs: 2,
+      name: 'CrowdCoin',
+      iquidus: 'http://crowdcoin.site:3001',
+      yiimp_explorer: 'https://www.unimining.net/explorer/graph?id=2012'
+    },
     DNR: {
       algo: 'tribus',
       coinMarketCapName: 'denarius-dnr',
@@ -90,7 +99,6 @@ export default {
       balance_url: 'http://desire.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
       coinMarketCapName: 'desire',
       default_hash_rate_mhs: 2,
-      iquidus: 'http://dsr.explorerz.top:3033',
       masternode: true,
       name: 'Desire',
       yiimp_explorer: 'https://pool.unimining.net/explorer/graph?id=1935'
@@ -128,7 +136,7 @@ export default {
       balance_url: 'http://homeblock.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
       coinMarketCapName: 'homeblockcoin',
       default_hash_rate_mhs: 19000,
-      name: 'Homeblockcoin',
+      name: 'HomeBlockCoin',
       yiimp_explorer: 'https://pool.nosekefik.com/explorer/graph?id=2007'
     },
     HSR: {
@@ -214,6 +222,14 @@ export default {
       whattomineID: 194,
       yiimp_explorer: 'https://www.zpool.ca/explorer/graph?id=2351'
     },
+    PCOIN: {
+      algo: 'x11',
+      coinMarketCapName: 'pioneer-coin',
+      default_hash_rate_mhs: 15000,
+      iquidus: 'https://www.pioneerchain.com',
+      name: 'Pioneer Coin',
+      yiimp_explorer: 'http://antminepool.com/explorer/graph?id=1937'
+    },
     SIGT: {
       algo: 'skunk',
       coinMarketCapName: 'signatum',
@@ -226,6 +242,14 @@ export default {
       default_hash_rate_mhs: 1000,
       name: 'SmartCash',
       whattomineID: 197
+    },
+    SPK: {
+      algo: 'neoscrypt',
+      block_reward: 9,
+      default_hash_rate_mhs: 2,
+      name: 'SPARKS',
+      iquidus: 'http://sparks.lchain.cc',
+      yiimp_explorer: 'http://bsod.pw/explorer/graph?id=1995'
     },
     TZC: {
       algo: 'neoscrypt',
@@ -281,6 +305,14 @@ export default {
       name: 'Solaris',
       yiimp_explorer: 'https://umine.org/explorer/graph?id=1916',
       whattomineID: 179
+    },
+    XSH: {
+      algo: 'x17',
+      block_reward: 250,
+      coinMarketCapName: 'shield-xsh',
+      default_hash_rate_mhs: 15,
+      iquidus: 'http://188.226.178.216:3001',
+      name: 'SHIELD'
     },
     XYLO: {
       algo: 'scrypt',
