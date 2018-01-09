@@ -208,8 +208,9 @@ export default {
     },
     NMS: {
       algo: 'skein',
-      block_reward: 8,
+      block_reward: 4,
       default_hash_rate_mhs: 1000,
+      iquidus: 'https://numus.info',
       name: 'Numus',
       yiimp_explorer: 'http://hashfaster.com/explorer/graph?id=1973'
     },
@@ -224,6 +225,7 @@ export default {
     },
     PCOIN: {
       algo: 'x11',
+      block_reward: 22,
       coinMarketCapName: 'pioneer-coin',
       default_hash_rate_mhs: 15000,
       iquidus: 'https://www.pioneerchain.com',
