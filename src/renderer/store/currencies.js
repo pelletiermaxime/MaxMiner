@@ -209,6 +209,7 @@ export default {
     NMS: {
       algo: 'skein',
       block_reward: 4,
+      coinMarketCapName: 'numus',
       default_hash_rate_mhs: 1000,
       iquidus: 'https://numus.info',
       name: 'Numus',
