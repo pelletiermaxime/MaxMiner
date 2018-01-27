@@ -20,7 +20,7 @@ export default {
       coinMarketCapName: 'segwit2x',
       default_hash_rate_mhs: 15000,
       name: 'SegWit2x',
-      yiimp_explorer: 'https://pool.coin-miners.info/explorer/graph?id=4268'
+      yiimp_explorer: 'http://pool.coin-miners.info/explorer/graph?id=4268'
     },
     BCC: {
       algo: 'scrypt',
@@ -172,6 +172,14 @@ export default {
       name: 'LBRY Credits',
       whattomineID: 164
     },
+    LIZ: {
+      algo: 'skein',
+      block_reward: 12.5,
+      default_hash_rate_mhs: 1000,
+      iquidus: 'https://lizusexplorer.zzori.com',
+      name: 'Lizus',
+      yiimp_explorer: 'https://protopool.net/explorer/graph?id=1886'
+    },
     LTC: {
       algo: 'scrypt',
       balance_path: 'data.confirmed_balance',
@@ -208,10 +216,10 @@ export default {
     },
     NMS: {
       algo: 'skein',
-      block_reward: 4,
       coinMarketCapName: 'numus',
       default_hash_rate_mhs: 1000,
       iquidus: 'https://numus.info',
+      mineable: false,
       name: 'Numus',
       yiimp_explorer: 'http://hashfaster.com/explorer/graph?id=1973'
     },
