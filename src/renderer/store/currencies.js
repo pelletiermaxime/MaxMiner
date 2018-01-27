@@ -241,6 +241,14 @@ export default {
       name: 'Pioneer Coin',
       yiimp_explorer: 'http://antminepool.com/explorer/graph?id=1937'
     },
+    RAP: {
+      algo: 'neoscrypt',
+      block_reward: 7,
+      default_hash_rate_mhs: 2,
+      iquidus: 'http://explorer.our-rapture.com',
+      name: 'Rapture',
+      yiimp_explorer: 'https://arcpool.com/explorer/graph?id=2033'
+    },
     SIGT: {
       algo: 'skunk',
       coinMarketCapName: 'signatum',
@@ -261,6 +269,13 @@ export default {
       name: 'SPARKS',
       iquidus: 'http://sparks.lchain.cc',
       yiimp_explorer: 'http://bsod.pw/explorer/graph?id=1995'
+    },
+    TUN: {
+      algo: 'neoscrypt',
+      block_reward: 5,
+      default_hash_rate_mhs: 2,
+      name: 'Tune',
+      yiimp_explorer: 'https://arcpool.com/explorer/graph?id=1997'
     },
     TZC: {
       algo: 'neoscrypt',
