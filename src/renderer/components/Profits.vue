@@ -117,6 +117,7 @@
         td(v-if="difficulty_current != 0") {{ reward_money_daily_current | dailyToYearly | roundMoney }}
 </template>
 <script>
+  import algos from '@/store/algos'
   import currencies from '@/store/currencies'
   import { each } from 'lodash'
   import Store from 'electron-store'
@@ -347,7 +348,10 @@
                 let data = result.data[0]
                 this.market_value = data.price_usd
               })
-            this.hash_rate_mhs = store.get(`hashRate.${this.selectedCurrency}`, this.current_coin.default_hash_rate_mhs)
+          }
+          this.hash_rate_mhs = store.get('hashRateAlgo')[this.current_coin.algo]
+          if (!this.hash_rate_mhs) {
+            this.hash_rate_mhs = algos[this.current_coin.algo].default_hash_rate_mhs
           }
         } else {
           if (this.allCoinsValue[this.selectedCurrency]) {

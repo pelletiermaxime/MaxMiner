@@ -1,6 +1,7 @@
 export default {
   coins: {
     ASP: {
+      algo: 'x11',
       balance_path: 'balance',
       balance_url: 'http://45.77.183.30:3000/api/addr/AP1XbScHM1zhi7Un4r5w7hd67BRu2MFEWC/?noTxList=1',
       block_reward: 20,
@@ -18,14 +19,12 @@ export default {
       algo: 'x11',
       block_reward: 12.5,
       coinMarketCapName: 'segwit2x',
-      default_hash_rate_mhs: 15000,
       name: 'SegWit2x',
       yiimp_explorer: 'http://pool.coin-miners.info/explorer/graph?id=4268'
     },
     BCC: {
       algo: 'scrypt',
       coinMarketCapName: 'bitconnect',
-      default_hash_rate_mhs: 100,
       cryptoid: 'bcc',
       name: 'BitConnect',
       mineable: false
@@ -33,7 +32,6 @@ export default {
     BCH: {
       algo: 'sha256',
       coinMarketCapName: 'bitcoin-cash',
-      default_hash_rate_mhs: 14000000,
       name: 'Bitcoin Cash',
       whattomineID: 193
     },
@@ -41,7 +39,6 @@ export default {
       algo: 'xevan',
       coinMarketCapName: 'bitsend',
       cryptoid: 'bsd',
-      default_hash_rate_mhs: 5,
       name: 'BitSend',
       whattomineID: 201
     },
@@ -49,14 +46,12 @@ export default {
       algo: 'sha256',
       balance_url: 'https://blockexplorer.com/api/addr/$addr/balance',
       coinMarketCapName: 'bitcoin',
-      default_hash_rate_mhs: 14000000,
       name: 'Bitcoin',
       whattomineID: 1
     },
     BTX: {
       algo: 'bitcore',
       coinMarketCapName: 'bitcore',
-      default_hash_rate_mhs: 30,
       cryptoid: 'btx',
       name: 'Bitcore',
       whattomineID: 202
@@ -72,7 +67,6 @@ export default {
       algo: 'neoscrypt',
       block_reward: 10,
       coinMarketCapName: 'crowdcoin',
-      default_hash_rate_mhs: 2,
       name: 'CrowdCoin',
       iquidus: 'http://crowdcoin.site:3001',
       yiimp_explorer: 'https://www.unimining.net/explorer/graph?id=2012'
@@ -81,7 +75,6 @@ export default {
       algo: 'tribus',
       coinMarketCapName: 'denarius-dnr',
       cryptoid: 'dnr',
-      default_hash_rate_mhs: 100.0,
       name: 'Denarius',
       whattomineID: 187
     },
@@ -89,7 +82,6 @@ export default {
       algo: 'x11',
       coinMarketCapName: 'dash',
       cryptoid: 'dash',
-      default_hash_rate_mhs: 15000,
       name: 'Dash',
       whattomineID: 34
     },
@@ -98,7 +90,6 @@ export default {
       balance_path: 'data',
       balance_url: 'http://desire.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
       coinMarketCapName: 'desire',
-      default_hash_rate_mhs: 2,
       masternode: true,
       name: 'Desire',
       yiimp_explorer: 'https://pool.unimining.net/explorer/graph?id=1935'
@@ -107,7 +98,6 @@ export default {
       algo: 'x11',
       coinMarketCapName: 'eternity',
       cryptoid: 'ent',
-      default_hash_rate_mhs: 15000,
       name: 'Eternity'
     },
     ETH: {
@@ -115,7 +105,6 @@ export default {
       balance_path: 'ETH.balance',
       balance_url: 'https://api.ethplorer.io/getAddressInfo/$addr?apiKey=freekey',
       coinMarketCapName: 'ethereum',
-      default_hash_rate_mhs: 30.0,
       name: 'Ethereum',
       whattomineID: 151
     },
@@ -123,7 +112,6 @@ export default {
       algo: 'neoscrypt',
       block_reward: 7.5,
       coinMarketCapName: 'gobyte',
-      default_hash_rate_mhs: 2.0,
       iquidus: 'https://gobyte.ezmine.io',
       masternode: true,
       name: 'GoByte',
@@ -135,7 +123,6 @@ export default {
       block_reward: 10,
       balance_url: 'http://homeblock.thecryptochat.net/api_fetch.php?method=getbalance&address=$addr',
       coinMarketCapName: 'homeblockcoin',
-      default_hash_rate_mhs: 19000,
       name: 'HomeBlockCoin',
       yiimp_explorer: 'https://pool.nosekefik.com/explorer/graph?id=2007'
     },
@@ -143,14 +130,12 @@ export default {
       algo: 'hsr',
       balance_url: 'http://explorer.h.cash/api/getbalance/$addr',
       coinMarketCapName: 'hshare',
-      default_hash_rate_mhs: 20.0,
       name: 'Hshare'
     },
     INN: {
       algo: 'neoscrypt',
       block_reward: 10,
       coinMarketCapName: 'innova',
-      default_hash_rate_mhs: 2.0,
       iquidus: 'http://explorer.innovacoin.info',
       masternode: true,
       name: 'Innova',
@@ -159,7 +144,6 @@ export default {
     ITZ: {
       algo: 'c11',
       coinMarketCapName: 'interzone',
-      default_hash_rate_mhs: 20.0,
       iquidus: 'http://interzone.space:8080',
       masternode: true,
       name: 'Interzone',
@@ -168,14 +152,12 @@ export default {
     LBC: {
       algo: 'lbry',
       coinMarketCapName: 'library-credit',
-      default_hash_rate_mhs: 500.0,
       name: 'LBRY Credits',
       whattomineID: 164
     },
     LIZ: {
       algo: 'skein',
       block_reward: 12.5,
-      default_hash_rate_mhs: 1000,
       iquidus: 'https://lizusexplorer.zzori.com',
       name: 'Lizus',
       yiimp_explorer: 'https://protopool.net/explorer/graph?id=1886'
@@ -185,7 +167,6 @@ export default {
       balance_path: 'data.confirmed_balance',
       balance_url: 'https://chain.so/api/v2/get_address_balance/LTC/$addr',
       coinMarketCapName: 'litecoin',
-      default_hash_rate_mhs: 100.0,
       name: 'Litecoin',
       whattomineID: 4
     },
@@ -193,7 +174,6 @@ export default {
       algo: 'phi',
       block_reward: 10,
       coinMarketCapName: 'luxcoin',
-      default_hash_rate_mhs: 50,
       iquidus: 'https://explorer.luxcoin.xyz',
       name: 'LUXCoin',
       yiimp_explorer: 'http://yiimp.eu/explorer/graph?id=2366'
@@ -202,7 +182,6 @@ export default {
       algo: 'x11',
       block_reward: 100,
       coinMarketCapName: 'magnet',
-      default_hash_rate_mhs: 15000,
       iquidus: 'http://35.202.4.153:3001',
       name: 'Magnet',
       yiimp_explorer: 'https://miningpool.shop/explorer/graph?id=1978'
@@ -210,14 +189,12 @@ export default {
     MONA: {
       algo: 'lyra2v2',
       coinMarketCapName: 'monacoin',
-      default_hash_rate_mhs: 50.0,
       name: 'MonaCoin',
       whattomineID: 148
     },
     NMS: {
       algo: 'skein',
       coinMarketCapName: 'numus',
-      default_hash_rate_mhs: 1000,
       iquidus: 'https://numus.info',
       mineable: false,
       name: 'Numus',
@@ -226,7 +203,6 @@ export default {
     ONX: {
       algo: 'x11',
       coinMarketCapName: 'onix',
-      default_hash_rate_mhs: 15000,
       iquidus: 'http://explorer.onixcoin.com',
       name: 'Onix',
       whattomineID: 194,
@@ -236,7 +212,6 @@ export default {
       algo: 'x11',
       block_reward: 22,
       coinMarketCapName: 'pioneer-coin',
-      default_hash_rate_mhs: 15000,
       iquidus: 'https://www.pioneerchain.com',
       name: 'Pioneer Coin',
       yiimp_explorer: 'http://antminepool.com/explorer/graph?id=1937'
@@ -244,7 +219,6 @@ export default {
     RAP: {
       algo: 'neoscrypt',
       block_reward: 7,
-      default_hash_rate_mhs: 2,
       iquidus: 'http://explorer.our-rapture.com',
       name: 'Rapture',
       yiimp_explorer: 'https://arcpool.com/explorer/graph?id=2033'
@@ -258,14 +232,12 @@ export default {
     SMART: {
       algo: 'keccak',
       coinMarketCapName: 'smartcash',
-      default_hash_rate_mhs: 1000,
       name: 'SmartCash',
       whattomineID: 197
     },
     SPK: {
       algo: 'neoscrypt',
       block_reward: 9,
-      default_hash_rate_mhs: 2,
       name: 'SPARKS',
       iquidus: 'http://sparks.lchain.cc',
       yiimp_explorer: 'http://bsod.pw/explorer/graph?id=1995'
@@ -273,7 +245,6 @@ export default {
     TUN: {
       algo: 'neoscrypt',
       block_reward: 5,
-      default_hash_rate_mhs: 2,
       name: 'Tune',
       yiimp_explorer: 'https://arcpool.com/explorer/graph?id=1997'
     },
@@ -281,7 +252,6 @@ export default {
       algo: 'neoscrypt',
       iquidus: 'https://explorer.trezarcoin.com/',
       coinMarketCapName: 'trezarcoin',
-      default_hash_rate_mhs: 2,
       name: 'TrezarCoin',
       whattomineID: 215,
       yiimp_explorer: 'https://altminer.net/explorer/graph?id=1858'
@@ -289,14 +259,12 @@ export default {
     VIVO: {
       algo: 'neoscrypt',
       coinMarketCapName: 'vivo',
-      default_hash_rate_mhs: 2,
       name: 'VIVO',
       whattomineID: 200
     },
     XVG: {
       algo: 'x17',
       coinMarketCapName: 'verge',
-      default_hash_rate_mhs: 2,
       iquidus: 'https://verge-blockchain.info',
       name: 'XVG-X17',
       yiimp_explorer: 'http://yiimp.eu/explorer/graph?id=562'
@@ -304,21 +272,18 @@ export default {
     VLT: {
       algo: 'veltor',
       coinMarketCapName: 'veltor',
-      default_hash_rate_mhs: 50,
       name: 'Veltor'
     },
     VSX: {
       algo: 'xevan',
       block_reward: 150,
       coinMarketCapName: 'vsync-vsx',
-      default_hash_rate_mhs: 10,
       name: 'Vsync',
       yiimp_explorer: 'https://altminer.net/explorer/graph?id=1851'
     },
     VTC: {
       algo: 'lyra2v2',
       coinMarketCapName: 'vertcoin',
-      default_hash_rate_mhs: 50.0,
       name: 'Vertcoin',
       whattomineID: 5
     },
@@ -326,7 +291,6 @@ export default {
       algo: 'xevan',
       iquidus: 'https://solaris.blockexplorer.pro',
       coinMarketCapName: 'solaris',
-      default_hash_rate_mhs: 10.0,
       masternode: true,
       name: 'Solaris',
       yiimp_explorer: 'https://umine.org/explorer/graph?id=1916',
@@ -336,14 +300,12 @@ export default {
       algo: 'x17',
       block_reward: 250,
       coinMarketCapName: 'shield-xsh',
-      default_hash_rate_mhs: 15,
       iquidus: 'http://188.226.178.216:3001',
       name: 'SHIELD'
     },
     XYLO: {
       algo: 'scrypt',
       coinMarketCapName: 'xylo',
-      default_hash_rate_mhs: 505,
       iquidus: 'http://xylo.unyun.cn',
       name: 'XYLO'
     },
@@ -351,14 +313,12 @@ export default {
       algo: 'lyra2z',
       cryptoid: 'xzc',
       coinMarketCapName: 'zcoin',
-      default_hash_rate_mhs: 2,
       name: 'ZCoin',
       whattomineID: 175
     },
     ZEC: {
       algo: 'equihash',
       coinMarketCapName: 'zcash',
-      default_hash_rate_mhs: 1000.0,
       name: 'Zcash',
       whattomineID: 166
     }
