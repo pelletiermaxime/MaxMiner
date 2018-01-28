@@ -1,6 +1,6 @@
 {
   "name": "maxminer",
-  "version": "0.0.33",
+  "version": "0.1.0",
   "author": "Maxime Pelletier <pelletiermaxime@gmail.com>",
   "description": "Miner GUI",
   "homepage": "http://google.com",
@@ -63,6 +63,8 @@
     "ccxt": "^1.9.282",
     "decompress": "^4.2.0",
     "electron-store": "^1.2.0",
+    "lokka": "^1.7.0",
+    "lokka-transport-http": "^1.6.1",
     "material-design-icons": "^3.0.1",
     "pug": "^2.0.0-rc.2",
     "quasar-extras": "0.x",

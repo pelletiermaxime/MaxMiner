@@ -48,10 +48,12 @@
 
 <script>
   import algos from '@/store/algos'
-  import poolsList from '@/store/poollist'
+  import * as pools from '@/store/pools'
+  import { queryMap, ALL_POOLS } from '@/store/graphql'
+
   import Store from 'electron-store'
   import { QCard, QCardMain, QCheckbox, QCollapsible, QList } from 'quasar'
-  import * as pools from '@/store/pools'
+  import { find } from 'lodash'
   const store = new Store()
 
   export default {
@@ -71,8 +73,15 @@
         asic: true,
         cpu: true,
         gpu: true,
-        pools: poolsList
+        pools: []
       }
+    },
+
+    mounted () {
+      this.getBTCPrice()
+      queryMap(ALL_POOLS, 'allPools').then(pools => {
+        this.pools = pools
+      })
     },
 
     computed: {
@@ -102,7 +111,7 @@
     methods: {
       setPoolInfos (poolName) {
         if (this.activePool !== poolName) {
-          let pool = this.pools[poolName]
+          let pool = find(this.pools, ['name', poolName])
           this.algos[pool.name] = {}
           pools[pool.type](pool, this.$http).then(poolAlgos => {
             this.algos[pool.name] = poolAlgos
@@ -138,9 +147,6 @@
 
         return (MHForAlgo * USDForMH).toFixed(2) + '$'
       }
-    },
-    mounted () {
-      this.getBTCPrice()
     }
   }
 </script>

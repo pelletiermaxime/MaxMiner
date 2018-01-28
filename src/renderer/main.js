@@ -1,22 +1,16 @@
-
 import Vue from 'vue'
-import axios from 'axios'
 
 import App from './App'
-import router from './router'
+import router from './plugins/vue-router'
 import store from './store'
-
-import Quasar from 'quasar'
-import 'quasar-extras/material-icons'
-import 'quasar-extras/roboto-font'
-
-Vue.use(Quasar)
+import quasar from './plugins/quasar'
+import './plugins/lokka'
+import './plugins/axios'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
-Quasar.start(() => {
+quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({
     el: '#app',

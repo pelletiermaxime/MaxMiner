@@ -35,8 +35,8 @@
         {{ miner_command }}
 </template>
 <script>
-  import poolList from '@/store/poollist'
-  import { each, map } from 'lodash'
+  import { ALL_POOLS, queryMap } from '@/store/graphql'
+  import { each, find, map } from 'lodash'
   import * as pools from '@/store/pools'
   import {
     QCard, QCardMain, QSelect
@@ -64,7 +64,8 @@
         miner: '',
         miners: [],
         pool: '',
-        pools: []
+        pools: [],
+        poolList: []
       }
     },
 
@@ -102,8 +103,9 @@
           value: 'ccminer'
         })
       },
-      setPools () {
-        each(poolList, (pool) => {
+      async setPools () {
+        this.poolList = await queryMap(ALL_POOLS, 'allPools')
+        each(this.poolList, (pool) => {
           this.pools.push({
             label: pool.name,
             value: pool.name
@@ -124,7 +126,7 @@
         if (!this.pool) {
           return []
         }
-        let pool = poolList[this.pool]
+        let pool = find(this.poolList, ['name', this.pool])
         let algoList = []
         pools[pool.type](pool, this.$http).then(poolAlgos => {
           algoList = map(poolAlgos, (poolAlgo) => {
