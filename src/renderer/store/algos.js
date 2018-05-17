@@ -1,5 +1,6 @@
 export default {
   bitcore: {
+    default_hash_rate_mhs: 30,
     miners: {
       gpu: ['ccminer']
     }
@@ -15,11 +16,13 @@ export default {
     }
   },
   c11: {
+    default_hash_rate_mhs: 20.0,
     miners: {
       gpu: ['ccminer']
     }
   },
   daggerhashimoto: {
+    default_hash_rate_mhs: 30.0,
     miners: {
       gpu: ['excavator']
     }
@@ -30,6 +33,7 @@ export default {
     }
   },
   equihash: {
+    default_hash_rate_mhs: 1000,
     miners: {
       gpu: ['ccminer', 'EWBF']
     }
@@ -45,6 +49,7 @@ export default {
     }
   },
   hsr: {
+    default_hash_rate_mhs: 20.0,
     miners: {
       gpu: ['ccminer']
     }
@@ -55,16 +60,19 @@ export default {
     }
   },
   keccak: {
+    default_hash_rate_mhs: 1000,
     miners: {
       gpu: ['ccminer']
     }
   },
   lbry: {
+    default_hash_rate_mhs: 500.0,
     miners: {
       gpu: ['ccminer']
     }
   },
   lyra2v2: {
+    default_hash_rate_mhs: 50.0,
     miners: {
       gpu: ['ccminer']
     }
@@ -85,6 +93,7 @@ export default {
     }
   },
   neoscrypt: {
+    default_hash_rate_mhs: 2,
     miners: {
       gpu: ['ccminer']
     }
@@ -100,6 +109,7 @@ export default {
     }
   },
   phi: {
+    default_hash_rate_mhs: 50,
     miners: {
       gpu: ['ccminer']
     }
@@ -115,11 +125,13 @@ export default {
     }
   },
   scrypt: {
+    default_hash_rate_mhs: 500,
     miners: {
       asic: []
     }
   },
   sha256: {
+    default_hash_rate_mhs: 14000000,
     miners: {
       asic: []
     }
@@ -135,6 +147,7 @@ export default {
     }
   },
   skein: {
+    default_hash_rate_mhs: 500,
     miners: {
       gpu: ['ccminer']
     }
@@ -150,16 +163,19 @@ export default {
     }
   },
   tribus: {
+    default_hash_rate_mhs: 100,
     miners: {
       gpu: ['ccminer']
     }
   },
   veltor: {
+    default_hash_rate_mhs: 50,
     miners: {
       gpu: ['ccminer']
     }
   },
   x11: {
+    default_hash_rate_mhs: 15000,
     miners: {
       asic: []
     }
@@ -185,11 +201,13 @@ export default {
     }
   },
   x17: {
+    default_hash_rate_mhs: 15,
     miners: {
       gpu: ['ccminer']
     }
   },
   xevan: {
+    default_hash_rate_mhs: 10,
     miners: {
       gpu: ['ccminer']
     }

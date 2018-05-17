@@ -1,0 +1,14 @@
+query ALL_POOLS {
+  viewer {
+    allPools(where: {active: {eq: true} }) {
+      edges {
+        node {
+          url
+          name
+          type
+          logo
+        }
+      }
+    }
+  }
+}

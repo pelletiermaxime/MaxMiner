@@ -1,6 +1,6 @@
 {
   "name": "maxminer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Maxime Pelletier <pelletiermaxime@gmail.com>",
   "description": "Miner GUI",
   "homepage": "http://google.com",
@@ -20,8 +20,7 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
-    "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": "npm run lint:fix"
+    "unit": "karma start test/unit/karma.conf.js"
   },
   "build": {
     "productName": "maxminer",
@@ -94,7 +93,7 @@
     "css-loader": "^0.28.4",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "1.7.*",
+    "electron": "^2.0.1",
     "electron-builder": "^19.18.0",
     "electron-debug": "^1.1.0",
     "electron-devtools-installer": "^2.0.1",
@@ -109,6 +108,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.5",
+    "graphql": "^0.13.2",
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
     "json-loader": "^0.5.4",
@@ -133,6 +133,7 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.5.2",
     "webpack-dev-server": "^2.7.1",
+    "webpack-graphql-loader": "^0.1.2",
     "webpack-hot-middleware": "^2.18.2",
     "webpack-merge": "^4.1.0"
   }
