@@ -58,7 +58,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.18.0",
     "ccxt": "^1.9.282",
     "decompress": "^4.2.0",
     "electron-store": "^1.2.0",
@@ -73,7 +73,7 @@
     "vue": "^2.5.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
-    "vuex": "^2.3.1"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -112,13 +112,12 @@
     "inject-loader": "^3.0.0",
     "json-loader": "^0.5.4",
     "multispinner": "^0.2.1",
-    "require-dir": "^0.3.0",
     "style-loader": "^0.19.0",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.6.2",
     "vue-html-loader": "^1.2.2",
     "vue-loader": "^13.0.5",
-    "vue-style-loader": "^3.0.1",
+    "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.5.2",
     "webpack-dev-server": "^2.7.1",
