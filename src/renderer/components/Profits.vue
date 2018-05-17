@@ -118,7 +118,8 @@
 </template>
 <script>
   import algos from '@/store/algos'
-  import currencies from '@/store/currencies'
+  import ALL_CURRENCIES from '@/store/graphql/ALL_CURRENCIES.gql'
+  import { queryMap } from '@/store/graphql'
   import { each } from 'lodash'
   import Store from 'electron-store'
   import { QBtn, QCard, QCardMain, QCardTitle, QInput, QItem, QItemMain, QList, QSelect, QRadio } from 'quasar'
@@ -143,10 +144,10 @@
         allCoinsInfo: {},
         allCoinsValue: {},
         block_reward: 0,
+        coins: [],
         difficulty24h: 0,
         difficulty100b: 0,
         difficulty_current: 0,
-        coins: currencies.coins,
         hash_rate_mhs: 0,
         market_value: 0,
         mode: 'auto',
@@ -364,13 +365,16 @@
         }
       },
       setCoinList () {
-        each(this.coins, (coin, symbol) => {
-          if (coin.mineable !== false) {
-            this.selectOptions.push({
-              label: coin.name,
-              value: symbol
-            })
-          }
+        queryMap(ALL_CURRENCIES, 'allCurrencies').then(currencies => {
+          this.coins = currencies
+          each(this.coins, (coin) => {
+            if (coin.mineable !== false) {
+              this.selectOptions.push({
+                label: coin.name,
+                value: coin.symbol
+              })
+            }
+          })
         })
       }
     },

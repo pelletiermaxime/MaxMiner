@@ -3,9 +3,20 @@ query ALL_CURRENCIES {
     allCurrencies(where: {active: {eq: true}}, orderBy:{field: symbol, direction: ASC}) {
       edges {
         node {
-          name
+          active
           algo
+          balance_path
+          balance_url
+          block_reward
+          coinMarketCapName
+          cryptoid
+          insight
+          iquidus
+          masternode
+          name
           symbol
+          whattomineID
+          yiimp_explorer
         }
       }
     }
