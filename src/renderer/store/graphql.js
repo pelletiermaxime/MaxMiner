@@ -7,20 +7,3 @@ async function queryMap (query, nodeName) {
 }
 
 export { queryMap }
-
-export const ALL_POOLS = `
-  {
-    viewer {
-      allPools(where: {active: {eq: true} }) {
-        edges {
-          node {
-            url
-            name
-            type
-            logo
-          }
-        }
-      }
-    }
-  }
-`

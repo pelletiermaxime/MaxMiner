@@ -49,7 +49,8 @@
 <script>
   import algos from '@/store/algos'
   import * as pools from '@/store/pools'
-  import { queryMap, ALL_POOLS } from '@/store/graphql'
+  import { queryMap } from '@/store/graphql'
+  import ALL_POOLS from '@/store/graphql/ALL_POOLS.gql'
 
   import Store from 'electron-store'
   import { QCard, QCardMain, QCheckbox, QCollapsible, QList } from 'quasar'
