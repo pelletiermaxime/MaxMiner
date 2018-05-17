@@ -18,7 +18,7 @@
     q-card-main.bg-white
       .row
         .col-2
-          img(:src="'https://files.coinmarketcap.com/static/img/coins/32x32/' + coin.name.toLowerCase() + '.png'")
+          img(:src="allCoinsNameLogos[coin.name]" width="25")
         .col-4
           .coin-name {{ coin.name }}
         .col-5 {{ allCoinPrices[coin.name] | money }}
@@ -69,6 +69,7 @@
       return {
         addresses: [],
         allCoinPrices: {},
+        allCoinsNameLogos: {},
         allCoinSymbolPrices: {},
         coins: currencies.coins,
         markets: {},
@@ -192,6 +193,14 @@
           this.$set(this.allCoinSymbolPrices, coin.symbol, coin.price_usd)
         })
       },
+      async setCoinLogos () {
+        let cryptoCompareURL = 'https://www.cryptocompare.com/api/data/coinlist'
+        let result = await this.$http.get(cryptoCompareURL)
+
+        each(result.data.Data, (coin) => {
+          this.$set(this.allCoinsNameLogos, coin.CoinName, `https://www.cryptocompare.com${coin.ImageUrl}`)
+        })
+      },
       setPortfolio () {
         this.addresses = store.get('addresses', [])
 
@@ -232,6 +241,7 @@
         this.market_api = store.get('settings.market_api')
       }
       this.setAllCoinPrices()
+      this.setCoinLogos()
       this.setPortfolio()
       this.setMarkets()
     }
