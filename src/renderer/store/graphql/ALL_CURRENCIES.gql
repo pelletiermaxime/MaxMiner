@@ -1,0 +1,13 @@
+query ALL_CURRENCIES {
+  viewer {
+    allCurrencies(where: {active: {eq: true}}, orderBy:{field: symbol, direction: ASC}) {
+      edges {
+        node {
+          name
+          algo
+          symbol
+        }
+      }
+    }
+  }
+}
