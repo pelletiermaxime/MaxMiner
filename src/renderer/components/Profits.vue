@@ -120,7 +120,7 @@
   import algos from '@/store/algos'
   import ALL_CURRENCIES from '@/store/graphql/ALL_CURRENCIES.gql'
   import { queryMap } from '@/store/graphql'
-  import { each } from 'lodash'
+  import { each, find } from 'lodash'
   import Store from 'electron-store'
   import { QBtn, QCard, QCardMain, QCardTitle, QInput, QItem, QItemMain, QList, QSelect, QRadio } from 'quasar'
 
@@ -161,7 +161,7 @@
         return this.mode === 'auto'
       },
       current_coin () {
-        return this.coins[this.selectedCurrency]
+        return find(this.coins, ['symbol', this.selectedCurrency])
       },
       reward_shares_daily24h () {
         return this.calculateRewardShares(this.current_coin.algo, this.difficulty24h)
